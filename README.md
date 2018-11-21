@@ -1,4 +1,5 @@
 User Guide for APEC
+
 (Accessibility Pattern based Epigenomic Clustering)
 ======
 Introduction
