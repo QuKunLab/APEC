@@ -114,5 +114,50 @@ For each cell, the mapping step can generate a subfolder (with cell name) in the
 
     cell_quality.pdf: A scatter plot of the fragment number and the percentage of fragments in peaks.
 
+## 3.	Clustering
+
+### 3.1	If users want to apply their own matrix
+
+If users have their own fragment count matrix, please build data, work, matrix, peak, result and figure folders in $source path, and place “cell_info.csv” file in data folder, “top_peaks.bed” in peak folder, “filtered_reads.csv” in matrix folder. Then users need to run script prepare_premappedMatrix.py before clustering and further analysis.
+
+Usage: 
+
+    prepare_premappedMatrix.py -s source_folder --ref genome_index
+                               --fa chr.fa --np nCPUs
+
+Example:
+
+    prepare_premappedMatrix.py -s /home/user/test --ref hg19 
+                               --fa ../reference/hg19_chr.fa --np 4
+
+Input parameters:
+
+    -s: source path, which should contain data, work, matrix, peak, result and figure
+    --ref: hg19 or mm10.
+    --fa: hg19_chr.fa or mm10_chr.fa in reference folder
+    -n: Number of CPU cores.
+
+Details about initial files:
+
+    cell_info.csv: Two-column (separated by tabs) list of cell information, such as:
+                        name    notes
+                        CD4-001 CD4
+                        CD4-002 CD4
+                        CD8-001 CD8
+                        CD8-002 CD8
+	top_peaks.bed: Three-column list of peaks (500 BP accessible regions), such as:
+                        chr1    3094060 3094560
+                        chr1    3094768 3095268
+                        chr1    3113480 3113980
+                        chr1    3119987 3120487
+	filtered_reads.csv: Fragment count matrix, where each row is a cell and each column represents peak. 
+                        The name of cells should be same with “cell_info.csv”, and the order of peaks 
+                        should be same with “top_peaks.bed”. All numbers are separated by commas, for example:
+			                    ,peak1,peak2,peak3,peak4,peak5,peak6
+			                    CD4-001,1,0,2,0,0,1
+			                    CD4-002,0,1,0,0,2,0
+			                    CD8-001,0,0,0,1,1,0
+			                    CD8-002,2,1,0,0,0,1
+
 
 
