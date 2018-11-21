@@ -79,7 +79,7 @@ Input parameters:
     -g: hg19 or mm10.
     -n: Number of CPU cores.
     -l: Threshold for the –log(Q-value) of peaks, used to filter peaks.
-    -t: Threshold of the percentage of fragments in peaks, used to filter cells.
+    -p: Threshold of the percentage of fragments in peaks, used to filter cells.
     -f: Threshold of the fragment number of each cell, used to filter cells.
 Output files:
 
