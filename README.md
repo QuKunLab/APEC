@@ -62,7 +62,7 @@ Users need to build a source folder (i.e. $SOURCE), which contains a **data** fo
 where "_1" and "_2" indicate forward and backward reads for pair-end sequencing. {type1, type2, ...} can be cell-types or batches of samples, such as {GM, K562, ...}, or {batch1, batch2, ...}, or any other words without underline “_” or dash “-”.
 The **work**, **matrix**, **peak**, **result** and **figure** folders will be automatically built by subsequent steps, and placed in $SOURCE folder.
  
-## 2.2	Easy-run of matrix preparation
+### 2.2	Easy-run of matrix preparation
 
 Users can use the script APEC_prepare_steps.sh to finish the process from raw data to fragment count matrix.  This script includes steps of “trimming”, “mapping”, “peak calling”, “aligning read counts matrix”, “quality contral”, “estimating gene score”.
 
