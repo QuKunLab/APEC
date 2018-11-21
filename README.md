@@ -69,12 +69,12 @@ Users can use the script APEC_prepare_steps.sh to finish the process from raw da
 Usage: 
 
     bash APEC_prepare_steps.sh -s source_folder -g genome_index
-                              -n nCPUs -l logq -t tssfrag -f frag
+                               -n nCPUs -l logq -t tssfrag -f frag
 
 Example:
 
     bash APEC_prepare_steps.sh -s /home/user/test -g hg19 -n 4 
-                           -l 3 -t 0.2 -f 2000
+                               -l 3 -t 0.2 -f 2000
 Input parameters:
 
     -s: $source path, which should contain <data> folder before running APEC.
