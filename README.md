@@ -6,7 +6,7 @@
 
 APEC can perform fine cell type clustering on single cell chromatin accessibility data from scATAC-seq, snATAC-seq, sciATAC-seq or any other relevant experiment. It can also be used to control data quality, map fragment count matrices, search for important differential motifs/genes for each cell cluster, find super enhancers, and construct pseudo-time trajectory (by calling Monocle).
 
-**If users want to process the raw fastq data from scATAC-seq experiment, please run APEC from section 2 “Fragment count matrix”. If users have obtained the fragment count matrix, where each element is the number of fragments per-cell-per-peak, please run APEC from section 3 “Clustering”.**
+**If users want to process the raw fastq data from scATAC-seq experiment, please run APEC from section 2 “Fragment count matrix”. If users have their own fragment count matrix, where each element is the number of fragments per-cell-per-peak, please run APEC from section 3 “Clustering”.**
 
 ## 1.	Requirements and installation
 
@@ -117,6 +117,8 @@ For each cell, the mapping step can generate a subfolder (with cell name) in the
 ## 3.	Clustering
 
 ### 3.1	If users want to apply their own matrix
+
+**Skip this step** if users have run APEC_prepare_steps.sh in Section 2 “Fragment count matrix” and generated fragment count matrix from the raw scATAC-seq data.
 
 If users have their own fragment count matrix, please build data, work, matrix, peak, result and figure folders in $source path, and place “cell_info.csv” file in data folder, “top_peaks.bed” in peak folder, “filtered_reads.csv” in matrix folder. Then users need to run script prepare_premappedMatrix.py before clustering and further analysis.
 
