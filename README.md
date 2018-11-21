@@ -85,7 +85,7 @@ Output files:
 
 The script ***APEC_prepare_steps.sh*** will generate **work**, **peak**, **matrix**, and **figure** folders with many output files. Below are the details about these output files.
 
-(1) Files in **Data** folder:
+(1) Files in **data** folder:
  
     cell_name.trim.fastq: Trimmed data from raw fastq file. 
     cell_info.csv: A list of cell information containing two columns, for example::
@@ -95,14 +95,14 @@ The script ***APEC_prepare_steps.sh*** will generate **work**, **peak**, **matri
                 CD8-001   CD8
                 CD8-002   CD8
 
-(2) Files in **Work** folder:
+(2) Files in **work** folder:
 
-For each cell, the mapping step can generate a subfolder (with cell name) in the working folder. There are several useful files in each subfolder:
+For each cell, the mapping step can generate a subfolder (with cell name) in the **work** folder. There are several useful files in each subfolder:
 
     cell_name.hist.pdf: A histogram of fragment length distribution of each cell.
     cell_name.RefSeqTSS.pdf: Insert enrichment around TSS regions of each cell.
 
-(3) Files in **Peak** folder:
+(3) Files in **peak** folder:
 
     mergeAll.hist.pdf: A histogram of fragment length distribution of all cells.
     mergeAll.RefSeqTSS.pdf: Insert enrichment around TSS regions of all cells.
@@ -110,13 +110,13 @@ For each cell, the mapping step can generate a subfolder (with cell name) in the
     annotate_peak.bed: Annotation information of peaks. 
     genes_scored_by_peaks.csv: Gene scores evaluated by TSS peaks.
 
-(4) Files in **Matrix** folder:
+(4) Files in **matrix** folder:
 
     reads.csv: Fragment count matrix.
     cell_info.merged.csv: Data quality report of each cell.
     filtered_reads.csv: Filtered fragment count matrix.
 
-(5) Files in **Figure** folder:
+(5) Files in **figure** folder:
 
     cell_quality.pdf: A scatter plot of the fragment number and the percentage of fragments in peaks.
 
