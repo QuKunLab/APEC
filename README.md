@@ -95,3 +95,30 @@ Files in **Data** folder:
                 CD8-001   CD8
                 CD8-002   CD8
 
+Files in Work folder:
+
+For each cell, the mapping step can generate a subfolder (with cell name) in the working folder. There are several useful files in each subfolder:
+
+    cell_name.hist.pdf: A histogram of fragment length distribution of each cell.
+    cell_name.RefSeqTSS.pdf: Insert enrichment around TSS regions of each cell.
+
+Files in Peak folder:
+
+    mergeAll.hist.pdf: A histogram of fragment length distribution of all cells.
+    mergeAll.RefSeqTSS.pdf: Insert enrichment around TSS regions of all cells.
+    top_peaks.bed: Top peaks obtained by Q-value filtering.
+    annotate_peak.bed: Annotation information of peaks. 
+    genes_scored_by_peaks.csv: Gene scores evaluated by TSS peaks.
+
+Files in Matrix folder:
+
+    reads.csv: Fragment count matrix.
+    cell_info.merged.csv: Data quality report of each cell.
+    filtered_reads.csv: Filtered fragment count matrix.
+
+Files in Figure folder:
+
+    cell_quality.pdf: A scatter plot of the fragment number and the percentage of fragments in peaks.
+
+
+
