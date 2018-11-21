@@ -18,30 +18,25 @@ APEC requires users to use Linux system, as well as Python (version 2.7.5+) and 
 
 (1)	Python packages and libraries: 
 
-numpy, scipy, pandas, sklearn, multiprocessing, numba, pysam, matplotlib, seaborn, networkx, python-louvain, python-Levenshtein
+    numpy, scipy, pandas, sklearn, multiprocessing, numba, pysam, 
+    matplotlib, seaborn, networkx, python-louvain, python-Levenshtein
 
-all upon python packages can be installed by:
-**pip install package_name**
+    all upon python packages can be installed by:
+    pip install package_name
 
 (2)	R packages and libraries: 
 
-Monocle: http://cole-trapnell-lab.github.io/monocle-release/
+    Monocle: http://cole-trapnell-lab.github.io/monocle-release/
 
 (3)	Other necessary software:
 
-Bowtie2: https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.2.9/
-  
-Samtools: https://github.com/samtools/samtools
-  
-Picard: https://github.com/broadinstitute/picard/releases/tag/2.18.14
-  
-Bedtools: http://bedtools.readthedocs.io/en/latest/content/installation.html
-  
-HOMER: http://homer.ucsd.edu/homer/download.html
-  
-Macs2: https://github.com/taoliu/MACS.git
-  
-Meme: http://meme-suite.org/doc/download.html?man_type=web
+    Bowtie2: https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.2.9/
+    Samtools: https://github.com/samtools/samtools
+    Picard: https://github.com/broadinstitute/picard/releases/tag/2.18.14  
+    Bedtools: http://bedtools.readthedocs.io/en/latest/content/installation.html
+    HOMER: http://homer.ucsd.edu/homer/download.html
+    Macs2: https://github.com/taoliu/MACS.git
+    Meme: http://meme-suite.org/doc/download.html?man_type=web
   
 ### 1.2	Installation
 Users simply completes the APEC installation by copying the APEC folder to any path on the computer (i.e. $PATH). There are two subfolders in APEC: a **codes** folder, which contains all APEC programs for data processing; a **reference** folder, which contains all necessary index and reference files for the hg19 and mm10 genomes. So users can run APEC program directly in $PATH/APEC/codes/, or put this path in the system environment to use it elsewhere. The **reference** folder is required for APEC and should be placed in the same path with the **codes** folder. It contains the following files:
