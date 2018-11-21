@@ -83,26 +83,20 @@ Input parameters:
     -f: Threshold of the fragment number of each cell, used to filter cells.
 Output files:
 
-The script ***APEC_prepare_steps.sh*** will generate **work**, **peak**, **matrix**, and **figure** folders with many output files. Below are the details about these output files.
+The script ***APEC_prepare_steps.sh*** will generate **work**, **peak**, **matrix**, and **figure** folders with many output files. Here, we only introduce files that are useful to users.
 
-(1) Files in **data** folder:
+(1) In **data** folder:
  
-    cell_name.trim.fastq: Trimmed data from raw fastq file. 
-    cell_info.csv: A list of cell information containing two columns, for example::
-                name    notes
-                CD4-001   CD4
-                CD4-002   CD4
-                CD8-001   CD8
-                CD8-002   CD8
+    cell_info.csv: Two-column list of cell information.
 
-(2) Files in **work** folder:
+(2) In **work** folder:
 
 For each cell, the mapping step can generate a subfolder (with cell name) in the **work** folder. There are several useful files in each subfolder:
 
     cell_name.hist.pdf: A histogram of fragment length distribution of each cell.
     cell_name.RefSeqTSS.pdf: Insert enrichment around TSS regions of each cell.
 
-(3) Files in **peak** folder:
+(3) In **peak** folder:
 
     mergeAll.hist.pdf: A histogram of fragment length distribution of all cells.
     mergeAll.RefSeqTSS.pdf: Insert enrichment around TSS regions of all cells.
@@ -110,13 +104,13 @@ For each cell, the mapping step can generate a subfolder (with cell name) in the
     annotate_peak.bed: Annotation information of peaks. 
     genes_scored_by_peaks.csv: Gene scores evaluated by TSS peaks.
 
-(4) Files in **matrix** folder:
+(4) In **matrix** folder:
 
     reads.csv: Fragment count matrix.
     cell_info.merged.csv: Data quality report of each cell.
     filtered_reads.csv: Filtered fragment count matrix.
 
-(5) Files in **figure** folder:
+(5) In **figure** folder:
 
     cell_quality.pdf: A scatter plot of the fragment number and the percentage of fragments in peaks.
 
