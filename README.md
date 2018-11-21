@@ -6,7 +6,7 @@
 
 APEC can perform fine cell type clustering on single cell chromatin accessibility data from scATAC-seq, snATAC-seq, sciATAC-seq or any other relevant experiment. It can also be used to control data quality, map fragment count matrices, search for important differential motifs/genes for each cell cluster, find super enhancers, and construct pseudo-time trajectory (by calling Monocle).
 
-The primary algorithm of APEC is based on grouping accessible regions throuhg their accessibility patterns prior to cell clustering. We define a group of accessible regions as an **accesson**, and apply the accesson count matrix for further analysis.
+>The primary algorithm of APEC is based on grouping accessible regions throuhg their accessibility patterns prior to cell clustering. We define a group of accessible regions as an **accesson**, and apply the accesson count matrix for further analysis.
 
 **If the user wants to process the raw fastq data from scATAC-seq experiment, please run APEC from section 2 “Fragment count matrix”. If the user has obtained the fragment count matrix, where each element is the number of fragments per-cell-per-peak, please run APEC from section 3 “Clustering”.**
 
@@ -18,10 +18,10 @@ APEC requires users to use Linux system, as well as Python (version 2.7.5+) and 
 
 (1)	Python packages and libraries: 
 
-    numpy, scipy, pandas, sklearn, multiprocessing, numba, pysam, 
+    numpy, scipy, pandas, sklearn, multiprocessing, numba, pysam,
     matplotlib, seaborn, networkx, python-louvain, python-Levenshtein
-
-    all upon python packages can be installed by:
+    
+    all upon python packages can be installed by: 
     pip install package_name
 
 (2)	R packages and libraries: 
@@ -32,7 +32,7 @@ APEC requires users to use Linux system, as well as Python (version 2.7.5+) and 
 
     Bowtie2: https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.2.9/
     Samtools: https://github.com/samtools/samtools
-    Picard: https://github.com/broadinstitute/picard/releases/tag/2.18.14  
+    Picard: https://github.com/broadinstitute/picard/releases/tag/2.18.14
     Bedtools: http://bedtools.readthedocs.io/en/latest/content/installation.html
     HOMER: http://homer.ucsd.edu/homer/download.html
     Macs2: https://github.com/taoliu/MACS.git
@@ -59,7 +59,7 @@ Users need to build a source folder (i.e. $SOURCE), which contains a **data** fo
     type2-001_1.fastq, type2-001_2.fastq, type2-002_1.fastq, type2-002_2.fastq, ……;
     ……
 
-where "_1" and "_2" indicate forward and backward reads for pair-end sequencing. {type1, type2, ...} can be cell-types or batches of samples, such as {GM, K562, ...}, or {batch1, batch2, ...}, or any other words without underline “_” or dash “-”.
+where "\_1" and "\_2" indicate forward and backward reads for pair-end sequencing. {type1, type2, ...} can be cell-types or batches of samples, such as {GM, K562, ...}, or {batch1, batch2, ...}, or any other words without underline “_” or dash “-”.
 The **work**, **matrix**, **peak**, **result** and **figure** folders will be automatically built by subsequent steps, and placed in $SOURCE folder.
  
 ### 2.2	Easy-run of matrix preparation
