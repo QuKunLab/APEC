@@ -51,7 +51,7 @@ Users simply completes the APEC installation by copying the APEC folder to any p
 
 ### 2.1	Arrangement of raw data
 
-Users need to build a source folder (i.e. $source), which contains a **data** folder, then copy all raw sequencing fastq files into the <$SOURCE/data/> folder. All these pair-end fastq files should be named as:
+Users need to build a source folder (i.e. $source), which contains a **data** folder, then copy all raw sequencing fastq files into the <$source/data/> folder. All these pair-end fastq files should be named as:
  
     type1-001_1.fastq, type1-001_2.fastq, type1-002_1.fastq, type1-002_2.fastq, ……;
     type2-001_1.fastq, type2-001_2.fastq, type2-002_1.fastq, type2-002_2.fastq, ……;
