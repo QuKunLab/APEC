@@ -87,7 +87,7 @@ The script ***APEC_prepare_steps.sh*** will generate **work**, **peak**, **matri
 
 Files in **Data** folder:
  
-    XXX.trim.fastq: Trimmed data from raw fastq file. 
+    cell_name.trim.fastq: Trimmed data from raw fastq file. 
     cell_info.csv: A list of cell information containing two columns, for example::
                 name    notes
                 CD4-001   CD4
