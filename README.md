@@ -44,20 +44,61 @@ Macs2: https://github.com/taoliu/MACS.git
 Meme: http://meme-suite.org/doc/download.html?man_type=web
   
 ### 1.2	Installation
-Users simply completes the APEC installation by copying the APEC folder to any path on the computer (i.e. $PATH). There are two subfolders in APEC: a <codes> folder, which contains all APEC programs for data processing; a <reference> folder, which contains all necessary index and reference files for the hg19 and mm10 genomes. So users can run APEC program directly in $PATH/APEC/codes/, or put this path in the system environment to use it elsewhere. The <reference> folder is required for APEC and should be placed in the same path with the <codes> folder. It contains the following files:
+Users simply completes the APEC installation by copying the APEC folder to any path on the computer (i.e. $PATH). There are two subfolders in APEC: a **codes** folder, which contains all APEC programs for data processing; a **reference** folder, which contains all necessary index and reference files for the hg19 and mm10 genomes. So users can run APEC program directly in $PATH/APEC/codes/, or put this path in the system environment to use it elsewhere. The **reference** folder is required for APEC and should be placed in the same path with the **codes** folder. It contains the following files:
  
-hg19_refseq_genes_TSS.txt, hg19_RefSeq_genes.gtf, hg19_blacklist.JDB.bed, 
+    hg19_refseq_genes_TSS.txt, hg19_RefSeq_genes.gtf, hg19_blacklist.JDB.bed,
+    hg19_chr.fa, hg19_chr.fa.fai, hg19.chrom.sizes,
+    hg19.1.bt2, hg19.2.bt2, hg19.3.bt2, hg19.4.bt2,
+    mm10_refseq_genes_TSS.txt, mm10_RefSeq_genes.gtf, mm10_blacklist.BIN.bed,
+    mm10_chr.fa, mm10_chr.fa.fai, mm10.chrom.sizes,
+    mm10.1.bt2, mm10.2.bt2, mm10.3.bt2, mm10.4.bt2,
+    JASPAR2018_CORE_vertebrates_non-redundant_pfms_meme.txt, tier1_markov1.norc.txt
 
-hg19_chr.fa, hg19_chr.fa.fai, hg19.chrom.sizes,
+## 2.	Fragment count matrix
 
-hg19.1.bt2, hg19.2.bt2, hg19.3.bt2, hg19.4.bt2,
+### 2.1	Arrangement of raw data
 
-mm10_refseq_genes_TSS.txt, mm10_RefSeq_genes.gtf, mm10_blacklist.BIN.bed, 
+Users need to build a source folder (i.e. $SOURCE), which contains a **data** folder, then copy all raw sequencing fastq files into the <$SOURCE/data/> folder. All these pair-end fastq files should be named as:
+ 
+    type1-001_1.fastq, type1-001_2.fastq, type1-002_1.fastq, type1-002_2.fastq, ……;
+    type2-001_1.fastq, type2-001_2.fastq, type2-002_1.fastq, type2-002_2.fastq, ……;
+    ……
 
-mm10_chr.fa, mm10_chr.fa.fai, mm10.chrom.sizes, 
+where "_1" and "_2" indicate forward and backward reads for pair-end sequencing. {type1, type2, ...} can be cell-types or batches of samples, such as {GM, K562, ...}, or {batch1, batch2, ...}, or any other words without underline “_” or dash “-”.
+The **work**, **matrix**, **peak**, **result** and **figure** folders will be automatically built by subsequent steps, and placed in $SOURCE folder.
+ 
+## 2.2	Easy-run of matrix preparation
 
-mm10.1.bt2, mm10.2.bt2, mm10.3.bt2, mm10.4.bt2,
+Users can use the script APEC_prepare_steps.sh to finish the process from raw data to fragment count matrix.  This script includes steps of “trimming”, “mapping”, “peak calling”, “aligning read counts matrix”, “quality contral”, “estimating gene score”.
 
-JASPAR2018_CORE_vertebrates_non-redundant_pfms_meme.txt, tier1_markov1.norc.txt
+Usage: 
 
+    bash APEC_prepare_steps.sh -s source_folder -g genome_index
+                              -n nCPUs -l logq -t tssfrag -f frag
+
+Example:
+
+    bash APEC_prepare_steps.sh -s /home/user/test -g hg19 -n 4 
+                           -l 3 -t 0.2 -f 2000
+Input parameters:
+
+    -s: $source path, which should contain <data> folder before running APEC.
+    -g: hg19 or mm10.
+    -n: Number of CPU cores.
+    -l: Threshold for the –log(Q-value) of peaks, used to filter peaks.
+    -t: Threshold of the percentage of fragments in peaks, used to filter cells.
+    -f: Threshold of the fragment number of each cell, used to filter cells.
+Output files:
+
+The script ***APEC_prepare_steps.sh*** will generate **work**, **peak**, **matrix**, and **figure** folders with many output files. Below are the details about these output files.
+
+Files in **Data** folder:
+ 
+    XXX.trim.fastq: Trimmed data from raw fastq file. 
+    cell_info.csv: Two columns cell list like:
+                name    notes
+                CD4-001   CD4
+                CD4-002   CD4
+                CD8-001   CD8
+                CD8-002   CD8
 
