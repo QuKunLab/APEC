@@ -1,4 +1,6 @@
 #!/usr/bin/python
+import warnings
+warnings.filterwarnings("ignore")
 import os
 import sys
 from optparse import OptionParser
@@ -7,14 +9,9 @@ from multiprocessing import Pool
 #
 #
 opts = OptionParser()
-usage = "Map sequencing data\nusage: %prog -d data -w work --index bowtie2-index --picard picard.jar --tss TSS.txt --np 4"
+usage = "Map sequencing data\nusage: %prog -s source_folder --index bowtie2-index --picard picard.jar --tss TSS.txt --np 4"
 opts = OptionParser(usage=usage, version="%prog 2.1")
-opts.add_option("-d", help="data folder, the folder including all trimmed fastq files. "
-                          +"These should be pair-end data, and named as: "
-                          +"type1-001_1.trim.fastq, type1-001_1.trim.fastq, etc. "
-                          +"{type1, type2, ......} can be composed by any character except (_) and (-). "
-                          +"No need to organize them by yourself if you have run s01_trimming to get trimmed fastq files.")
-opts.add_option("-w", help="work folder, defined by user.")
+opts.add_option("-s", help="Source folder")
 opts.add_option("--index", default="../reference/hg19",
                 help="The reference file path in bowtie2/indexes folder, default=../reference/hg19")
 opts.add_option("--picard", default="../reference/picard.jar",
@@ -57,29 +54,27 @@ def mapping(par):
     os.popen('samtools index ' + marked_bam)
     os.popen('echo -e "Chromosome\tLength\tProperPairs\tBadPairs:Raw" >> ' + quality_state)
     os.popen('samtools idxstats ' + sorted_bam + ' >> ' + quality_state)
-#    os.popen('echo -e "Chromosome\tLength\tProperPairs\tBadPairs:Filtered" >> ' + quality_state)
-#    os.popen('samtools idxstats ' + marked_bam + ' >> ' + quality_state)
     os.popen('java -XX:+UseSerialGC -Xmx1g -jar ' + options.picard + ' CollectInsertSizeMetrics VALIDATION_STRINGENCY=SILENT I='
         + marked_bam + ' O=' + hist_log + ' H=' + hist_pdf + ' W=1000')
-    subroutines.draw_TSS_insert(options.tss, marked_bam, refSeqTSS)
+#    subroutines.draw_TSS_insert(options.tss, marked_bam, refSeqTSS)
     return
 #
 #
 chr_list = 'chr1 chr2 chr3 chr4 chr5 chr6 chr7 chr8 chr9 chr10 chr11 chr12 chr13 chr14 chr15 chr16 chr17 chr18 chr19 chr20 chr21 chr22 chrX chrY'
 #
-fastq_list = [x for x in os.listdir(options.d) if x[-11:]=='.trim.fastq']
+fastq_list = [x for x in os.listdir(options.s+'/data') if x[-11:]=='.trim.fastq']
 fastq_list.sort()
 cell_list = [x.split('_')[0] for x in fastq_list]
 cell_list = list(set(cell_list))
 cell_list.sort()
-if not os.path.exists(options.w): os.popen('mkdir ' + options.w)
+if not os.path.exists(options.s+'/work'): os.popen('mkdir ' + options.s + '/work')
 #
 parameters = []
 for cell in cell_list:
-    work_dir = options.w + '/' + cell + '/'
-    if os.path.exists(work_dir): os.popen('rm -rf' + work_dir)
+    work_dir = options.s + '/work/' + cell + '/'
+    if os.path.exists(work_dir): os.popen('rm -rf ' + work_dir)
     os.popen('mkdir ' + work_dir)
-    input1, input2 = options.d+'/'+cell+'_1.trim.fastq', options.d+'/'+cell+'_2.trim.fastq'
+    input1, input2 = options.s+'/data/'+cell+'_1.trim.fastq', options.s+'/data/'+cell+'_2.trim.fastq'
     par = [work_dir, cell, options, input1, input2, chr_list]
     parameters.append(par)
 #    mapping(par)
@@ -89,5 +84,11 @@ pool.map(mapping, parameters)
 pool.close()
 pool.join()
 #
+#
+for cell in cell_list:
+    work_dir = options.s + '/work/' + cell + '/'
+    marked_bam = work_dir + cell + '.marked.bam'
+    refSeqTSS = work_dir + cell + '.RefSeqTSS'
+    subroutines.draw_TSS_insert(options.tss, marked_bam, refSeqTSS)
 #
 #

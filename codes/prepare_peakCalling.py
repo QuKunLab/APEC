@@ -1,4 +1,8 @@
 #!/usr/bin/python
+#
+import warnings
+warnings.filterwarnings("ignore")
+#
 import os
 import numpy
 import sys
@@ -7,10 +11,11 @@ import subroutines
 #
 #
 opts = OptionParser()
-usage = "Call peaks\nusage: %prog -w work -p peak --blist blacklist.bed --fa genome_chr.fa --tss tssFile --logq 3"
+usage = "Call peaks\nusage: %prog -s source_folder --blist blacklist.bed --fa genome_chr.fa --tss tssFile --logq 3"
 opts = OptionParser(usage=usage, version="%prog 2.1")
-opts.add_option("-w", help="work folder, defined by user.")
-opts.add_option("-p", help="peak folder, defined by user.")
+opts.add_option("-s", help="Source folder.")
+opts.add_option("--picard", default="../reference/picard.jar",
+                help="The picard.jar file path, default=../reference/picard.jar")
 opts.add_option("--blist", default='../reference/hg19_blacklist.JDB.bed', 
                 help="Blacklist.bed, default=../reference/hg19_blacklist.JDB.bed")
 opts.add_option("--fa", default='../reference/hg19_chr.fa', 
@@ -22,8 +27,8 @@ opts.add_option('--logq', default='3',
                 help='Threshold of -log(p-value) for top peaks, default=3.')
 options, arguments = opts.parse_args()
 #
-workspace_folder = options.w +'/'
-peak_folder = options.p + '/'
+workspace_folder = options.s + '/work/'
+peak_folder = options.s + '/peak/'
 genome_fasta = options.fa
 tssFile = options.tss
 os.popen('mkdir ' + peak_folder)
@@ -61,7 +66,7 @@ print
 #
 hist_log = peak_folder + 'mergeAll.hist.log'
 hist_pdf = peak_folder + 'mergeAll.hist.pdf'
-os.popen('java -jar $picard CollectInsertSizeMetrics VALIDATION_STRINGENCY=SILENT I='
+os.popen('java -XX:+UseSerialGC -Xmx1g -jar '+options.picard+' CollectInsertSizeMetrics VALIDATION_STRINGENCY=SILENT I='
     + merged_bam + ' O=' + hist_log + ' H=' + hist_pdf + ' W=1000')
 #
 refSeqTSS = peak_folder + 'mergeAll.RefSeqTSS'

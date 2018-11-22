@@ -1,4 +1,6 @@
 #!/usr/bin/python
+import warnings
+warnings.filterwarnings("ignore")
 #
 import sys
 import os
@@ -8,9 +10,9 @@ from multiprocessing import Pool
 #
 #
 opts = OptionParser()
-usage = "Trim adapter\nusage: %prog -d data --np 4"
+usage = "Trim adapter\nusage: %prog -s source_folder --np 4"
 opts = OptionParser(usage=usage, version="%prog 2.1")
-opts.add_option("-d", help="Data folder, each single fastq file should contain pair-end sequencing data. "
+opts.add_option("-s", help="Source folder path, should contains {data} folder, where the pair-end sequencing data locate. "
                           +"If you want to use this code to build cell_info.csv file, each fastq file should be names as:"
                           +"type1-001_1.fastq, type1-001_2.fastq, type1-002_1.fastq, type1-002_2.fastq, ... ;"
                           +"type2-001_1.fastq, type2-001_2.fastq, type2-002_1.fastq, type2-002_2.fastq, ... ; etc. "
@@ -99,22 +101,16 @@ def trim_adapters(fastq):
     return nReads, mm0_num_read, mm1_num_read
 #
 #
-fastqs = [x.split('_')[0] for x in os.listdir(options.d) if (x[-6:]=='.fastq')&(x[-11:]!='.trim.fastq')]
+fastqs = [x.split('_')[0] for x in os.listdir(options.s+'/data/') if (x[-6:]=='.fastq')&(x[-11:]!='.trim.fastq')]
 fastqs = list(set(fastqs))
 fastqs.sort()
-pathes = [options.d+'/'+x for x in fastqs]
+pathes = [options.s+'/data/'+x for x in fastqs]
 pool = Pool(int(options.np))
 read_info = pool.map(trim_adapters, pathes)
 pool.close()
 pool.join()
 #
-#with open(options.d+'/cell_info.csv', 'w') as output:
-#    print >> output, 'name\tcatpure\tcellNum\tdead\tnotes'
-#    for fastq in fastqs:
-#        print >> output, fastq + '\tNA\tNA\tNA\t' + '-'.join(fastq.split('-')[:-1])
-##        print >> output, fastq + '\tNA\tNA\tNA\t' + fastq.split('-')[0]
-#
-with open(options.d+'/cell_info.csv', 'w') as output:
+with open(options.s+'/data/cell_info.csv', 'w') as output:
     print >> output, 'name\tnotes'
     for fastq in fastqs:
         print >> output, fastq + '\t' + '-'.join(fastq.split('-')[:-1])
