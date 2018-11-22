@@ -70,8 +70,8 @@ Example:
 
 Input parameters:
 
-    -s: source path, which should contain data folder before running APEC.
-    -g: hg19 or mm10.
+    -s: The source path, which should contain data folder before running APEC.
+    -g: "hg19" or "mm10".
     -n: Number of CPU cores.
     -l: Threshold for the –log(Q-value) of peaks, used to filter peaks.
     -p: Threshold of the percentage of fragments in peaks, used to filter cells.
@@ -124,10 +124,10 @@ Example:
 
 Input parameters:
 
-    -s: source path that contains data, work, matrix, peak, result and figure folders.
-    --ref: hg19 or mm10.
-    --fa: hg19_chr.fa or mm10_chr.fa in reference folder.
-    --np: Number of CPU cores.
+    -s:    The source path that contains data, work, matrix, peak, result and figure folders.
+    --ref: "hg19" or "mm10".
+    --fa:  The "hg19_chr.fa" or "mm10_chr.fa" file in the reference folder.
+    --np:  Number of CPU cores.
 
 Details about initial files:
 
@@ -161,8 +161,8 @@ Example:
 
 Input parameters:
 
-    -s: source path that contains data, work, matrix, peak, result and figure folders.
-    --nc: Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm. 
+    -s:      The source path that contains data, work, matrix, peak, result and figure folders.
+    --nc:    Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm. 
     --space: Transfromed space used for clustering, can be “pca” or “tsne”.
 
 Output files important to users:
@@ -190,15 +190,15 @@ The script ***cluster_byMotif.py*** provides a python version of motif-based cel
 
 Example:
 
-    python cluster_byMotif.py -s $source --ns 8 --np 8 --nc 0 --space pca
+    python cluster_byMotif.py -s $source --ns 50 --np 8 --nc 0 --space pca
 
 Input parameters:
 
-    -s: source path that contains data, work, matrix, peak, result and figure folders.
-    --ns: Number of permuted samplings to calculate the bias-corrected deviations of motifs.
-          Its default value is 50.
-    --np: Number of CPU cores.
-    --nc: Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm. 
+    -s:      The source path that contains data, work, matrix, peak, result and figure folders.
+    --ns:    Number of permuted samplings to calculate the bias-corrected deviations of motifs.
+             Its default value is 50.
+    --np:    Number of CPU cores.
+    --nc:    Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm. 
     --space: Transfromed space used for clustering, can be “pca” or “tsne”.
 
 Output files description:
@@ -226,7 +226,7 @@ Example:
 
 Input parameters:
 
-    --c1: cell_info.csv in data folder, or cluster_by_XXX.csv in result folder.
+    --c1: The "cell_info.csv" file in the data folder, or "cluster_by_XXX.csv" in the result folder.
     --c2: Cell clustering result file different with c1.
 
 The output information will be directly printed on the screen, including the cluster-vs-cluster cell overlapping matrix and the ARI (adjusted rand index) value.
