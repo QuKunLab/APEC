@@ -231,3 +231,73 @@ Input parameters:
 
 The output information will be directly printed on the screen, including the cluster-vs-cluster cell overlapping matrix and the ARI (adjusted rand index) value.
 
+## 4 Feature analysis 
+
+### 4.1 Differential peaks, motifs and genes
+
+Example:
+
+    python generate_differential_markers.py -s $source
+                                            --cfile $source/result/KNN_cluster_by_Accesson.csv
+                                            --cluster 1 --vs 2,3 --motif yes --gene yes
+
+Input parameters:
+
+    -s:        The source path.
+    --cfile:   The cluster.csv file of a clustering method, e.g. $source/result/KNN_cluster_by_Accesson.csv
+    --cluster: The target cluster for differential markers analysis, can be 0, 1, 2, …, or a batch of 
+               clusters like “0,2”.
+    --vs:      vs which clusters users search differential markers for target cluster, e.g. “1,3”. default=all.
+    --pvalue:  P-value threshold for differential markers, default=0.001.
+    --fold:    Fold change cutoff of differential markers, default=2.
+    --motif:   Whether to search differential motifs, default=no.
+    --gene:    Whether to search differential genes for, default=no.
+
+Output files:
+
+In **result** folder, users can see three types of output files: “peaks_of_cluster_XXX.csv”, “genes_of_cluster_XXX.csv”, and “motifs_of_cluster_XXX.csv”, which respectively list the differential peaks, genes, and motifs of one cell-cluster (vs all other clusters or a batch of clusters).
+
+### 4.2 Pseudo-time trajectory
+
+Example: 
+
+    python generate_trajectory.py -s $source --npc 5 
+                                  --cfile $source/data/cell_info.csv
+
+Input parameters:
+
+    -s:      Source folder.
+    --npc:   Number of principle components used for pseudo-time trajectory, defaul=5.
+    --cfile: Cell-types file, e.g. $source/data/cell_info.csv or $source/result/KNN_cluster_by_Accesson.csv.
+    --dim:   Plot 2D or 3D trajectory, default=3.
+    --angle: Angles to rotate the 3D trajectory, default=“30,30”.
+
+Output files:
+
+This script can generate “monocle_reduced_dimension.csv” and “monocle_trajectory.csv” in **result** folder, and “pseudotime_trajectory.pdf” in **figure** folder. These files depict the structured data and 3D image for pseudo-time trajectory respectively.
+
+### 4.3 Marker motif/gene plot
+
+Example: 
+
+    python generate_markers_on_plots.py -s $source 
+                                        --cfile $source/result/TSNE_by_Accesson.csv 
+                                        --type motif --name RELA
+
+Input parameters:
+
+    -s:      The source path.
+    --cfile: “TSNE_by_Accesson.csv” or “monocle_reduced_dimension.csv” file (in result folder) to render
+             the enrichment of marker gene/motif.
+    --type:  Type of marker, can be “motif” or “gene”.
+    --name:  Name of marker.
+    --angle: Angles to rotate the 3D trajectory, default=“30,30”.
+
+Output files:
+
+Depending on the type of marker (motif or gene) and diagram (tSNE or pseudo-time trajectory), users will find different output plots in **figure** folder:
+
+    motif_XXX_on_TSNE_by_Accesson.pdf
+    gene_XXX_on_TSNE_by_Accesson.pdf
+    motif_XXX_on_monocle_reduced_dimension.pdf
+    gene_XXX_on_monocle_reduced_dimension.pdf
