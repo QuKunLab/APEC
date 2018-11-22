@@ -8,13 +8,13 @@ APEC can perform fine cell type clustering on single cell chromatin accessibilit
 
 **If users want to process the raw fastq data from scATAC-seq experiment, please run APEC from section 2 “Fragment count matrix”. If users have their own fragment count matrix, where each element is the number of fragments per-cell-per-peak, please run APEC from section 3 “Clustering”.**
 
-## 1.	Requirements and installation
+## 1. Requirements and installation
 
 ### 1.1	Requirements
 
 APEC requires users to use Linux system, as well as Python (version 2.7.5+) and R (version 3.4+) environment. Users also need to install the following packages:
 
-(1)	Python packages and libraries: 
+(1) Python packages and libraries: 
 
     numpy, scipy, pandas, sklearn, multiprocessing, numba, pysam,
     matplotlib, seaborn, networkx, python-louvain, python-Levenshtein
@@ -22,11 +22,11 @@ APEC requires users to use Linux system, as well as Python (version 2.7.5+) and 
     all upon python packages can be installed by: 
     pip install package_name
 
-(2)	R packages and libraries: 
+(2) R packages and libraries: 
 
     Monocle: http://cole-trapnell-lab.github.io/monocle-release/
 
-(3)	Other necessary software:
+(3) Other necessary software:
 
     Bowtie2: https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.2.9/
     Samtools: https://github.com/samtools/samtools
@@ -47,7 +47,7 @@ Users simply completes the APEC installation by copying the APEC folder to any p
     mm10.1.bt2, mm10.2.bt2, mm10.3.bt2, mm10.4.bt2,
     JASPAR2018_CORE_vertebrates_non-redundant_pfms_meme.txt, tier1_markov1.norc.txt
 
-## 2.	Fragment count matrix
+## 2. Fragment count matrix
 
 ### 2.1	Arrangement of raw data
 
@@ -66,7 +66,7 @@ Users can use the script APEC_prepare_steps.sh to finish the process from raw da
 
 Usage: 
 
-    bash APEC_prepare_steps.sh -s source_folder -g genome_index
+    bash APEC_prepare_steps.sh -s $source -g genome_index
                                -n nCPUs -l logq -t tssfrag -f frag
 
 Example:
@@ -75,7 +75,7 @@ Example:
                                -l 3 -t 0.2 -f 2000
 Input parameters:
 
-    -s: source path, which should contain <data> folder before running APEC.
+    -s: source path, which should contain data folder before running APEC.
     -g: hg19 or mm10.
     -n: Number of CPU cores.
     -l: Threshold for the –log(Q-value) of peaks, used to filter peaks.
@@ -124,7 +124,7 @@ If users have their own fragment count matrix, please build data, work, matrix, 
 
 Usage: 
 
-    python prepare_premappedMatrix.py -s source_folder --ref genome_index
+    python prepare_premappedMatrix.py -s $source --ref genome_index
 					--fa chr.fa --np nCPUs
 
 Example:
@@ -134,32 +134,32 @@ Example:
 
 Input parameters:
 
-    -s: source path, which should contain data, work, matrix, peak, result and figure
+    -s: source path that contains data, work, matrix, peak, result and figure folders.
     --ref: hg19 or mm10.
-    --fa: hg19_chr.fa or mm10_chr.fa in reference folder
-    -n: Number of CPU cores.
+    --fa: hg19_chr.fa or mm10_chr.fa in reference folder.
+    --np: Number of CPU cores.
 
 Details about initial files:
 
     cell_info.csv: Two-column (separated by tabs) list of cell information, such as:
-                        name    notes
-                        CD4-001 CD4
-                        CD4-002 CD4
-                        CD8-001 CD8
-                        CD8-002 CD8
+                        	name    notes
+                        	CD4-001 CD4
+                        	CD4-002 CD4
+                        	CD8-001 CD8
+                        	CD8-002 CD8
     top_peaks.bed: Three-column list of peaks (500 BP accessible regions), such as:
-                        chr1    3094060 3094560
-                        chr1    3094768 3095268
-                        chr1    3113480 3113980
-                        chr1    3119987 3120487
+                        	chr1    3094060 3094560
+                        	chr1    3094768 3095268
+                        	chr1    3113480 3113980
+                        	chr1    3119987 3120487
     filtered_reads.csv: Fragment count matrix, where each row is a cell and each column represents peak. 
                         The name of cells should be same with “cell_info.csv”, and the order of peaks 
                         should be same with “top_peaks.bed”. All numbers are separated by commas, for example:
-			                    ,peak1,peak2,peak3,peak4,peak5,peak6
-			                    CD4-001,1,0,2,0,0,1
-			                    CD4-002,0,1,0,0,2,0
-			                    CD8-001,0,0,0,1,1,0
-			                    CD8-002,2,1,0,0,0,1
+				,peak1,peak2,peak3,peak4,peak5,peak6
+			        CD4-001,1,0,2,0,0,1
+			        CD4-002,0,1,0,0,2,0
+			        CD8-001,0,0,0,1,1,0
+			        CD8-002,2,1,0,0,0,1
 
 
 
