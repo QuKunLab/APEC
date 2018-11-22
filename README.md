@@ -184,7 +184,7 @@ Output files important to users:
     HC_KNN_compare_by_Accesson.png: Hierarchical clustering heat map of cell-cell correlation matrix.
                                     Colors of sidebar are defined by KNN clustering result.
 
-### 3.3 Clustering based on motifs (as chromVAR)
+### 3.3 Clustering based on motifs (same as chromVAR)
 
 The script ***cluster_byMotif.py*** provides a python version of motif-based cell clustering, with the same algorithm as chromVAR.
 
