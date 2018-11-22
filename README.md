@@ -226,7 +226,7 @@ Example:
 
 Input parameters:
 
-    --c1: The "cell_info.csv" file in data folder, or "cluster_by_XXX.csv" in result folder.
+    --c1: "cell_info.csv" file in data folder, or "cluster_by_XXX.csv" in result folder.
     --c2: Cell clustering result file different with c1.
 
 The output information will be directly printed on the screen, including the cluster-vs-cluster cell overlapping matrix and the ARI (adjusted rand index) value.
