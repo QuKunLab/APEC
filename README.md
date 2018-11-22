@@ -231,7 +231,7 @@ Input parameters:
 
 The output information will be directly printed on the screen, including the cluster-vs-cluster cell overlapping matrix and the ARI (adjusted rand index) value.
 
-## 4 Feature analysis 
+## 4. Feature analysis 
 
 ### 4.1 Differential peaks, motifs and genes
 
