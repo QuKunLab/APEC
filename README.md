@@ -51,7 +51,7 @@ Users simply completes the APEC installation by copying the APEC folder to any p
 
 ### 2.1	Arrangement of raw data
 
-Users need to build a source folder (i.e. $source), which contains a **data** folder, then copy all raw sequencing fastq files into the <$source/data/> folder. All these pair-end fastq files should be named as:
+Users need to build a source folder (i.e. $source), which contains a **data** folder, then copy all raw sequencing fastq files into the $source/**data**/ folder. All these pair-end fastq files should be named as:
  
     type1-001_1.fastq, type1-001_2.fastq, type1-002_1.fastq, type1-002_2.fastq, ……;
     type2-001_1.fastq, type2-001_2.fastq, type2-002_1.fastq, type2-002_2.fastq, ……;
@@ -64,15 +64,10 @@ The **work**, **matrix**, **peak**, **result** and **figure** folders will be au
 
 Users can use the script APEC_prepare_steps.sh to finish the process from raw data to fragment count matrix.  This script includes steps of “trimming”, “mapping”, “peak calling”, “aligning read counts matrix”, “quality contral”, “estimating gene score”.
 
-Usage: 
-
-    bash APEC_prepare_steps.sh -s $source -g genome_index
-                               -n nCPUs -l logq -t tssfrag -f frag
-
 Example:
 
-    bash APEC_prepare_steps.sh -s /home/user/test -g hg19 -n 4 
-                               -l 3 -t 0.2 -f 2000
+    bash APEC_prepare_steps.sh -s $source -g hg19 -n 4 -l 3 -t 0.2 -f 2000
+
 Input parameters:
 
     -s: source path, which should contain data folder before running APEC.
@@ -81,6 +76,7 @@ Input parameters:
     -l: Threshold for the –log(Q-value) of peaks, used to filter peaks.
     -p: Threshold of the percentage of fragments in peaks, used to filter cells.
     -f: Threshold of the fragment number of each cell, used to filter cells.
+
 Output files:
 
 The script ***APEC_prepare_steps.sh*** will generate **work**, **peak**, **matrix**, and **figure** folders with many output files. Here, we only introduce files that are useful to users.
@@ -122,15 +118,9 @@ For each cell, the mapping step can generate a subfolder (with cell name) in the
 
 If users have their own fragment count matrix, please build data, work, matrix, peak, result and figure folders in $source path, and place “cell_info.csv” file in data folder, “top_peaks.bed” in peak folder, “filtered_reads.csv” in matrix folder. Then users need to run script prepare_premappedMatrix.py before clustering and further analysis.
 
-Usage: 
-
-    python prepare_premappedMatrix.py -s $source --ref genome_index
-                                      --fa chr.fa --np nCPUs
-
 Example:
 
-    python prepare_premappedMatrix.py -s /home/user/test --ref hg19 
-                                      --fa ../reference/hg19_chr.fa --np 4
+    python prepare_premappedMatrix.py -s $source --ref hg19 --fa $APEC/reference/hg19_chr.fa --np 4
 
 Input parameters:
 
@@ -165,14 +155,9 @@ Details about initial files:
 
 To clustering cells by accessons, users can run the script cluster_byAccesson.py on the fragment count matrix.
 
-Usage: 
-
-    Python cluster_byAccesson.py -s $source --nc n_cluster
-                                 --space pca
-
 Example:
 
-    Python cluster_byAccesson.py -s /home/user/test --nc 0 --space pca
+    Python cluster_byAccesson.py -s source --nc 0 --space pca
 
 Input parameters:
 
@@ -203,15 +188,9 @@ Output files important to users:
 
 The script cluster_byMotif.py provides a python version of motif-based cell clustering, with the same algorithm as chromVAR.
 
-Usage: 
-
-    python cluster_byMotif.py -s $source --ns n_permute --np CPUs
-                              --nc n_cluster --space pca
-
 Example:
 
-    python cluster_byMotif.py -s /home/user/test --ns 8 --np 8
-                              --nc 0 --space pca
+    python cluster_byMotif.py -s $source --ns 8 --np 8 --nc 0 --space pca
 
 Input parameters:
 
