@@ -116,7 +116,7 @@ For each cell, the mapping step can generate a subfolder (with cell name) in the
 
 **Skip this step** if users have run ***APEC_prepare_steps.sh*** in Section 2 “Fragment count matrix” and generated fragment count matrix from the raw scATAC-seq data.
 
-If users have their own fragment count matrix, please build data, work, matrix, peak, result and figure folders in $source path, and place “cell_info.csv” file in data folder, “top_peaks.bed” in peak folder, “filtered_reads.csv” in matrix folder. Then users need to run script ***prepare_premappedMatrix.py*** before clustering and further analysis.
+If users have their own fragment count matrix, please build **data**, **matrix**, **peak**, and **figure** folders in $source path, and place “cell_info.csv” file in **data** folder, “top_peaks.bed” in **peak** folder, “filtered_reads.csv” in **matrix** folder. Then users need to run script ***prepare_premappedMatrix.py*** before clustering and further analysis.
 
 Example:
 
