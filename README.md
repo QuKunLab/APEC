@@ -62,7 +62,7 @@ The **work**, **matrix**, **peak**, **result** and **figure** folders will be au
  
 ### 2.2	Easy-run of matrix preparation
 
-Users can use the script APEC_prepare_steps.sh to finish the process from raw data to fragment count matrix.  This script includes steps of “trimming”, “mapping”, “peak calling”, “aligning read counts matrix”, “quality contral”, “estimating gene score”.
+Users can use the script ***APEC_prepare_steps.sh*** to finish the process from raw data to fragment count matrix.  This script includes steps of “trimming”, “mapping”, “peak calling”, “aligning read counts matrix”, “quality contral”, “estimating gene score”.
 
 Example:
 
@@ -114,9 +114,9 @@ For each cell, the mapping step can generate a subfolder (with cell name) in the
 
 ### 3.1	If users want to apply their own matrix
 
-**Skip this step** if users have run APEC_prepare_steps.sh in Section 2 “Fragment count matrix” and generated fragment count matrix from the raw scATAC-seq data.
+**Skip this step** if users have run ***APEC_prepare_steps.sh*** in Section 2 “Fragment count matrix” and generated fragment count matrix from the raw scATAC-seq data.
 
-If users have their own fragment count matrix, please build data, work, matrix, peak, result and figure folders in $source path, and place “cell_info.csv” file in data folder, “top_peaks.bed” in peak folder, “filtered_reads.csv” in matrix folder. Then users need to run script prepare_premappedMatrix.py before clustering and further analysis.
+If users have their own fragment count matrix, please build data, work, matrix, peak, result and figure folders in $source path, and place “cell_info.csv” file in data folder, “top_peaks.bed” in peak folder, “filtered_reads.csv” in matrix folder. Then users need to run script ***prepare_premappedMatrix.py*** before clustering and further analysis.
 
 Example:
 
@@ -153,7 +153,7 @@ Details about initial files:
 
 ### 3.2 Clustering based on accessons
 
-To clustering cells by accessons, users can run the script cluster_byAccesson.py on the fragment count matrix.
+To clustering cells by accessons, users can run the script ***cluster_byAccesson.py*** on the fragment count matrix.
 
 Example:
 
@@ -186,7 +186,7 @@ Output files important to users:
 
 ### 3.3 Clustering based on motifs (as chromVAR)
 
-The script cluster_byMotif.py provides a python version of motif-based cell clustering, with the same algorithm as chromVAR.
+The script ***cluster_byMotif.py*** provides a python version of motif-based cell clustering, with the same algorithm as chromVAR.
 
 Example:
 
@@ -217,7 +217,7 @@ Output files description:
 
 ### 3.3 Clustering comparison
 
-Users can run cluster_comparsion.py to measure the accuracy of the clustering algorithm by comparing its result with known FACS cell indexes, or to compare the clustering results of two different algorithms. 
+Users can run ***cluster_comparsion.py*** to measure the accuracy of the clustering algorithm by comparing its result with known FACS cell indexes, or to compare the clustering results of two different algorithms. 
 
 Example: 
 
