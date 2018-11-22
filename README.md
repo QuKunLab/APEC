@@ -175,12 +175,12 @@ Output files important to users:
 
 (2) In **figure** folder:
 
-    PCA_by_Accesson.pdf: PCA diagram of cells, colored by the “notes” column in the ~/data/cell_info.csv file.
-    TSNE_by_Accesson.pdf: tSNE diagram of cells, colored by the “notes” column in the ~/data/cell_info.csv file.
+    PCA_by_Accesson.pdf: PCA diagram of cells, colored by the “notes” column in $source/data/cell_info.csv file.
+    TSNE_by_Accesson.pdf: tSNE diagram of cells, colored by the “notes” column in $source/data/cell_info.csv file.
     KNN_cluster_by_Accesson.pdf: KNN clustering result of cells, plotted on tSNE map.
     cell_cell_correlation_by_Accesson.png: Hierarchical clustering heat map of cell-cell correlation matrix.
                                            Colors of sidebar are defined by the “notes” column in 
-                                           the ~/data/cell_info.csv file.
+                                           $source/data/cell_info.csv file.
     HC_KNN_compare_by_Accesson.png: Hierarchical clustering heat map of cell-cell correlation matrix.
                                     Colors of sidebar are defined by KNN clustering result.
 
@@ -226,7 +226,7 @@ Example:
 
 Input parameters:
 
-    --c1: The "cell_info.csv" file in the data folder, or "cluster_by_XXX.csv" in the result folder.
+    --c1: The "cell_info.csv" file in data folder, or "cluster_by_XXX.csv" in result folder.
     --c2: Cell clustering result file different with c1.
 
 The output information will be directly printed on the screen, including the cluster-vs-cluster cell overlapping matrix and the ARI (adjusted rand index) value.
