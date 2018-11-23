@@ -51,14 +51,14 @@ Users simply completes the APEC installation by copying the APEC folder to any p
 
 ### 2.1	Arrangement of raw data
 
-Users need to build a source folder (i.e. $source), which contains a **data** folder, then copy all raw sequencing fastq files into the $source/**data**/ folder. All these pair-end fastq files should be named as:
+Users need to build a project folder (i.e. $project), which contains a **data** folder, then copy all raw sequencing fastq files into the $project/**data**/ folder. All these pair-end fastq files should be named as:
  
     type1-001_1.fastq, type1-001_2.fastq, type1-002_1.fastq, type1-002_2.fastq, ……;
     type2-001_1.fastq, type2-001_2.fastq, type2-002_1.fastq, type2-002_2.fastq, ……;
     ……
 
 where "\_1" and "\_2" indicate forward and backward reads for pair-end sequencing. {type1, type2, ...} can be cell-types or batches of samples, such as {GM, K562, ...}, or {batch1, batch2, ...}, or any other words without underline “_” or dash “-”.
-The **work**, **matrix**, **peak**, **result** and **figure** folders will be automatically built by subsequent steps, and placed in $source folder.
+The **work**, **matrix**, **peak**, **result** and **figure** folders will be automatically built by subsequent steps, and placed in $project folder.
  
 ### 2.2	Easy-run of matrix preparation
 
@@ -66,11 +66,11 @@ Users can use the script ***APEC_prepare_steps.sh*** to finish the process from 
 
 Example:
 
-    bash APEC_prepare_steps.sh -s $source -g hg19 -n 4 -l 3 -t 0.2 -f 2000
+    bash APEC_prepare_steps.sh -s $project -g hg19 -n 4 -l 3 -t 0.2 -f 2000
 
 Input parameters:
 
-    -s: The source path, which should contain data folder before running APEC.
+    -s: The project path, which should contain data folder before running APEC.
     -g: "hg19" or "mm10".
     -n: Number of CPU cores.
     -l: Threshold for the –log(Q-value) of peaks, used to filter peaks.
@@ -116,15 +116,15 @@ For each cell, the mapping step can generate a subfolder (with cell name) in the
 
 **Skip this step** if users have run ***APEC_prepare_steps.sh*** in Section 2 “Fragment count matrix” and generated fragment count matrix from the raw scATAC-seq data.
 
-If users have their own fragment count matrix, please build **data**, **matrix**, **peak**, and **figure** folders in $source path, and place “cell_info.csv” file in **data** folder, “top_peaks.bed” in **peak** folder, “filtered_reads.csv” in **matrix** folder. Then users need to run script ***prepare_premappedMatrix.py*** before clustering and further analysis.
+If users have their own fragment count matrix, please build **data**, **matrix**, **peak**, and **figure** folders in $project path, and place “cell_info.csv” file in **data** folder, “top_peaks.bed” in **peak** folder, “filtered_reads.csv” in **matrix** folder. Then users need to run script ***prepare_premappedMatrix.py*** before clustering and further analysis.
 
 Example:
 
-    python prepare_premappedMatrix.py -s $source --ref hg19 --fa $APEC/reference/hg19_chr.fa --np 4
+    python prepare_premappedMatrix.py -s $project --ref hg19 --fa $APEC/reference/hg19_chr.fa --np 4
 
 Input parameters:
 
-    -s:    The source path that contains data, work, matrix, peak, result and figure folders.
+    -s:    The project path that contains data, work, matrix, peak, result and figure folders.
     --ref: "hg19" or "mm10".
     --fa:  The "hg19_chr.fa" or "mm10_chr.fa" file in the reference folder.
     --np:  Number of CPU cores.
@@ -157,11 +157,11 @@ To clustering cells by accessons, users can run the script ***cluster_byAccesson
 
 Example:
 
-    Python cluster_byAccesson.py -s source --nc 0 --space pca
+    Python cluster_byAccesson.py -s $project --nc 0 --space pca
 
 Input parameters:
 
-    -s:      The source path that contains data, work, matrix, peak, result and figure folders.
+    -s:      The project path that contains data, work, matrix, peak, result and figure folders.
     --nc:    Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm. 
     --space: Transfromed space used for clustering, can be “pca” or “tsne”.
 
@@ -175,12 +175,12 @@ Output files important to users:
 
 (2) In **figure** folder:
 
-    PCA_by_Accesson.pdf: PCA diagram of cells, colored by the “notes” column in $source/data/cell_info.csv file.
-    TSNE_by_Accesson.pdf: tSNE diagram of cells, colored by the “notes” column in $source/data/cell_info.csv file.
+    PCA_by_Accesson.pdf: PCA diagram of cells, colored by the “notes” column in $project/data/cell_info.csv file.
+    TSNE_by_Accesson.pdf: tSNE diagram of cells, colored by the “notes” column in $project/data/cell_info.csv file.
     KNN_cluster_by_Accesson.pdf: KNN clustering result of cells, plotted on tSNE map.
     cell_cell_correlation_by_Accesson.png: Hierarchical clustering heat map of cell-cell correlation matrix.
                                            Colors of sidebar are defined by the “notes” column in 
-                                           $source/data/cell_info.csv file.
+                                           $project/data/cell_info.csv file.
     HC_KNN_compare_by_Accesson.png: Hierarchical clustering heat map of cell-cell correlation matrix.
                                     Colors of sidebar are defined by KNN clustering result.
 
@@ -190,11 +190,11 @@ The script ***cluster_byMotif.py*** provides a python version of motif-based cel
 
 Example:
 
-    python cluster_byMotif.py -s $source --ns 50 --np 8 --nc 0 --space pca
+    python cluster_byMotif.py -s $project --ns 50 --np 8 --nc 0 --space pca
 
 Input parameters:
 
-    -s:      The source path that contains data, work, matrix, peak, result and figure folders.
+    -s:      The project path that contains data, work, matrix, peak, result and figure folders.
     --ns:    Number of permuted samplings to calculate the bias-corrected deviations of motifs.
              Its default value is 50.
     --np:    Number of CPU cores.
@@ -217,8 +217,8 @@ Users can run ***cluster_comparsion.py*** to measure the accuracy of the cluster
 
 Example: 
 
-    python cluster_comparison.py --c1 $source/data/cell_info.csv
-                                 --c2 $source/result/KNN_cluster_by_Accesson.csv
+    python cluster_comparison.py --c1 $project/data/cell_info.csv
+                                 --c2 $project/result/KNN_cluster_by_Accesson.csv
 
 Input parameters:
 
@@ -233,14 +233,14 @@ The output information will be directly printed on the screen, including the clu
 
 Example:
 
-    python generate_differential_markers.py -s $source
-                                            --cfile $source/result/KNN_cluster_by_Accesson.csv
+    python generate_differential_markers.py -s $project
+                                            --cfile $project/result/KNN_cluster_by_Accesson.csv
                                             --cluster 1 --vs 2,3 --motif yes --gene yes
 
 Input parameters:
 
-    -s:        The source path.
-    --cfile:   The cluster.csv file of a clustering method, e.g. $source/result/KNN_cluster_by_Accesson.csv
+    -s:        The project path.
+    --cfile:   The cluster.csv file of a clustering method, e.g. $project/result/KNN_cluster_by_Accesson.csv
     --cluster: The target cluster for differential markers analysis, can be 0, 1, 2, …, or a batch of 
                clusters like “0,2”.
     --vs:      vs which clusters users search differential markers for target cluster, e.g. “1,3”. default=all.
@@ -257,14 +257,14 @@ In **result** folder, users can see three types of output files: “peaks_of_clu
 
 Example: 
 
-    python generate_trajectory.py -s $source --npc 5 
-                                  --cfile $source/data/cell_info.csv
+    python generate_trajectory.py -s $project --npc 5 
+                                  --cfile $project/data/cell_info.csv
 
 Input parameters:
 
-    -s:      Source folder.
+    -s:      The project path.
     --npc:   Number of principle components used for pseudo-time trajectory, defaul=5.
-    --cfile: Cell-types file, e.g. $source/data/cell_info.csv or $source/result/KNN_cluster_by_Accesson.csv.
+    --cfile: Cell-types file, e.g. $project/data/cell_info.csv or $project/result/KNN_cluster_by_Accesson.csv.
     --dim:   Plot 2D or 3D trajectory, default=3.
     --angle: Angles to rotate the 3D trajectory, default=“30,30”.
 
@@ -276,13 +276,13 @@ This script can generate “monocle_reduced_dimension.csv” and “monocle_traj
 
 Example: 
 
-    python generate_markers_on_plots.py -s $source 
-                                        --cfile $source/result/TSNE_by_Accesson.csv 
+    python generate_markers_on_plots.py -s $project 
+                                        --cfile $project/result/TSNE_by_Accesson.csv 
                                         --type motif --name RELA
 
 Input parameters:
 
-    -s:      The source path.
+    -s:      The project path.
     --cfile: “TSNE_by_Accesson.csv” or “monocle_reduced_dimension.csv” file (in result folder) to render
              the enrichment of marker gene/motif.
     --type:  Type of marker, can be “motif” or “gene”.
@@ -297,3 +297,34 @@ Depending on the type of marker (motif or gene) and diagram (tSNE or pseudo-time
     gene_XXX_on_TSNE_by_Accesson.pdf
     motif_XXX_on_monocle_reduced_dimension.pdf
     gene_XXX_on_monocle_reduced_dimension.pdf
+
+### 4.4 UCSC track
+
+Example:
+
+    python generate_UCSCtrack.py -s $project --cfile $project/result/KNN_cluster_by_Accesson.csv 
+                                 --gsize $APEC/reference/hg19.chrom.sizes
+
+Input parameters:
+
+    -s: The project path.
+    --cfile: The cell clustering result file, e.g. “KNN_cluster_by_Accessons.csv” file in $project/result/ folder.
+    --gsize: The chromosome lengths file, i.e. “hg19.chrom.sizes” or “mm10.chrom.sizes” in $APEC/reference/ folder
+
+Output files:
+
+This script will generate several .bw files in $project/result/track/ folder, and each .bw file is named by its corresponding cell-cluster. Other files (.bam, .bedgraph) in this folder can also be helpful if users want to know more details about the genome-wide fragment count for each cell-cluster.
+
+### 4.5 Super enhancer
+
+Example:
+
+    python generate_superEnhancer.py -s $project
+
+Input parameters:
+
+    -s: The project path.
+
+Output files:
+
+The “potential_super_enhancer.csv” in **result** folder shows the adjacent peaks belonging to the same accesson, and their genomic regions. Users need to check the .bw files of the cell-clusters on the UCSC track browser to confirm the super enhancer regions.
