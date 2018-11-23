@@ -13,9 +13,9 @@ from optparse import OptionParser
 #
 #
 opts = OptionParser()
-usage = "Build QC table\nusage: %prog -s source_folder --frag 0.2 --lib 2000"
-opts = OptionParser(usage=usage, version="%prog 2.1")
-opts.add_option("-s", help="Source folder.")
+usage = "Build QC table\nusage: %prog -s project --frag 0.2 --lib 2000"
+opts = OptionParser(usage=usage, version="%prog 1.0")
+opts.add_option("-s", help="The project folder.")
 opts.add_option("--pfrag", default=0.2, help="Threshold for percentage of fragments in peaks, "
                 +"default=0.2, decrease it for more filtered-samples, increase it for better quality")
 opts.add_option("--lib", default=2000, help="Threshold for fragment number, default=2000, "

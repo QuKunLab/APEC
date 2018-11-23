@@ -9,9 +9,9 @@ import subroutines
 #
 #
 opts = OptionParser()
-usage = "Organize premapped data\nusage: %prog -s source_folder --ref ref --fa chr.fa --bg bg.txt --meme motifs.meme --np 4"
-opts = OptionParser(usage=usage, version="%prog 2.1")
-opts.add_option("-s", help="Source folder")
+usage = "Organize premapped data\nusage: %prog -s project --ref ref --fa chr.fa --bg bg.txt --meme motifs.meme --np 4"
+opts = OptionParser(usage=usage, version="%prog 1.0")
+opts.add_option("-s", help="The project folder")
 opts.add_option("--ref", default='hg19', help="Genome reference, default=hg19")
 opts.add_option("--fa", default='../reference/hg19_chr.fa', help="Genome fasta file, default=../reference/hg19_chr.fa")
 opts.add_option("--bg", default='../reference/tier1_markov1.norc.txt',
@@ -74,6 +74,10 @@ subroutines.batch_fimo(options.bg, options.pvalue, options.meme, motifFasta, mot
 TFmatrix_file = options.s + '/matrix/motif_filtered.csv'
 subroutines.score_peaks(peaks_file, motif_folder, TFmatrix_file)
 #
+#
+gtf = '../reference/hg19_RefSeq_genes.gtf'
+if options.ref=='mm10': gtf = '../reference/mm10_RefSeq_genes.gtf'
+os.popen('python prepare_geneScore.py -s '+options.s+' --gtf '+gtf)
 #
 #
 #

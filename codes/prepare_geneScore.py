@@ -9,9 +9,9 @@ from optparse import OptionParser
 #
 #
 opts = OptionParser()
-usage = "Evaluate gene score by TSS peaks\nusage: %prog -s source_folder --gtf hg19.gtf --distal 20000"
-opts = OptionParser(usage=usage, version="%prog 2.1")
-opts.add_option("-s", help="Source folder.")
+usage = "Evaluate gene score by TSS peaks\nusage: %prog -s project --gtf hg19.gtf --distal 20000"
+opts = OptionParser(usage=usage, version="%prog 1.0")
+opts.add_option("-s", help="The project folder.")
 opts.add_option("--gtf", default='../reference/hg19_RefSeq_genes.gtf', 
                 help="gtf file for genome, default=../reference/hg19_RefSeq_genes.gtf")
 opts.add_option("--distal", default=20000, 

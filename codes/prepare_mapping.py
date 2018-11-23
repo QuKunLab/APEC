@@ -9,9 +9,9 @@ from multiprocessing import Pool
 #
 #
 opts = OptionParser()
-usage = "Map sequencing data\nusage: %prog -s source_folder --index bowtie2-index --picard picard.jar --tss TSS.txt --np 4"
-opts = OptionParser(usage=usage, version="%prog 2.1")
-opts.add_option("-s", help="Source folder")
+usage = "Map sequencing data\nusage: %prog -s project --index bowtie2-index --picard picard.jar --tss TSS.txt --np 4"
+opts = OptionParser(usage=usage, version="%prog 1.0")
+opts.add_option("-s", help="The project folder")
 opts.add_option("--index", default="../reference/hg19",
                 help="The reference file path in bowtie2/indexes folder, default=../reference/hg19")
 opts.add_option("--picard", default="../reference/picard.jar",

@@ -14,9 +14,9 @@ import os
 from sklearn.decomposition import PCA
 #
 opts = OptionParser()
-usage = "Build monocle trajectory\nusage: %prog -s source_folder --npc 5 --cfile cluster.csv"
-opts = OptionParser(usage=usage, version="%prog 2.1")
-opts.add_option("-s", help="Source folder.")
+usage = "Build monocle trajectory\nusage: %prog -s project --npc 5 --cfile cluster.csv"
+opts = OptionParser(usage=usage, version="%prog 1.0")
+opts.add_option("-s", help="The project folder.")
 opts.add_option("--npc", default=5, help="Number of principle components used for pseudo-time trajectory, defaul=5")
 opts.add_option("--cfile", help='Cell-types file, e.g. cell_info.csv or cluster.csv')
 opts.add_option("--dim", default=3, help="Plot 2D or 3D trajectory, default=3")

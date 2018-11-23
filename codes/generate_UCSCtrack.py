@@ -9,10 +9,10 @@ from optparse import OptionParser
 #
 #
 opts = OptionParser()
-usage = "Merge counts of cells to track files\nusage: %prog -s source_folder --cfile cluster.csv --gsize chrom.sizes"
-opts = OptionParser(usage=usage, version="%prog 2.1")
-opts.add_option("-s", help="Source folder.")
-opts.add_option("--cfile", help="cluster.csv file, e.g. KNN_cluster_by_Accesson.csv in {result} folder")
+usage = "Merge counts of cells to track files\nusage: %prog -s project --cfile cluster.csv --gsize chrom.sizes"
+opts = OptionParser(usage=usage, version="%prog 1.0")
+opts.add_option("-s", help="The project folder.")
+opts.add_option("--cfile", help="cluster.csv file, e.g. KNN_cluster_by_Accesson.csv in <result> folder")
 opts.add_option("--gsize", default='../reference/hg19.chrom.sizes', help="chrom.size files, default=../reference/hg19.chrom.sizes")
 options, arguments = opts.parse_args()
 #

@@ -6,9 +6,9 @@ from optparse import OptionParser
 import subroutines
 #
 opts = OptionParser()
-usage = "Align reads to build matrix\nusage: %prog -s source_folder --fa chr.fa --bg bg --meme motif.meme --np 4"
-opts = OptionParser(usage=usage, version="%prog 2.1")
-opts.add_option("-s", help="Source folder.")
+usage = "Align reads to build matrix\nusage: %prog -s project --fa chr.fa --bg bg --meme motif.meme --np 4"
+opts = OptionParser(usage=usage, version="%prog 1.0")
+opts.add_option("-s", help="The project folder.")
 opts.add_option("--fa", default='../reference/hg19_chr.fa', help="Genome fasta file, default=../reference/hg19_chr.fa")
 opts.add_option("--bg", default='../reference/tier1_markov1.norc.txt',
                 help="Background file, default=../reference/tier1_markov1.norc.txt")

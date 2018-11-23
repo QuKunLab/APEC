@@ -10,9 +10,9 @@ from multiprocessing import Pool
 #
 #
 opts = OptionParser()
-usage = "Trim adapter\nusage: %prog -s source_folder --np 4"
-opts = OptionParser(usage=usage, version="%prog 2.1")
-opts.add_option("-s", help="Source folder path, should contains {data} folder, where the pair-end sequencing data locate. "
+usage = "Trim adapter\nusage: %prog -s project --np 4"
+opts = OptionParser(usage=usage, version="%prog 1.0")
+opts.add_option("-s", help="The project path, should contains <data> folder, where the pair-end sequencing data locate. "
                           +"If you want to use this code to build cell_info.csv file, each fastq file should be names as:"
                           +"type1-001_1.fastq, type1-001_2.fastq, type1-002_1.fastq, type1-002_2.fastq, ... ;"
                           +"type2-001_1.fastq, type2-001_2.fastq, type2-002_1.fastq, type2-002_2.fastq, ... ; etc. "

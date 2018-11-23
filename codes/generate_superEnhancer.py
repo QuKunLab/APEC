@@ -13,9 +13,9 @@ import scipy.stats
 #
 #
 opts = OptionParser()
-usage = "Search super enhancers\nusage: %prog -s source_folder"
-opts = OptionParser(usage=usage, version="%prog 2.1")
-opts.add_option("-s", help="Source folder.")
+usage = "Search super enhancers\nusage: %prog -s project"
+opts = OptionParser(usage=usage, version="%prog 1.0")
+opts.add_option("-s", help="The project folder.")
 options, arguments = opts.parse_args()
 #
 def search_supper(options):

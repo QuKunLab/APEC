@@ -14,12 +14,12 @@ import scipy.stats
 #
 #
 opts = OptionParser()
-usage = "Render marker on tSNE or trajectory plot\nusage: %prog -s source_folder --cfile TSNE_by_Accesson.csv --type motif --name RELA"
-opts = OptionParser(usage=usage, version="%prog 2.1")
-opts.add_option("-s", help="Source folder.")
+usage = "Render marker on tSNE or trajectory plot\nusage: %prog -s project --cfile TSNE_by_Accesson.csv --type motif --name RELA"
+opts = OptionParser(usage=usage, version="%prog 1.0")
+opts.add_option("-s", help="The project folder.")
 opts.add_option("--cfile", help="TSNE_by_Accesson.csv or monocle_reduced_dimension.csv file to use for rendering")
-opts.add_option("--type", default='motif', help="type of marker to by plot, = motif, gene, or accesson")
-opts.add_option("--name", help="name of marker to by rendered on tSNE or trajectory plot")
+opts.add_option("--type", default='motif', help="type of marker to plot, can be motif, gene, or accesson")
+opts.add_option("--name", help="name of marker to plot")
 opts.add_option("--angle", default='30,30', help='Angles to rotate the 3D trajectory, default=30,30')
 opts.add_option("--sharp", default='0', help='Cutoff range for deviation or expression, default=0, i.e. no sharpening')
 options, arguments = opts.parse_args()

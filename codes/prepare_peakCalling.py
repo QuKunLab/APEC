@@ -11,9 +11,9 @@ import subroutines
 #
 #
 opts = OptionParser()
-usage = "Call peaks\nusage: %prog -s source_folder --blist blacklist.bed --fa genome_chr.fa --tss tssFile --logq 3"
-opts = OptionParser(usage=usage, version="%prog 2.1")
-opts.add_option("-s", help="Source folder.")
+usage = "Call peaks\nusage: %prog -s project --blist blacklist.bed --fa genome_chr.fa --tss tssFile --logq 3"
+opts = OptionParser(usage=usage, version="%prog 1.0")
+opts.add_option("-s", help="The project folder.")
 opts.add_option("--picard", default="../reference/picard.jar",
                 help="The picard.jar file path, default=../reference/picard.jar")
 opts.add_option("--blist", default='../reference/hg19_blacklist.JDB.bed', 
