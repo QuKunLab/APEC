@@ -12,33 +12,35 @@ APEC can perform fine cell type clustering on single cell chromatin accessibilit
 
 ### 1.1	Requirements
 
-APEC requires users to use Linux system, as well as Python (version 2.7.5+) and R (version 3.4+) environment. Users also need to install the following packages:
+APEC requires users to use Linux system, as well as Python (version 2.7.15+) and R (version 3.4+) environment. Users also need to install the latest version of the following packages:
 
-(1) Python packages and libraries: 
+(1) Python packages and libraries:
 
-    numpy, scipy, pandas, sklearn, multiprocessing, numba, pysam,
+    numpy, scipy, pandas, scikit-learn, multiprocessing, numba, pysam,
     matplotlib, seaborn, networkx, python-louvain, python-Levenshtein
-    
-    all upon python packages can be installed by: 
-    pip install package_name
 
-(2) R packages and libraries: 
+    all upon python packages can be installed by: pip install package_name
+
+(2) R packages and libraries:
 
     Monocle: http://cole-trapnell-lab.github.io/monocle-release/
 
-(3) Other necessary software:
+(3) Other necessory software:
+
+All of the following software needs to be placed in the global environment of the Linux system to ensure that they can be called in any path/folder. Picard is also required, but we have placed it into $APEC/reference folder, and users don't need to install it.
 
     Bowtie2: https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.2.9/
     Samtools: https://github.com/samtools/samtools
-    Picard: https://github.com/broadinstitute/picard/releases/tag/2.18.14
     Bedtools: http://bedtools.readthedocs.io/en/latest/content/installation.html
     HOMER: http://homer.ucsd.edu/homer/download.html
     Macs2: https://github.com/taoliu/MACS.git
     Meme: http://meme-suite.org/doc/download.html?man_type=web
-  
+    bedGraphToBigWig: http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/
+
 ### 1.2	Installation
-Users simply completes the APEC installation by copying the APEC folder to any path on the computer (i.e. $APEC). There are two subfolders in APEC: a **codes** folder, which contains all APEC programs for data processing; a **reference** folder, which contains all necessary index and reference files for the hg19 and mm10 genomes. So users can run APEC program directly in $APEC/codes/. The **reference** folder is required for APEC and should be placed in the same path with the **codes** folder. **But we didn't upload reference files to GitHub since they are too big. Users can download all reference files from http://galaxy.ustc.edu.cn:30803/APEC_reference/**. The **reference** folder should contains the following files:
- 
+
+Users simply completes the APEC installation by copying the APEC folder to any path on the computer (i.e. $APEC). There are two subfolders in APEC: a **codes** folder, which contains all APEC programs for data processing; a **reference** folder, which contains all necessary index and reference files for the hg19 and mm10 genomes. Users can only run APEC program directly in $APEC/codes/. The **reference** folder is required for APEC and should be placed in the same path ($APEC) with the **codes** folder. **But we didn't upload reference files to GitHub since they are too big. Users can download all reference files from http://galaxy.ustc.edu.cn:30803/APEC_reference/**. The **reference** folder should contains the following files:
+
     hg19_refseq_genes_TSS.txt, hg19_RefSeq_genes.gtf, hg19_blacklist.JDB.bed,
     hg19_chr.fa, hg19_chr.fa.fai, hg19.chrom.sizes,
     hg19.1.bt2, hg19.2.bt2, hg19.3.bt2, hg19.4.bt2,
@@ -52,14 +54,14 @@ Users simply completes the APEC installation by copying the APEC folder to any p
 ### 2.1	Arrangement of raw data
 
 Users need to build a project folder (i.e. $project), which contains a **data** folder, then copy all raw sequencing fastq files into the $project/**data**/ folder. All these pair-end fastq files should be named as:
- 
+
     type1-001_1.fastq, type1-001_2.fastq, type1-002_1.fastq, type1-002_2.fastq, ……;
     type2-001_1.fastq, type2-001_2.fastq, type2-002_1.fastq, type2-002_2.fastq, ……;
     ……
 
 where "\_1" and "\_2" indicate forward and backward reads for pair-end sequencing. {type1, type2, ...} can be cell-types or batches of samples, such as {GM, K562, ...}, or {batch1, batch2, ...}, or any other words without underline “_” or dash “-”.
 The **work**, **matrix**, **peak**, **result** and **figure** folders will be automatically built by subsequent steps, and placed in $project folder.
- 
+
 ### 2.2	Easy-run of matrix preparation
 
 Users can use the script ***APEC_prepare_steps.sh*** to finish the process from raw data to fragment count matrix.  This script includes steps of “trimming”, “mapping”, “peak calling”, “aligning read counts matrix”, “quality contral”, “estimating gene score”.
@@ -82,7 +84,7 @@ Output files:
 The script ***APEC_prepare_steps.sh*** will generate **work**, **peak**, **matrix**, and **figure** folders with many output files. Here, we only introduce files that are useful to users.
 
 (1) In **data** folder:
- 
+
     cell_info.csv: Two-column list of cell information.
 
 (2) In **work** folder:
@@ -97,7 +99,7 @@ For each cell, the mapping step can generate a subfolder (with cell name) in the
     mergeAll.hist.pdf: A histogram of fragment length distribution of all cells.
     mergeAll.RefSeqTSS.pdf: Insert enrichment around TSS regions of all cells.
     top_peaks.bed: Top peaks obtained by Q-value filtering.
-    annotate_peak.bed: Annotation information of peaks. 
+    annotate_peak.bed: Annotation information of peaks.
     genes_scored_by_peaks.csv: Gene scores evaluated by TSS peaks.
 
 (4) In **matrix** folder:
@@ -142,8 +144,8 @@ Details about initial files:
                         	chr1    3094768 3095268
                         	chr1    3113480 3113980
                         	chr1    3119987 3120487
-    filtered_reads.csv: Fragment count matrix, where each row is a cell and each column represents peak. 
-                        The name of cells should be same with “cell_info.csv”, and the order of peaks 
+    filtered_reads.csv: Fragment count matrix, where each row is a cell and each column represents peak.
+                        The name of cells should be same with “cell_info.csv”, and the order of peaks
                         should be same with “top_peaks.bed”. All numbers are separated by commas, for example:
 				,peak1,peak2,peak3,peak4,peak5,peak6
 			        CD4-001,1,0,2,0,0,1
@@ -162,7 +164,7 @@ Example:
 Input parameters:
 
     -s:      The project path that contains data, work, matrix, peak, result and figure folders.
-    --nc:    Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm. 
+    --nc:    Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm.
     --space: Transfromed space used for clustering, can be “pca” or “tsne”.
 
 Output files important to users:
@@ -179,7 +181,7 @@ Output files important to users:
     TSNE_by_Accesson.pdf: tSNE diagram of cells, colored by the “notes” column in $project/data/cell_info.csv file.
     KNN_cluster_by_Accesson.pdf: KNN clustering result of cells, plotted on tSNE map.
     cell_cell_correlation_by_Accesson.png: Hierarchical clustering heat map of cell-cell correlation matrix.
-                                           Colors of sidebar are defined by the “notes” column in 
+                                           Colors of sidebar are defined by the “notes” column in
                                            $project/data/cell_info.csv file.
     HC_KNN_compare_by_Accesson.png: Hierarchical clustering heat map of cell-cell correlation matrix.
                                     Colors of sidebar are defined by KNN clustering result.
@@ -198,7 +200,7 @@ Input parameters:
     --ns:    Number of permuted samplings to calculate the bias-corrected deviations of motifs.
              Its default value is 50.
     --np:    Number of CPU cores.
-    --nc:    Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm. 
+    --nc:    Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm.
     --space: Transfromed space used for clustering, can be “pca” or “tsne”.
 
 Output files description:
@@ -213,9 +215,9 @@ PCA_by_chromVAR.pdf, TSNE_by_chromVAR.pdf, KNN_cluster_by_chromVAR.pdf, cell_cel
 
 ### 3.3 Clustering comparison
 
-Users can run ***cluster_comparsion.py*** to measure the accuracy of the clustering algorithm by comparing its result with known FACS cell indexes, or to compare the clustering results of two different algorithms. 
+Users can run ***cluster_comparsion.py*** to measure the accuracy of the clustering algorithm by comparing its result with known FACS cell indexes, or to compare the clustering results of two different algorithms.
 
-Example: 
+Example:
 
     python cluster_comparison.py --c1 $project/data/cell_info.csv
                                  --c2 $project/result/KNN_cluster_by_Accesson.csv
@@ -227,7 +229,7 @@ Input parameters:
 
 The output information will be directly printed on the screen, including the cluster-vs-cluster cell overlapping matrix and the ARI (adjusted rand index) value.
 
-## 4. Feature analysis 
+## 4. Feature analysis
 
 ### 4.1 Differential peaks, motifs and genes
 
@@ -241,13 +243,13 @@ Input parameters:
 
     -s:        The project path.
     --cfile:   The cluster.csv file of a clustering method, e.g. $project/result/KNN_cluster_by_Accesson.csv
-    --cluster: The target cluster for differential markers analysis, can be 0, 1, 2, …, or a batch of 
+    --cluster: The target cluster for differential markers analysis, can be 0, 1, 2, …, or a batch of
                clusters like “0,2”.
     --vs:      vs which clusters users search differential markers for target cluster, e.g. “1,3”. default=all.
     --pvalue:  P-value threshold for differential markers, default=0.001.
     --fold:    Fold change cutoff of differential markers, default=2.
     --motif:   Whether to search differential motifs, default=no.
-    --gene:    Whether to search differential genes for, default=no.
+    --gene:    Whether to search differential genes, default=no.
 
 Output files:
 
@@ -255,9 +257,9 @@ In **result** folder, users can see three types of output files: “peaks_of_clu
 
 ### 4.2 Pseudo-time trajectory
 
-Example: 
+Example:
 
-    python generate_trajectory.py -s $project --npc 5 
+    python generate_trajectory.py -s $project --npc 5
                                   --cfile $project/data/cell_info.csv
 
 Input parameters:
@@ -274,10 +276,10 @@ This script can generate “monocle_reduced_dimension.csv” and “monocle_traj
 
 ### 4.3 Marker motif/gene plot
 
-Example: 
+Example:
 
-    python generate_markers_on_plots.py -s $project 
-                                        --cfile $project/result/TSNE_by_Accesson.csv 
+    python generate_markers_on_plots.py -s $project
+                                        --cfile $project/result/TSNE_by_Accesson.csv
                                         --type motif --name RELA
 
 Input parameters:
@@ -302,7 +304,7 @@ Depending on the type of marker (motif or gene) and diagram (tSNE or pseudo-time
 
 Example:
 
-    python generate_UCSCtrack.py -s $project --cfile $project/result/KNN_cluster_by_Accesson.csv 
+    python generate_UCSCtrack.py -s $project --cfile $project/result/KNN_cluster_by_Accesson.csv
                                  --gsize $APEC/reference/hg19.chrom.sizes
 
 Input parameters:
