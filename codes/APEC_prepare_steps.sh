@@ -2,7 +2,7 @@
 #
 #### input parameters defined by users #############################################
 #
-ARGS=`getopt -o hs:g:n:l:t:f: -l help,project:,genome:,np:,logq:,pfrag:,frag: -- "$@"`
+ARGS=`getopt -o hs:g:n:l:p:f: -l help,project:,genome:,np:,logq:,pfrag:,frag: -- "$@"`
 if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
 eval set -- "$ARGS"
 while true ; do

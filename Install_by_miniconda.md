@@ -21,6 +21,14 @@
 
 #### install python packages
 
+    conda install -n apec_env bowtie2
+    conda install -n apec_env samtools
+    conda install -n apec_env bedtools
+    conda install -n apec_env homer
+    conda install -n apec_env macs2
+    conda install -n apec_env meme=4.11.2
+    conda install -n apec_env ucsc-bedgraphtobigwig
+
     conda install -n apec_env numpy
     conda install -n apec_env scipy
     conda install -n apec_env pandas
@@ -36,14 +44,6 @@
     conda install -n apec_env python-Levenshtein
     
     conda install -n apec_env bioconductor-monocle
-
-    conda install -n apec_env bowtie2
-    conda install -n apec_env samtools
-    conda install -n apec_env bedtools
-    conda install -n apec_env homer
-    conda install -n apec_env macs2
-    conda install -n apec_env meme
-    conda install -n apec_env ucsc-bedgraphtobigwig
 
 #### activate apec_env
 

@@ -34,7 +34,7 @@ All of the following software needs to be placed in the global environment of th
     Bedtools: http://bedtools.readthedocs.io/en/latest/content/installation.html
     HOMER: http://homer.ucsd.edu/homer/download.html
     Macs2: https://github.com/taoliu/MACS.git
-    Meme: http://meme-suite.org/doc/download.html?man_type=web
+    Meme 4.11.2: http://meme-suite.org/doc/download.html?man_type=web
     bedGraphToBigWig: http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/
     
 **All above pacakges can be installed by miniconda, as described in "Install_by_miniconda.md".**
@@ -100,7 +100,7 @@ For each cell, the mapping step can generate a subfolder (with cell name) in the
 
     mergeAll.hist.pdf: A histogram of fragment length distribution of all cells.
     mergeAll.RefSeqTSS.pdf: Insert enrichment around TSS regions of all cells.
-    top_peaks.bed: Top peaks obtained by Q-value filtering.
+    top_peaks.bed: Filtered top peaks, ranked by Q-value.
     annotate_peak.bed: Annotation information of peaks.
     genes_scored_by_peaks.csv: Gene scores evaluated by TSS peaks.
 
@@ -179,8 +179,8 @@ Output files important to users:
 
 (2) In **figure** folder:
 
-    PCA_by_Accesson.pdf: PCA diagram of cells, colored by the “notes” column in $project/data/cell_info.csv file.
-    TSNE_by_Accesson.pdf: tSNE diagram of cells, colored by the “notes” column in $project/data/cell_info.csv file.
+    PCA_by_Accesson.pdf: PCA diagram of cells, colored by the “notes” column in $project/data/cell_info.csv.
+    TSNE_by_Accesson.pdf: tSNE diagram of cells, colored by the “notes” column in $project/data/cell_info.csv.
     KNN_cluster_by_Accesson.pdf: KNN clustering result of cells, plotted on tSNE map.
     cell_cell_correlation_by_Accesson.png: Hierarchical clustering heat map of cell-cell correlation matrix.
                                            Colors of sidebar are defined by the “notes” column in
