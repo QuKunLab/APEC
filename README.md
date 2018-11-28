@@ -8,6 +8,7 @@ APEC can perform fine cell type clustering on single cell chromatin accessibilit
 
 **If users want to process the raw fastq data from scATAC-seq experiment, please run APEC from section 2 “Fragment count matrix”. If users have their own fragment count matrix, where each element is the number of fragments per-cell-per-peak, please run APEC from section 3 “Clustering”.**
 
+
 ## 1. Requirements and installation
 
 ### 1.1	Requirements
@@ -41,7 +42,7 @@ All of the following software needs to be placed in the global environment of th
 
 ### 1.2	Installation
 
-Users simply completes the APEC installation by copying the APEC folder to any path on the computer (i.e. $APEC). There are two subfolders in APEC: a **codes** folder, which contains all APEC programs for data processing; a **reference** folder, which contains all necessary index and reference files for the hg19 and mm10 genomes. Users can only run APEC program directly in $APEC/codes/. The **reference** folder is required for APEC and should be placed in the same path ($APEC) with the **codes** folder. **But we didn't upload reference files to GitHub since they are too big. Users can download all reference files from http://galaxy.ustc.edu.cn:30803/APEC_reference/**. The **reference** folder should contains the following files:
+Users simply completes the APEC installation by copying the APEC folder to any path on the computer (i.e. $APEC). There are two subfolders in APEC: a **codes** folder, which contains all APEC programs for data processing; a **reference** folder, which contains all necessary index and reference files for the hg19 and mm10 genomes. Users can only run APEC program directly in $APEC/codes/. The **reference** folder is required for APEC and should be placed in the same path ($APEC) with the **codes** folder. **But we didn't upload reference files to GitHub since they are too big. Users can download all reference files from http://galaxy.ustc.edu.cn:30803/APEC/**. The **reference** folder should contains the following files:
 
     hg19_refseq_genes_TSS.txt, hg19_RefSeq_genes.gtf, hg19_blacklist.JDB.bed,
     hg19_chr.fa, hg19_chr.fa.fai, hg19.chrom.sizes,
