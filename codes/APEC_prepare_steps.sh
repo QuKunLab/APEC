@@ -21,7 +21,7 @@ bash APEC_prepare_steps.sh -s project -g genome_index -n nCPUs -l logq -t pfrag 
         -g|--genome) genome="$2" ; shift 2;;
         -n|--np) np="$2" ; shift 2;;    
         -l|--logq) logq="$2" ; shift 2;;
-        -t|--pfrag) pfrag="$2" ; shift 2;;
+        -p|--pfrag) pfrag="$2" ; shift 2;;
         -f|--frag) frag="$2" ; shift 2;;
         --) shift; break ;;
         *) echo "unknown parameter: {$1}" ; exit 1 ;;
