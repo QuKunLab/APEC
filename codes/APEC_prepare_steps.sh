@@ -9,7 +9,7 @@ while true ; do
     case "$1" in
         -h|--help)
            echo "
-bash APEC_prepare_steps.sh -s project -g genome_index -n nCPUs -l logq -t pfrag -f frag
+bash APEC_prepare_steps.sh -s project -g genome_index -n nCPUs -l logq -p pfrag -f frag
      -s/--project:  The project path, which should contain <data> folder before running APEC.
      -g/--genome:   hg19 or mm10.
      -n/--np:       Number of CPU cores.
