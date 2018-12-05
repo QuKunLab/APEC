@@ -32,7 +32,6 @@
     conda install -n apec_env numpy
     conda install -n apec_env scipy
     conda install -n apec_env pandas
-    conda install -n apec_env scikit-learny
     conda install -n apec_env -c auto multiprocessing
     conda install -n apec_env numba
     conda install -n apec_env pysam
@@ -42,6 +41,7 @@
     conda install -n apec_env networkx
     conda install -n apec_env python-louvain
     conda install -n apec_env python-Levenshtein
+    conda install -n apec_env scikit-learn
     
     conda install -n apec_env bioconductor-monocle
 

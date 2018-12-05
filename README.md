@@ -6,14 +6,14 @@
 
 APEC can perform fine cell type clustering on single cell chromatin accessibility data from scATAC-seq, snATAC-seq, sciATAC-seq or any other relevant experiment. It can also be used to control data quality, map fragment count matrices, search for important differential motifs/genes for each cell cluster, find super enhancers, and construct pseudo-time trajectory (by calling Monocle).
 
-**If users want to process the raw fastq data from scATAC-seq experiment, please run APEC from section 2 “Fragment count matrix”. If users have their own fragment count matrix, where each element is the number of fragments per-cell-per-peak, please run APEC from section 3 “Clustering”.**
+**If users want to process the raw fastq data from scATAC-seq experiment, please run APEC from section 2 “Fragment count matrix”. If users have their own fragment count matrix, where each element is the number of fragments per-cell-per-peak, please skip section 2 and run APEC from section 3 “Clustering”.**
 
 
 ## 1. Requirements and installation
 
 ### 1.1	Requirements
 
-APEC requires users to use Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well as Python (version 2.7.15+) and R (version 3.4+) environment. Users also need to install the latest version of the following packages:
+APEC requires users to use Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well as Python (version 2.7.15+) and R (version 3.4+) environment. Users also need to install the latest version of the following packages (**All these pacakges can be installed by miniconda, as described in "Install_by_miniconda.md"**):
 
 (1) Python packages and libraries:
 
@@ -37,8 +37,6 @@ All of the following software needs to be placed in the global environment of th
     Macs2: https://github.com/taoliu/MACS.git
     Meme 4.11.2: http://meme-suite.org/doc/download.html?man_type=web
     bedGraphToBigWig: http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/
-    
-**All above pacakges can be installed by miniconda, as described in "Install_by_miniconda.md".**
 
 ### 1.2	Installation
 
