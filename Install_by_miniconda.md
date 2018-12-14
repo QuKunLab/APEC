@@ -7,7 +7,7 @@
 
     bash Miniconda2-latest-Linux-x86_64.sh
 
-#### set channels
+#### set channels, add mirror channels if they are faster for you
 
     conda config --add channels conda-forge
     conda config --add channels defaults
