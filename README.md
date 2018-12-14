@@ -8,6 +8,8 @@ APEC can perform fine cell type clustering on single cell chromatin accessibilit
 
 **If users want to process the raw fastq data from scATAC-seq experiment, please run APEC from section 2 “Fragment count matrix”. If users have their own fragment count matrix, where each element is the number of fragments per-cell-per-peak, please skip section 2 and run APEC from section 3 “Clustering”.**
 
+For our example projects, most of APEC's results (including plots and dataframes) can be reproduced on a general computer system.
+
 
 ## 1. Requirements and installation
 
@@ -28,7 +30,7 @@ APEC requires users to use Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well 
 
 (3) Other necessory software:
 
-All of the following software needs to be placed in the global environment of the Linux system to ensure that they can be called in any path/folder. Picard is also required, but we have placed it into $APEC/reference folder, and users don't need to install it.
+All of the following software needs to be placed in the global environment of the Linux system to ensure that they can be called in any path/folder. Picard is also required, but we have placed it into $APEC/reference folder, and users don't need to install it. We recommend that users adopt the latest version of these software, except Meme (version 4.11.2).
 
     Bowtie2: https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.2.9/
     Samtools: https://github.com/samtools/samtools
@@ -40,7 +42,7 @@ All of the following software needs to be placed in the global environment of th
 
 ### 1.2	Installation
 
-Users simply completes the APEC installation by copying the APEC folder to any path on the computer (i.e. $APEC). There are two subfolders in APEC: a **codes** folder, which contains all APEC programs for data processing; a **reference** folder, which contains all necessary index and reference files for the hg19 and mm10 genomes. Users can only run APEC program directly in $APEC/codes/. The **reference** folder is required for APEC and should be placed in the same path ($APEC) with the **codes** folder. **But we didn't upload reference files to GitHub since they are too big. Users can download all reference files from http://galaxy.ustc.edu.cn:30803/APEC/**. The **reference** folder should contains the following files:
+Users simply completes the APEC installation by copying the APEC folder to any path on the computer (i.e. $APEC). There are two subfolders in APEC: a **codes** folder, which contains all APEC programs for data processing; a **reference** folder, which contains all necessary index and reference files for the hg19 and mm10 genomes. Users can only run APEC program directly in $APEC/codes/. The **reference** folder is required for APEC and should be placed in the same path ($APEC) with the **codes** folder. **But we didn't upload reference files to GitHub since they are too big. Users can download all reference files from http://galaxy.ustc.edu.cn:30803/APEC/**. If users have downloaded the **codes** and **reference** folders, the installation will take less than 1 minute. The **reference** folder should contains the following files:
 
     hg19_refseq_genes_TSS.txt, hg19_RefSeq_genes.gtf, hg19_blacklist.JDB.bed,
     hg19_chr.fa, hg19_chr.fa.fai, hg19.chrom.sizes,
@@ -65,7 +67,7 @@ The **work**, **matrix**, **peak**, **result** and **figure** folders will be au
 
 ### 2.2	Easy-run of matrix preparation
 
-Users can use the script ***APEC_prepare_steps.sh*** to finish the process from raw data to fragment count matrix.  This script includes steps of “trimming”, “mapping”, “peak calling”, “aligning read counts matrix”, “quality contral”, “estimating gene score”.
+Users can use the script ***APEC_prepare_steps.sh*** to finish the process from raw data to fragment count matrix.  This script includes steps of “trimming”, “mapping”, “peak calling”, “aligning read counts matrix”, “quality contral”, “estimating gene score”. Running this step on our example project (i.e. project01 with 672 cells) will take 8~10 hours on an 8-core 32 GB computer, since the sequence mapping step is the slowest step.
 
 Example:
 
@@ -82,7 +84,7 @@ Input parameters:
 
 Output files:
 
-The script ***APEC_prepare_steps.sh*** will generate **work**, **peak**, **matrix**, and **figure** folders with many output files. Here, we only introduce files that are useful to users.
+The script ***APEC_prepare_steps.sh*** will generate **work**, **peak**, **matrix**, and **figure** folders with many output files. Here, we only introduce files that are useful to users. For our example projects, all of these results can be reproduced on a general computer system.
 
 (1) In **data** folder:
 
@@ -156,7 +158,7 @@ Details about initial files:
 
 ### 3.2 Clustering based on accessons
 
-To clustering cells by accessons, users can run the script ***cluster_byAccesson.py*** on the fragment count matrix.
+To clustering cells by accessons, users can run the script ***cluster_byAccesson.py*** on the fragment count matrix. This step will take 5~10 minutes to run our example projects (project01 or project02) on one single core of CPU, and about 30 minutes for a project with ~3000 cells.
 
 Example:
 
@@ -189,7 +191,7 @@ Output files important to users:
 
 ### 3.3 Clustering based on motifs (same as chromVAR)
 
-The script ***cluster_byMotif.py*** provides a python version of motif-based cell clustering, with the same algorithm as chromVAR.
+The script ***cluster_byMotif.py*** provides a python version of motif-based cell clustering, with the same algorithm as chromVAR. This step will take 20~30 minutes to run our example projects (project01 or project02) on a 8-core CPU, and about 80 minutes for a project with ~3000 cells.
 
 Example:
 
