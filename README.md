@@ -15,7 +15,7 @@ For our example projects, most of APEC's results (including plots and dataframes
 
 ### 1.1	Requirements
 
-APEC requires users to use Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well as Python (version 2.7.15+) and R (version 3.4+) environment. Users also need to install the latest version of the following packages (**All these pacakges can be installed by miniconda, as described in "Install_by_miniconda.md"**):
+APEC requires users to use Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well as Python (version 2.7.15+), Java (version 1.8.0+) and R (version 3.4+) environment. Users also need to install the latest version of the following packages (**All these pacakges can be installed by miniconda, as described in "Install_by_miniconda.md"**):
 
 (1) Python packages and libraries:
 
