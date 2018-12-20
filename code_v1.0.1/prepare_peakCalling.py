@@ -93,7 +93,7 @@ else:
 
 print '!!!!!!  get top N peaks by q-value  !!!!!!'
 fold_rank = numpy.loadtxt(filtered_peak, 'str', delimiter='\t')
-fold_rank[:, 1] = numpy.array(map(int, fold_rank[:, 1])) - 250
+fold_rank[:, 1] = numpy.array(map(int, fold_rank[:, 1])) - 249  # 250
 fold_rank[:, 2] = numpy.array(map(int, fold_rank[:, 2])) + 250
 toppeaks = peak_folder + 'temp01.bed'
 top_peaks = peak_folder + 'top_peaks.bed'
