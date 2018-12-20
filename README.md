@@ -150,7 +150,7 @@ Details about initial files:
     filtered_reads.csv: Fragment count matrix, where each row is a cell and each column represents peak.
                         The name of cells should be same with “cell_info.csv”, and the order of peaks
                         should be same with “top_peaks.bed”. All numbers are separated by commas, for example:
-				,peak1,peak2,peak3,peak4,peak5,peak6
+				,peak0,peak1,peak2,peak3,peak4,peak5
 			        CD4-001,1,0,2,0,0,1
 			        CD4-002,0,1,0,0,2,0
 			        CD8-001,0,0,0,1,1,0
