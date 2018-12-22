@@ -67,7 +67,7 @@ The **work**, **matrix**, **peak**, **result** and **figure** folders will be au
 
 ### 2.2	Easy-run of matrix preparation
 
-Users can use the script ***APEC_prepare_steps.sh*** to finish the process from raw data to fragment count matrix.  This script includes steps of “trimming”, “mapping”, “peak calling”, “aligning read counts matrix”, “quality contral”, “estimating gene score”. Running this step on our example project (i.e. project01 with 672 cells) will take 8~10 hours on an 8-core 32 GB computer, since the sequence mapping step is the slowest step.
+Users can use the script ***APEC_prepare_steps.sh*** to finish the process from raw data to fragment count matrix.  This script includes steps of “trimming”, “mapping”, “peak calling”, “aligning read counts matrix”, “quality contral”, “estimating gene score”. Running this step on our example project (i.e. project01 with 672 cells) will take 10~20 hours on an 8-core 32 GB computer, since the sequence mapping step is the slowest step.
 
 Example:
 
@@ -121,7 +121,7 @@ For each cell, the mapping step can generate a subfolder (with cell name) in the
 
 **Skip this step** if users have run ***APEC_prepare_steps.sh*** in Section 2 “Fragment count matrix” and generated fragment count matrix from the raw scATAC-seq data.
 
-If users have their own fragment count matrix, please build **data**, **matrix**, **peak**, and **figure** folders in $project path, and place “cell_info.csv” file in **data** folder, “top_peaks.bed” in **peak** folder, “filtered_reads.csv” in **matrix** folder. Then users need to run script ***prepare_premappedMatrix.py*** before clustering and further analysis.
+If users have their own fragment count matrix, please build **data**, **matrix**, **peak**, and **figure** folders in $project path, and place “cell_info.csv” file in **data** folder, “top_peaks.bed” in **peak** folder, “filtered_reads.csv” in **matrix** folder. Then users need to run script ***prepare_premappedMatrix.py*** before clustering and further analysis. This step will take about 30~60 minutes to run our example project (i.e. project02) on an 8-core 32 GB computer.
 
 Example:
 
@@ -158,7 +158,7 @@ Details about initial files:
 
 ### 3.2 Clustering based on accessons
 
-To clustering cells by accessons, users can run the script ***cluster_byAccesson.py*** on the fragment count matrix. This step will take 5~10 minutes to run our example projects (project01 or project02) on one single core of CPU, and about 30 minutes for a project with ~3000 cells.
+To clustering cells by accessons, users can run the script ***cluster_byAccesson.py*** on the fragment count matrix. This step will take 10~20 minutes to run our example projects (project01 or project02) on one single core of CPU, and about 30 minutes for a project with ~3000 cells.
 
 Example:
 
@@ -191,7 +191,7 @@ Output files important to users:
 
 ### 3.3 Clustering based on motifs (same as chromVAR)
 
-The script ***cluster_byMotif.py*** provides a python version of motif-based cell clustering, with the same algorithm as chromVAR. This step will take 20~30 minutes to run our example projects (project01 or project02) on a 8-core CPU, and about 80 minutes for a project with ~3000 cells.
+The script ***cluster_byMotif.py*** provides a python version of motif-based cell clustering, with the same algorithm as chromVAR. This step will take 30~60 minutes to run our example projects (project01 or project02) on a 8-core CPU, and about 100 minutes for a project with ~3000 cells.
 
 Example:
 
