@@ -35,14 +35,14 @@ All of the following software needs to be placed in the global environment of th
     Bowtie2: https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.2.9/
     Samtools: https://github.com/samtools/samtools
     Bedtools: http://bedtools.readthedocs.io/en/latest/content/installation.html
-    HOMER: http://homer.ucsd.edu/homer/download.html
+    HOMER: http://homer.ucsd.edu/homer/download.html  (HOMER is not required for code_v1.0.1)
     Macs2: https://github.com/taoliu/MACS.git
     Meme 4.11.2: http://meme-suite.org/doc/download.html?man_type=web
     bedGraphToBigWig: http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/
 
 ### 1.2	Installation
 
-Users simply completes the APEC installation by copying the APEC folder to any path on the computer (i.e. $APEC). There are two subfolders in APEC: a **code** folder, which contains all APEC programs for data processing; a **reference** folder, which contains all necessary index and reference files for the hg19 and mm10 genomes. Users can **only** run APEC program directly in $APEC/code/. The **reference** folder is required for APEC and should be placed in the same path ($APEC) with the **code** folder. **But we didn't upload reference files to GitHub since they are too big. Users can download all reference files from http://galaxy.ustc.edu.cn:30803/APEC/**. If users have downloaded the **code** and **reference** folders, the installation will take less than 1 minute. The **reference** folder should contains the following files:
+Users simply completes the APEC installation by copying the APEC folder to any path on the computer (i.e. $APEC). There are two subfolders in APEC: a **code** folder, which contains all APEC programs for data processing; a **reference** folder, which contains all necessary index and reference files for the hg19 and mm10 genomes. Users **must** run APEC program directly in $APEC/code/, since each program will invoke the reference files automatically. The **reference** folder is required for APEC and should be placed in the same path ($APEC) with the **code** folder. **But we didn't upload reference files to GitHub since they are too big. Users can download all reference files from http://galaxy.ustc.edu.cn:30803/APEC/**. If users have downloaded the **code** and **reference** folders, the installation will take less than 1 minute by moving them to the same path (i.e. $APEC). The **reference** folder should contains the following files:
 
     hg19_refseq_genes_TSS.txt, hg19_RefSeq_genes.gtf, hg19_blacklist.JDB.bed,
     hg19_chr.fa, hg19_chr.fa.fai, hg19.chrom.sizes,

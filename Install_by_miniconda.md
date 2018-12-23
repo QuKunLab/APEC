@@ -24,7 +24,7 @@
     conda install -n apec_env bowtie2
     conda install -n apec_env samtools
     conda install -n apec_env bedtools
-    conda install -n apec_env homer
+    conda install -n apec_env homer  (not required for code_v1.0.1)
     conda install -n apec_env macs2
     conda install -n apec_env meme=4.11.2
     conda install -n apec_env ucsc-bedgraphtobigwig
@@ -49,7 +49,7 @@
 
     source activate apec_env
 
-#### download Homer packages
+#### download Homer packages (not required for code_v1.0.1)
 
     perl ~/miniconda2/envs/apec_env/share/homer-X.X.X/configureHomer.pl -install hg19
     perl ~/miniconda2/envs/apec_env/share/homer-X.X.X/configureHomer.pl -install mm10
