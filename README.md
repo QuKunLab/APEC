@@ -158,7 +158,7 @@ Details about initial files:
 
 ### 3.2 Clustering based on accessons
 
-To clustering cells by accessons, users can run the script ***cluster_byAccesson.py*** on the fragment count matrix. This step will take 10~20 minutes to run our example projects (project01 or project02) on one single core of CPU, and about 30 minutes for a project with ~3000 cells.
+To clustering cells by accessons, users can run the script ***cluster_byAccesson.py*** on the fragment count matrix. This step will take 10~20 minutes to run our example projects (project01 or project02) on one single core of CPU if users run KNN clustering only. Hierarchical clustering will be expensive for project with more than 3000 cells.
 
 Example:
 
@@ -169,6 +169,8 @@ Input parameters:
     -s:      The project path that contains data, work, matrix, peak, result and figure folders.
     --nc:    Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm.
     --space: Transfromed space used for clustering, can be “pca” or “tsne”.
+    --hc:    Run hierarchical clustering or not, would be very slow for more than 3000 cells. 
+             If hc=no, only KNN clustering will be applied. default=yes.
 
 Output files important to users:
 
@@ -191,7 +193,7 @@ Output files important to users:
 
 ### 3.3 Clustering based on motifs (same as chromVAR)
 
-The script ***cluster_byMotif.py*** provides a python version of motif-based cell clustering, with the same algorithm as chromVAR. This step will take 30~60 minutes to run our example projects (project01 or project02) on a 8-core CPU, and about 100 minutes for a project with ~3000 cells.
+The script ***cluster_byMotif.py*** provides a python version of motif-based cell clustering, with the same algorithm as chromVAR. This step will take 60~120 minutes to run our example projects (project01 or project02) on a 8-core CPU.
 
 Example:
 
@@ -205,6 +207,8 @@ Input parameters:
     --np:    Number of CPU cores.
     --nc:    Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm.
     --space: Transfromed space used for clustering, can be “pca” or “tsne”.
+    --hc:    Run hierarchical clustering or not, would be very slow for more than 3000 cells. 
+             If hc=no, only KNN clustering will be applied. default=yes.
 
 Output files description:
 
