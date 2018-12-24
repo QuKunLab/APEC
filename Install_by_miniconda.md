@@ -47,7 +47,7 @@
 
 #### activate apec_env
 
-    source activate apec_env
+    conda activate apec_env
 
 #### download Homer packages (not required for code_v1.0.1)
 

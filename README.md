@@ -20,9 +20,11 @@ APEC requires users to use Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well 
 (1) Python packages and libraries:
 
     numpy, scipy, pandas, scikit-learn, multiprocessing, numba, pysam, matplotlib, 
-    seaborn, setuptools, networkx, python-louvain, python-Levenshtein
+    seaborn, setuptools, networkx, python-louvain, python-Levenshtein.
 
-    all upon python packages can be installed by: pip install package_name
+    All upon python packages can be installed by: pip install package_name
+
+Note: The tSNE results produced by scikit-learn 0.19.1 and 0.20.0 will be slightly different. Please switch to scikit-learn 0.19.1 if you want to repeat the tSNE plots of our example projects.
 
 (2) R packages and libraries:
 
