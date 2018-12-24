@@ -8,7 +8,7 @@ APEC can perform fine cell type clustering on single cell chromatin accessibilit
 
 **If users want to process the raw fastq data from scATAC-seq experiment, please run APEC from section 2 “Fragment count matrix”. If users have their own fragment count matrix, where each element is the number of fragments per-cell-per-peak, please skip section 2 and run APEC from section 3 “Clustering”.**
 
-For our example projects, most of APEC's results (including plots and dataframes) can be reproduced on a general computer system.
+For our example projects, most of APEC's results (including plots and dataframes) can be reproduced on a general computer system. For each APEC program, users can add the '-h' parameter to display an introduction to the input parameters.
 
 
 ## 1. Requirements and installation
