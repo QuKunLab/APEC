@@ -23,6 +23,7 @@
 
     conda install -n apec_env bowtie2
     conda install -n apec_env samtools
+    conda install -n apec_env -c conda-forge ncurses (fix conda install problem for samtools, or install samtools independently)
     conda install -n apec_env bedtools
     conda install -n apec_env homer  (not required for code_v1.0.1)
     conda install -n apec_env macs2
