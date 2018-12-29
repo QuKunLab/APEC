@@ -48,9 +48,9 @@ frag=$frag
 #
 #### processes to prepare raw data ###########
 #
-#python prepare_trimming.py -s $project --np $np
+python prepare_trimming.py -s $project --np $np
 #
-#python prepare_mapping.py -s $project --index $index --picard $picard --tss $tss --np $np
+python prepare_mapping.py -s $project --index $index --picard $picard --tss $tss --np $np
 #
 python prepare_peakCalling.py -s $project --blist $blist --fa $fa --tss $tss --ref $ref --logq $logq
 #
