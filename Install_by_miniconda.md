@@ -46,9 +46,9 @@
     
     conda install -n apec_env bioconductor-monocle (not recommended, please install R and Monocle independently)
 
-Note: We found some problems for the R enviroment installed by conda, so we recommend that users do not use conda to install the R environment and Monocle.
+**Note**: We found some problems for the R enviroment installed by conda, so we recommend that users do not use conda to install the R environment and Monocle.
 
-Note: We also found some problems when installing non-python software via conda, so we recommend that users do not use conda to install bowtie2, samtools, bedtools, macs2, meme (4.11.2) and bedgraghtobigwig.
+**Note**: We also found some problems when installing non-python software via conda, so we recommend that users do not use conda to install bowtie2, samtools, bedtools, macs2, meme (4.11.2) and bedgraghtobigwig.
 
 #### activate apec_env
 
