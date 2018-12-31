@@ -117,7 +117,7 @@ For each cell, the mapping step can generate a subfolder (with cell name) in the
 
     cell_quality.pdf: A scatter plot of the fragment number and the percentage of fragments in peaks.
 
-![image](images/cell_quality.jpg)
+![image](images/cell_quality.jpg =100x)
 _Figure 1. cell_quality.pdf in **figure** folder_
 
 ## 3.	Clustering
