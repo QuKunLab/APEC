@@ -7,13 +7,12 @@
 
     bash Miniconda2-latest-Linux-x86_64.sh
 
-#### set channels, add mirror channels if they are faster for you
+#### set channels, all channels must be arranged in the following order
 
-    conda config --add channels conda-forge
-    conda config --add channels defaults
-    conda config --add channels r
     conda config --add channels bioconda
-
+    conda config --add channels r
+    conda config --add channels defaults
+    conda config --add channels conda-forge
 
 #### set a new environment for APEC, i.e. apec_env
 
@@ -23,7 +22,6 @@
 
     conda install -n apec_env bowtie2
     conda install -n apec_env samtools
-    conda install -n apec_env -c conda-forge ncurses (fix conda install problem for samtools)
     conda install -n apec_env bedtools
     conda install -n apec_env homer  (not required for code_v1.0.1)
     conda install -n apec_env macs2
@@ -48,7 +46,7 @@
 
 **Note**: We found some problems for the R enviroment installed by conda, so we recommend that users do not use conda to install the R environment and Monocle.
 
-**Note**: We also found some problems when installing non-python software via conda, so we recommend that users do not use conda to install bowtie2, samtools, bedtools, macs2, meme (4.11.2) and bedgraghtobigwig.
+**Note**: We also found some problems when installing non-python software via conda/bioconda, so we recommend that users do not use conda/bioconda to install bowtie2, samtools, bedtools, macs2, meme (4.11.2) and bedgraghtobigwig.
 
 #### activate apec_env
 
