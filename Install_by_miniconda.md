@@ -40,7 +40,7 @@
     conda install -n apec_env networkx
     conda install -n apec_env python-louvain
     conda install -n apec_env python-Levenshtein
-    conda install -n apec_env scikit-learn
+    conda install -n apec_env scikit-learn=0.19.1
     
     conda install -n apec_env bioconductor-monocle (not recommended, please install R and Monocle independently)
 
