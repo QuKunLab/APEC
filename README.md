@@ -117,7 +117,7 @@ For each cell, the mapping step can generate a subfolder (with cell name) in the
 
     cell_quality.pdf: A scatter plot of the fragment number and the percentage of fragments in peaks.
 
-![image](https://github.com/QuKunLab/APEC/images/cell_quality.jpg)
+![image](https://github.com/QuKunLab/APEC/tree/master/images/cell_quality.jpg)
 _Figure 1. cell_quality.pdf in **figure** folder_
 
 ## 3.	Clustering
