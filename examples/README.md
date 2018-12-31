@@ -4,6 +4,33 @@ http://galaxy.ustc.edu.cn:30803/APEC/
 
 (1)**project01** is an example of running APEC from the raw fastq files. Users only need to copy the raw fastq files in **data** folder to start the analysis. This project contains single cell samples of human's leukemic stem cells, leukemic blast cells, LMPP, monocytes and HL60 cells, from "Schep, A.N., Wu, B., Buenrostro, J.D. & Greenleaf, W.J. chromVAR: inferring transcription-factor-associated accessibility from single-cell epigenomic data. Nat Methods 14, 975-978 (2017)".
 
+How to run:
+
+    #### get fragment count matrix from raw fastq files, take 10~20 hours on 8-core/32GB computer ####
+    
+    bash APEC_prepare_steps.sh -s $project01 -g hg19 -n 10 -l 8 -p 0.05 -f 800
+    
+    #### cluster cells by APEC algorithm, take <5 minutes on one CPU-core of computer ####
+    
+    python cluster_byAccesson.py -s $project01
+    
+    #### cluster cells by chromVAR algorithm, take 30 minutes on 8-core computer ####
+    
+    python cluster_byMotif.py -s $project01 --np 8
+
 (2)**project02** is an example of running APEC from the user's own fragment count matrix. Users need to copy "cell_info.csv" in **data** folder, "filtered_reads.csv" in **matrix** folder, and "filtered_reads.csv" in **peak** folder to start the clustering. This project contains single cell samples from the forebrain of adult mice, from "Preissl, S. et al. Single-nucleus analysis of accessible chromatin in developing mouse forebrain reveals cell-type-specific transcriptional regulation. Nat Neurosci 21, 432-439 (2018)".
 
+How to run:
+
+    #### prepare dataset from user's own fragment count matrix ####
+
+    python prepare_premappedMatrix.py -s $project02/ --ref mm10 --fa ../reference/mm10_chr.fa --np 8
+
+    #### cluster cells by APEC algorithm, take <10 minutes on one CPU-core of computer ####
+    
+    python cluster_byAccesson.py -s $project02 --nc 10
+    
+    #### cluster cells by chromVAR algorithm, take 50 minutes on 8-core computer ####
+    
+    python cluster_byMotif.py -s $project02 --np 8 --nc 10
 
