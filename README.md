@@ -197,9 +197,9 @@ Output files important to users:
     HC_KNN_compare_by_Accesson.png: Hierarchical clustering heat map of cell-cell correlation matrix.
                                     Colors of sidebar are defined by KNN clustering result.
 
-<img src="images/TSNE_by_Accesson.jpg" width="500">
+<img src="images/TSNE_by_Accesson.jpg" width="500"> <img src="images/cell_cell_correlation_by_Accesson.png" width="500">
 
-_Figure 2. TSNE_by_Accesson.pdf in **figure** folder_
+_Figure 2. TSNE_by_Accesson.pdf and cell_cell_correlation_by_Accesson.png in **figure** folder_
 
 ### 3.3 Clustering based on motifs (same as chromVAR)
 
