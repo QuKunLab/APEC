@@ -39,7 +39,7 @@ How to run:
 
     #### prepare dataset from user's own fragment count matrix ####
 
-    python prepare_premappedMatrix.py -s $project02/ --ref mm10 --fa ../reference/mm10_chr.fa --np 8
+    python prepare_premappedMatrix.py -s $project02 --ref mm10 --fa ../reference/mm10_chr.fa --np 8
 
     #### cluster cells by APEC algorithm, take <10 minutes on one CPU-core of computer ####
     
