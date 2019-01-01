@@ -26,7 +26,7 @@ How to run:
     #### plot enrichment of motif RUNX1 on tSNE diagram ####
     
     python generate_markers_on_plots.py -s $project01 --cfile $project01/result/TSNE_by_Accesson.csv \
-                                        --type motif --name RELA
+                                        --type motif --name RUNX1
     
     #### search for potential super enhancer ####
     
