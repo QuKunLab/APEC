@@ -14,21 +14,21 @@ How to run:
     
     python cluster_byAccesson.py -s $project01
     
-    #### cluster cells by chromVAR algorithm, take 30 minutes on 8-core computer ####
+    #### cluster cells by chromVAR algorithm, take ~30 minutes on 8-core computer ####
     
     python cluster_byMotif.py -s $project01 --np 8
     
-    #### get differential peaks/genes/motifs for cell cluster 1 ####
+    #### get differential peaks/genes/motifs for cell cluster 1, take several minutes ####
     
     python generate_differential_markers.py -s $project01 --cfile $project01/result/KNN_cluster_by_Accesson.csv \
                                             --cluster 1 --vs all --motif yes --gene yes
     
-    #### plot enrichment of motif RUNX1 on tSNE diagram ####
+    #### plot enrichment of motif RUNX1 on tSNE diagram, take several minutes ####
     
     python generate_markers_on_plots.py -s $project01 --cfile $project01/result/TSNE_by_Accesson.csv \
                                         --type motif --name RUNX1
     
-    #### search for potential super enhancer ####
+    #### search for potential super enhancer, take several minutes ####
     
     python generate_superEnhancer.py -s $project01
 
@@ -37,15 +37,15 @@ How to run:
 
 How to run:
 
-    #### prepare dataset from user's own fragment count matrix ####
+    #### prepare dataset from user's own fragment count matrix，take 1~2 hours on on 8-core/32GB computer ####
 
     python prepare_premappedMatrix.py -s $project02 --ref mm10 --fa ../reference/mm10_chr.fa --np 8
 
-    #### cluster cells by APEC algorithm, take <10 minutes on one CPU-core of computer ####
+    #### cluster cells by APEC algorithm, take ~40 minutes on one CPU-core of computer ####
     
-    python cluster_byAccesson.py -s $project02 --nc 10
+    python cluster_byAccesson.py -s $project02 --nc 10 --hc no
     
-    #### cluster cells by chromVAR algorithm, take 50 minutes on 8-core computer ####
+    #### cluster cells by chromVAR algorithm, take ~2 hours on 8-core computer ####
     
-    python cluster_byMotif.py -s $project02 --np 8 --nc 10
+    python cluster_byMotif.py -s $project02 --np 8 --nc 10 --hc no
 
