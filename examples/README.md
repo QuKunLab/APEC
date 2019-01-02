@@ -45,7 +45,7 @@ How to run:
     
     python cluster_byAccesson.py -s $project02 --nc 10 --hc no
     
-    #### cluster cells by chromVAR algorithm, take ~2 hours on 8-core computer ####
+    #### cluster cells by chromVAR algorithm, take ~8 hours on 8-core computer ####
     
     python cluster_byMotif.py -s $project02 --np 8 --nc 10 --hc no
 

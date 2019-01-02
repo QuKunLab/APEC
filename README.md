@@ -32,7 +32,7 @@ Note: The tSNE results produced by scikit-learn 0.19.1 and 0.20.0 will be slight
 
 (3) Other necessory software:
 
-All of the following software needs to be placed in the global environment of the Linux system to ensure that they can be called in any path/folder. Picard is also required, but we have placed it into $APEC/reference folder, and users don't need to install it. We recommend that users adopt the latest version of these software, except Meme (version 4.11.2).
+All of the following software needs to be placed in the global environment of the Linux system to ensure that they can be called in any path/folder. Picard is also required, but we have placed it into $APEC/reference folder, and users don't need to install it. We recommend that users adopt the latest version of these software, except Meme (version 4.11.2). If users have their own fragment count matrix and only want to run APEC from section 3 "Clustering", then Bowtie2 and Macs2 are not required. 
 
     Bowtie2: https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.2.9/
     Samtools: https://github.com/samtools/samtools
@@ -322,6 +322,8 @@ Depending on the type of marker (motif or gene) and diagram (tSNE or pseudo-time
     gene_XXX_on_monocle_reduced_dimension.pdf
 
 ### 4.4 UCSC track
+
+The program "generate_UCSCtrack.py" is not available if users have their own fragment count matrix and run APEC from section 3 "Clustering".
 
 Example:
 
