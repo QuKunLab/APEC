@@ -55,8 +55,8 @@ with open(options.s+'/matrix/filtered_cells.txt', 'w') as output:
         if (cell_info[0]>lib_size_thresh) & (cell_info[1]>frag_thresh):
             print >> output, ic, cell 
 #
-drop_peaks = [peak for peak in reads_df.columns.values if len(numpy.where(reads_df[peak].values>0)[0])<3]
-reads_df = reads_df.drop(drop_peaks, axis=1)
+#drop_peaks = [peak for peak in reads_df.columns.values if len(numpy.where(reads_df[peak].values>0)[0])<3]
+#reads_df = reads_df.drop(drop_peaks, axis=1)
 motif_df = pandas.read_csv(options.s+'/matrix/motif_TF.csv', sep=',', index_col=0)
 motif_df = motif_df.loc[reads_df.columns.values]
 peak_num = [int(x[4:]) for x in reads_df.columns.values]
