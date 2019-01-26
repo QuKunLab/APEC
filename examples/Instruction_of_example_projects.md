@@ -49,3 +49,23 @@ How to run:
     
     python cluster_byMotif.py -s $project02 --np 8 --nc 10 --hc no
 
+
+(3) **project03** contains single cell samples of hematopoietic stem cell differentiation (including HSC, MPP, CMP, GMP, MEP, LMPP, CLP, and pDC cells), from "Buenrostro, J.D. et al. Integrated Single-Cell Analysis Maps the Continuous Regulatory Landscape of Human Hematopoietic Differentiation. Cell 173, 1535-1548 e1516 (2018)".
+
+How to run:
+
+    #### 1. Cell clustering by APEC algorithm. It takes ~10 minutes.
+    
+    python cluster_byAccesson.py -s $project03
+
+    #### 2. Generate pseudo-time trajectory by monocle. It takes ~4 minutes.
+
+    python generate_trajectory.py -s $project03 --cfile $project03/data/cell_info.csv --npc 5 --angle 34,-137
+
+    #### 3. Plot motifs on trajectory. It takes ~1 minute for each motif.
+
+    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv --type motif --name Hoxa9 --angle 34,-137 --sharp -6,9
+    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv --type motif --name GATA1 --angle 34,-137 --sharp -10,10
+    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv --type motif --name CEBPB --angle 34,-137 --sharp -10,10
+    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv --type motif --name TCF4 --angle 34,-137 --sharp -5,10
+
