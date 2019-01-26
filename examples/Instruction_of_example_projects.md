@@ -60,12 +60,12 @@ How to run:
 
     #### 2. Generate pseudo-time trajectory by monocle. It takes ~4 minutes.
 
-    python generate_trajectory.py -s $project03 --cfile $project03/data/cell_info.csv --npc 5 --angle 34,-137
+    python generate_trajectory.py -s $project03 --cfile $project03/data/cell_info.csv --npc 5
 
     #### 3. Plot motifs on trajectory. It takes ~1 minute for each motif.
 
-    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv --type motif --name Hoxa9 --angle 34,-137 --sharp -6,9
-    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv --type motif --name GATA1 --angle 34,-137 --sharp -10,10
-    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv --type motif --name CEBPB --angle 34,-137 --sharp -10,10
-    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv --type motif --name TCF4 --angle 34,-137 --sharp -5,10
+    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv --type motif --name Hoxa9 --sharp -6,9
+    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv --type motif --name GATA1 --sharp -10,10
+    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv --type motif --name CEBPB --sharp -10,10
+    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv --type motif --name TCF4 --sharp -5,10
 
