@@ -42,7 +42,7 @@
     conda install -n apec_env python-Levenshtein
     conda install -n apec_env scikit-learn=0.19.1
     
-    conda install -n apec_env bioconductor-monocle (not recommended, please install R and Monocle independently)
+    conda install -n apec_env bioconductor-monocle=2.4.0 (not recommended, please install R and Monocle independently)
 
 **Note**: We found some problems for the R enviroment installed by conda, so we recommend that users do not use conda to install the R environment and Monocle.
 

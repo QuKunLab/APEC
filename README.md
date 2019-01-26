@@ -28,7 +28,7 @@ Note: The tSNE results produced by scikit-learn 0.19.1 and 0.20.0 will be slight
 
 (2) R packages and libraries:
 
-    Monocle: http://cole-trapnell-lab.github.io/monocle-release/
+    Monocle 2.4.0: http://cole-trapnell-lab.github.io/monocle-release/
 
 (3) Other necessory software:
 
