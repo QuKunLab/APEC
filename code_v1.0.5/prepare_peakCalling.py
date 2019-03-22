@@ -106,28 +106,10 @@ print '!!!!!!  get top peaks done  !!!!!!'
 print
 #
 #
-#print '!!!!!!  annotate peaks  !!!!!!'
-#annotate_output = peak_folder + 'annotate_output.bed'
-#annotate_peak = peak_folder + 'annotate_peak.bed'
-#os.popen("annotatePeaks.pl " + toppeaks + " " + options.ref + " -size given > " + annotate_output)
-#temp01_file = peak_folder + 'temp01.bed'
-#with open(annotate_output) as annotate_file, open(temp01_file, 'w') as temp01:
-#    for i, line in enumerate(annotate_file):
-#        if i>0:
-#            words = line.split('\t')
-#            words = ['NA' if x=='' else x for x in words]
-#            leave = words[1:7] + words[9:13] + [words[15]]
-#            print >> temp01, '\t'.join(leave)
-#os.popen('bedtools sort -i ' + temp01_file + ' > ' + annotate_peak)
-#print '!!!!!!  annotate done  !!!!!!'
-#print
-#
-#
 print '!!!!!!  get transposase bias by GC content  !!!!!!'
 trans_bias = peak_folder + 'transposase_bias.bed'
 temp02_file = peak_folder + 'temp02.bed'
 temp03_file = peak_folder + 'temp03.bed'
-#with open(annotate_peak) as annotate_file, open(temp02_file, 'w') as temp02:
 with open(top_peaks) as annotate_file, open(temp02_file, 'w') as temp02:
     for i, line in enumerate(annotate_file):
         words = line.split('\t')

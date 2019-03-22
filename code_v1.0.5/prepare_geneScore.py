@@ -6,6 +6,8 @@ import numpy
 import pandas
 import sys
 from optparse import OptionParser
+import time
+import numba
 #
 #
 opts = OptionParser()
@@ -46,10 +48,8 @@ def get_tss_region(options):
 #
 #
 def get_tss_peaks(options):
-#    peaks = [[x.split()[0], (int(x.split()[1])+int(x.split()[2]))/2]
-#             for x in open(options.s+'/peak/annotate_peak.bed').readlines()]
     peaks = [[x.split()[0], (int(x.split()[1])+int(x.split()[2]))/2]
-             for x in open(options.s+'/peak/top_peaks.bed').readlines()]
+             for x in open(options.s+'/peak/top_filtered_peaks.bed').readlines()]
     peaks_df = pandas.DataFrame(peaks, index=['peak'+str(x) for x in xrange(len(peaks))], 
                                 columns=['chrom', 'center'])
     tss_df = pandas.read_csv(options.s+'/peak/genes_tss_region.csv', sep='\t', index_col=0)
@@ -99,8 +99,12 @@ def get_score_from_peaks(options):
     return
 #
 #
+t1 = time.time()
 get_tss_region(options)
+#print time.time()-t1
 get_tss_peaks(options)
+#print time.time()-t1
 get_score_from_peaks(options)
+print time.time()-t1
 #
 #

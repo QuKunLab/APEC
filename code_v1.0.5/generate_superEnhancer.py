@@ -21,7 +21,7 @@ options, arguments = opts.parse_args()
 def search_supper(options):
     supper_range = 1e6
 #    peaks = numpy.array([x.split()[:3] for x in open(options.s+'/peak/annotate_peak.bed').readlines()])
-    peaks = numpy.array([x.split()[:3] for x in open(options.s+'/peak/top_peaks.bed').readlines()])
+    peaks = numpy.array([x.split()[:3] for x in open(options.s+'/peak/top_filtered_peaks.bed').readlines()])
     chroms = list(set(peaks[:, 0]))
     chroms.sort()
     accesson_df = pandas.DataFrame.from_csv(options.s+'/matrix/Accesson_peaks.csv', sep='\t')
@@ -59,10 +59,6 @@ def search_supper(options):
                             suppers.append(ss)
                             locate.append(access)
                             base.append(chrom+':'+str(start)+'-'+str(end))
-#                if (len(supper_peaks)>0):
-#                    index = [i for i,x in enumerate(supper) if len(x)>=3]
-#                    suppers.extend(supper_peaks[index])
-#                    locate.extend(len(index)*[access])
         all_suppers.extend(suppers)
         all_locate.extend(locate)
         all_base.extend(base)

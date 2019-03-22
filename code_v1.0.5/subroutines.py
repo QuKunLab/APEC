@@ -24,7 +24,13 @@ import numba
 global colors
 colors = numpy.array(['pink', 'red', '#377eb8', 'green', 'skyblue', 'lightgreen', 'gold',
                       '#ff7f00', '#000066', '#ff3399', '#a65628', '#984ea3', '#999999',
-                      '#e41a1c', '#dede00', 'b', 'g', 'r', 'c', 'm', 'y', 'k'])
+                      '#e41a1c', '#dede00', 'b', 'g', 'r', 'c', 'm', 'y', 'k',
+                      '#ADFF2F', '#7CFC00', '#32CD32', '#90EE90', '#00FF7F', '#3CB371',
+                      '#008000', '#006400', '#9ACD32', '#6B8E23', '#556B2F', '#66CDAA',
+                      '#8FBC8F', '#008080', '#DEB887', '#BC8F8F', '#F4A460', '#B8860B',
+                      '#CD853F', '#D2691E', '#8B4513', '#A52A2A', '#778899', '#2F4F4F',
+                      '#FFA500', '#FF4500', '#DA70D6', '#FF00FF', '#BA55D3', '#9400D3',
+                      '#8B008B', '#9370DB', '#663399', '#4B0082'])
 #
 @numba.jit()
 def counts_per_peak(bam_file, peak_bed, out_file):
@@ -230,12 +236,11 @@ def QC_table(cell_info_file, work_folder, out_folder):
 #
 #
 #
-def predict_cluster(reads_df):
-    connect = kneighbors_graph(reads_df, 20, include_self=False)
-    connectivity = 0.5*(connect + connect.T).todense()
+def predict_cluster(reads_df, connectivity):
     graph = networkx.from_numpy_matrix(connectivity)
     partition = community.best_partition(graph)
-    return len(list(set(partition.values())))
+    louvain_cluster = pandas.DataFrame(partition.values(), index=reads_df.index, columns=['cluster'])
+    return len(list(set(partition.values()))), louvain_cluster
 #
 #
 #
@@ -256,60 +261,35 @@ def hierarchy_cluster(options, matrix_df, n_clust, outfig0, outcsv0):
     plt.setp(fig0.ax_heatmap.yaxis.get_majorticklabels(), rotation=0)
     plt.setp(fig0.ax_heatmap.xaxis.get_majorticklabels(), rotation=90)
     fig0.savefig(options.s + '/figure/' + outfig0, bbox_inches='tight')
-    z_linkage = scipy.cluster.hierarchy.linkage(matrix_df, method='ward', metric='euclidean')
-    f_cluster = scipy.cluster.hierarchy.fcluster(z_linkage, n_clust, criterion='maxclust')
-    clust_df = pandas.DataFrame(f_cluster, index=matrix_df.index.values, columns=['cluster'])
-    clust_df.to_csv(options.s+'/result/'+outcsv0, sep='\t')
     return
 #
 #
 #
 #
-def PCA_tSNE(options, matrix_df, outfig1, outfig2):
+def plot_tSNE(options, matrix_df, tsne_result, outfig2):
     cellinfo_df = pandas.read_csv(options.s+'/data/cell_info.csv', sep='\t', index_col=0)
     cell_type = cellinfo_df.ix[matrix_df.index.values, 'notes']
     cTypes = list(set(cell_type))
     cTypes.sort()
     cTypeIndex = [numpy.where(cell_type==x) for x in cTypes]
 #
-    npc = min(int(options.npc), len(matrix_df.values[:,0]), len(matrix_df.values[0,:]))
-    pca = PCA(n_components=npc, svd_solver='full')
-    pca_result = pca.fit_transform(matrix_df)
-    seaborn.set(font_scale=2)
-    fig1, axes = plt.subplots(1, figsize=(15,15))
-    for ict,ct in enumerate(cTypes):
-        axes.scatter(pca_result[cTypeIndex[ict], 0], pca_result[cTypeIndex[ict], 1], c=colors[ict], label=ct, s=50)
-    axes.legend(bbox_to_anchor=(1, 1), loc=2, borderaxespad=0.)
-    fig1.savefig(options.s+'/figure/'+outfig1, bbox_inches='tight')
-#
-    tsne_result = TSNE(n_components=2, learning_rate=int(options.tsneLR), random_state=int(options.tsneRS),
-                       n_iter=int(options.tsneIter)).fit_transform(pca_result)
     fig2, axes = plt.subplots(1, figsize=(15,15))
     for ict,ct in enumerate(cTypes):
         axes.scatter(tsne_result[cTypeIndex[ict], 0], tsne_result[cTypeIndex[ict], 1], c=colors[ict], label=ct, s=50)
     axes.legend(bbox_to_anchor=(1, 1), loc=2, borderaxespad=0.)
     fig2.savefig(options.s+'/figure/'+outfig2, bbox_inches='tight')
-    return pca_result, tsne_result
+    return
 #
 #
 #
 #
-def plot_knn_cluster(options, matrix_df, n_clust, tsne_result, outfig, outcsv):
-    connectivity = kneighbors_graph(matrix_df, n_neighbors=20, include_self=False)
-    connectivity = 0.5*(connectivity + connectivity.T)
+def knn_cluster(options, matrix_df, n_clust, connectivity, outcsv):
     ward_linkage = cluster.AgglomerativeClustering(n_clusters=n_clust, linkage='ward', connectivity=connectivity)
     ward_linkage.fit(matrix_df)
     y_predict = ward_linkage.labels_.astype(numpy.int)
-    seaborn.set(font_scale=2)
-    fig3, axes = plt.subplots(1, figsize=(15,15))
-    for i in range(0,n_clust):
-        index = numpy.where(y_predict==i)[0]
-        axes.scatter(tsne_result[index,0], tsne_result[index,1], color=colors[i], label=str(i), s=50)
-    axes.legend(bbox_to_anchor=(1, 1), loc=2, borderaxespad=0.)
-    fig3.savefig(options.s+'/figure/'+outfig, bbox_inches='tight')
     predict_df = pandas.DataFrame(y_predict, index=matrix_df.index.values, columns=['cluster'])
     predict_df.to_csv(options.s+'/result/'+outcsv, sep='\t')
-    return
+    return predict_df
 #
 #
 #
@@ -364,7 +344,8 @@ def specific_accesson(options, subname):
     cluster_df = cluster_df.loc[accesson_df.index.values]
     peaks_df = pandas.read_csv(options.s + '/matrix/Accesson_peaks.csv', sep='\t', index_col=0,
                    engine='c', na_filter=False, low_memory=False)
-    peaks_bed = numpy.array(open(options.s+'/peak/annotate_peak.bed').readlines())
+    allpeaks_bed = numpy.array(open(options.s+'/peak/top_peaks.bed').readlines())
+    peaks_bed = numpy.array(open(options.s+'/peak/top_filtered_peaks.bed').readlines())
     cell_inCluster = cluster_df.loc[cluster_df['cluster'].isin(kCluster)].index.values
     cell_outCluster = cluster_df.loc[cluster_df['cluster'].isin(vsCluster)].index.values
     print len(cell_inCluster), len(cell_outCluster)
@@ -384,12 +365,10 @@ def specific_accesson(options, subname):
         matrix_df.loc[acc, 'N_peaks'] = len(peaks)
         peaks_index = [int(x[4:]) for x in peaks]
         if len(peaks)>=5:
-            with open(options.s+'/result/accesson_'+str(acc)+'_annotated.bed', 'w') as output1, \
-                 open(options.s+'/result/accesson_'+str(acc)+'_peaks.bed', 'w') as output2:
-                for line in peaks_bed[peaks_index]:
+            with open(options.s+'/result/accesson_'+str(acc)+'_peaks.bed', 'w') as output1:
+                for line in allpeaks_bed[peaks_index]:
                     words = line.split()
                     print >> output1, '\t'.join(words)
-                    print >> output2, words[0]+'\t'+words[1]+'\t'+words[2]+'\t'+words[-1]
     matrix_df.to_csv(options.s+'/result/Accessons_of_Cluster_'+subname+'.csv', sep='\t')
     return
 #
@@ -406,7 +385,8 @@ def specific_peak(options, subname):
     if options.vs=='all': vsCluster = list(set(cluster_df['cluster'].values)-set(kCluster))
     reads_df = pandas.read_csv(options.s+'/matrix/filtered_reads.csv', sep=',', index_col=0,
                    engine='c', na_filter=False, low_memory=False)
-    peaks_bed = open(options.s+'/peak/annotate_peak.bed').readlines()
+#    peaks_bed = open(options.s+'/peak/annotate_peak.bed').readlines()
+    peaks_bed = open(options.s+'/peak/top_filtered_peaks.bed').readlines()
     cluster_df = cluster_df.loc[reads_df.index.values]
     cell_inCluster = cluster_df.loc[cluster_df['cluster'].isin(kCluster)].index.values
     cell_outCluster = cluster_df.loc[cluster_df['cluster'].isin(vsCluster)].index.values

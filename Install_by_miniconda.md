@@ -23,10 +23,10 @@
     conda install -n apec_env bowtie2
     conda install -n apec_env samtools
     conda install -n apec_env bedtools
-    conda install -n apec_env homer  (not required for code_v1.0.1)
     conda install -n apec_env macs2
     conda install -n apec_env meme=4.11.2
     conda install -n apec_env ucsc-bedgraphtobigwig
+    conda install -n apec_env libiconv
 
     conda install -n apec_env numpy
     conda install -n apec_env scipy
@@ -40,8 +40,8 @@
     conda install -n apec_env networkx
     conda install -n apec_env python-louvain
     conda install -n apec_env python-Levenshtein
-    conda install -n apec_env scikit-learn=0.19.1
-    
+    conda install -n apec_env scikit-learn=0.20.0
+
     conda install -n apec_env bioconductor-monocle=2.4.0 (not recommended, please install R and Monocle independently)
 
 **Note**: We found some problems for the R enviroment installed by conda, so we recommend that users do not use conda to install the R environment and Monocle.
@@ -51,10 +51,3 @@
 #### activate apec_env
 
     conda activate apec_env
-
-#### download Homer packages (not required for code_v1.0.1)
-
-    perl ~/miniconda2/envs/apec_env/share/homer-X.X.X/configureHomer.pl -install hg19
-    perl ~/miniconda2/envs/apec_env/share/homer-X.X.X/configureHomer.pl -install mm10
-    
-    

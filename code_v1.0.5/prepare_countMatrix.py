@@ -22,7 +22,7 @@ matrix_folder = options.s + '/matrix/'
 peaks_folder = options.s + '/peak/'
 work_folder = options.s + '/work/'
 motif_folder = matrix_folder + '/motif'
-peaks_file = peaks_folder + '/annotate_peak.bed'
+peaks_file = peaks_folder + '/top_peaks.bed'
 cell_info = options.s + '/data/cell_info.csv'
 #
 if not os.path.exists(matrix_folder): os.popen('mkdir ' + matrix_folder)

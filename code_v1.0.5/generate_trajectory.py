@@ -11,11 +11,26 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import seaborn
 import os
+import scipy.spatial.distance
+import scipy.io
+from scipy import sparse
 from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
+from sklearn import cluster
+from sklearn.neighbors import kneighbors_graph
+from sklearn.cluster import MiniBatchKMeans
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.decomposition.truncated_svd import TruncatedSVD
+from sklearn.preprocessing import MinMaxScaler
+from scipy import stats
+import subroutines
+import random
+import time
+import copy
 #
 opts = OptionParser()
 usage = "Build monocle trajectory\nusage: %prog -s project --npc 5 --cfile cluster.csv"
-opts = OptionParser(usage=usage, version="%prog 1.0")
+opts = OptionParser(usage=usage, version="%prog 1.0.5")
 opts.add_option("-s", help="The project folder.")
 opts.add_option("--npc", default=5, help="Number of principle components used for pseudo-time trajectory, defaul=5")
 opts.add_option("--cfile", help='Cell-types file, e.g. cell_info.csv or cluster.csv')
@@ -24,10 +39,36 @@ opts.add_option("--angle", default='30,30', help='Angles to rotate the 3D trajec
 options, arguments = opts.parse_args()
 #
 #
+def filtering(reads, accessons):
+    acc_number = accessons['group'].values.max()
+    select_acc, select_peak = [], []
+    for i in range(0, acc_number):
+        acc_peaks = accessons.loc[accessons['group']==i].index.values
+        if len(acc_peaks)>=5:
+            select_acc.append(str(i))
+            select_peak.extend(acc_peaks)
+    reads = reads[select_acc]
+    accessons = accessons.loc[select_peak]
+    return reads, accessons
+#
+#
 def trajectory(options):
-    reads_csv = options.s+'/matrix/Accesson_reads.csv'
     celltype_csv = options.cfile
+    reads_csv = options.s+'/matrix/Accesson_reads.csv'
     reads = pandas.read_csv(reads_csv, sep=',', index_col=0, engine='c', na_filter=False, low_memory=False)
+    accessons = pandas.read_csv(options.s+'/matrix/Accesson_peaks.csv', sep='\t', index_col=0)
+    reads, accessons = filtering(reads, accessons)
+    if os.path.isfile(options.s+'/matrix/normal_reads.csv'):
+        normal = pandas.read_csv(options.s+'/matrix/normal_reads.csv', sep=',', index_col=0, 
+                                 engine='c', na_filter=False, low_memory=False)
+        y_predict = accessons['group'].values
+        normal = normal[accessons.index.values].values
+        groups = list(set(y_predict))
+        matrix = numpy.array([normal[:, numpy.where(y_predict==x)[0]].sum(axis=1) for x in groups]).T
+        reads = pandas.DataFrame(matrix, index=reads.index, columns=groups)
+        reads_csv = options.s+'/matrix/Accesson_reads_filtered.csv'
+        reads.to_csv(reads_csv, sep=',')
+        reads = pandas.read_csv(reads_csv, sep=',', index_col=0, engine='c', na_filter=False, low_memory=False)
 #
     matrix = reads.values
     normal = numpy.array([x/x.sum()*1000000 for x in matrix])

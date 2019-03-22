@@ -13,7 +13,7 @@ import scipy.special
 #
 pts = OptionParser()
 usage = "Compare clustering method\nusage: %prog --c1 cell_info.csv --c2 KNN_cluster.csv"
-opts = OptionParser(usage=usage, version="%prog 1.0")
+opts = OptionParser(usage=usage, version="%prog 1.0.5")
 opts.add_option("--c1", help="cell_info.csv in <data> folder, or cluster_by_XXX.csv in <result> folder")
 opts.add_option("--c2", help="cell cluster file different with c1")
 options, arguments = opts.parse_args()

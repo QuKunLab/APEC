@@ -19,12 +19,12 @@ APEC requires users to use Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well 
 
 (1) Python packages and libraries:
 
-    numpy, scipy, pandas, scikit-learn, multiprocessing, numba, pysam, matplotlib, 
+    numpy, scipy, pandas, scikit-learn (0.20.0), multiprocessing, numba, pysam, matplotlib,
     seaborn, setuptools, networkx, python-louvain, python-Levenshtein.
 
     All upon python packages can be installed by: pip install package_name
 
-Note: The tSNE results produced by scikit-learn 0.19.1 and 0.20.0 will be slightly different. Please switch to scikit-learn 0.19.1 if you want to reproduce the tSNE plots of our example projects.
+Note: Please use scikit-learn 0.20.0 if you want to reproduce the tSNE plots of our example projects.
 
 (2) R packages and libraries:
 
@@ -32,12 +32,11 @@ Note: The tSNE results produced by scikit-learn 0.19.1 and 0.20.0 will be slight
 
 (3) Other necessory software:
 
-All of the following software needs to be placed in the global environment of the Linux system to ensure that they can be called in any path/folder. Picard is also required, but we have placed it into $APEC/reference folder, and users don't need to install it. We recommend that users adopt the latest version of these software, except Meme (version 4.11.2). If users have their own fragment count matrix and only want to run APEC from section 3 "Clustering", then Bowtie2 and Macs2 are not required. 
+All of the following software needs to be placed in the global environment of the Linux system to ensure that they can be called in any path/folder. Picard is also required, but we have placed it into $APEC/reference folder, and users don't need to install it. We recommend that users adopt the latest version of these software, except Meme (version 4.11.2). If users have their own fragment count matrix and only want to run APEC from section 3 "Clustering", then Bowtie2 and Macs2 are not required.
 
     Bowtie2: https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.2.9/
     Samtools: https://github.com/samtools/samtools
     Bedtools: http://bedtools.readthedocs.io/en/latest/content/installation.html
-    HOMER: http://homer.ucsd.edu/homer/download.html  (HOMER is not required for code_v1.0.1)
     Macs2: https://github.com/taoliu/MACS.git
     Meme 4.11.2: http://meme-suite.org/doc/download.html?man_type=web
     bedGraphToBigWig: http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/
@@ -64,7 +63,7 @@ Users need to build a project folder (i.e. $project), which contains a **data** 
     type2-001_1.fastq, type2-001_2.fastq, type2-002_1.fastq, type2-002_2.fastq, ……;
     ……
 
-where "\_1" and "\_2" indicate forward and backward reads for pair-end sequencing. {type1, type2, ...} can be cell-types or batches of samples, such as {GM, K562, ...}, or {batch1, batch2, ...}, or any other words without underline “_” or dash “-”.
+where "\_1" and "\_2" indicate forward and backward reads for pair-end sequencing. {type1, type2, ...} can be cell-types or batches of samples, such as {GM, K562, ...}, or {batch1, batch2, ...}, or any other words without underline “\_” or dash “-”.
 The **work**, **matrix**, **peak**, **result** and **figure** folders will be automatically built by subsequent steps, and placed in $project folder.
 
 ### 2.2	Easy-run of matrix preparation
@@ -103,8 +102,7 @@ For each cell, the mapping step can generate a subfolder (with cell name) in the
 
     mergeAll.hist.pdf: A histogram of fragment length distribution of all cells.
     mergeAll.RefSeqTSS.pdf: Insert enrichment around TSS regions of all cells.
-    top_peaks.bed: Filtered top peaks, ranked by Q-value.
-    annotate_peak.bed: Annotation information of peaks.
+    top_filtered_peaks.bed: Filtered top peaks, ranked by Q-value.
     genes_scored_by_peaks.csv: Gene scores evaluated by TSS peaks.
 
 (4) In **matrix** folder:
@@ -164,46 +162,41 @@ Details about initial files:
 
 ### 3.2 Clustering based on accessons
 
-To clustering cells by accessons, users can run the script ***cluster_byAccesson.py*** on the fragment count matrix. This step will take about 5 minutes to run our example projects (project01) on one single core of CPU if users run KNN clustering only. Hierarchical clustering will be expensive for project with more than 3000 cells.
+To clustering cells by accessons, users can run the script ***cluster_byAccesson.py*** on the fragment count matrix. This step will take about 5 minutes to run our example projects (project01) on one single core of CPU if users run Louvain clustering only. Hierarchical clustering will be expensive for project with more than 3000 cells.
 
 Example:
 
-    Python cluster_byAccesson.py -s $project --nc 0 --space pca
+    Python cluster_byAccesson.py -s $project
 
 Input parameters:
 
-    -s:      The project path that contains data, work, matrix, peak, result and figure folders.
-    --nc:    Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm.
-    --space: Transfromed space used for clustering, can be “pca” or “tsne”.
-    --hc:    Run hierarchical clustering or not, would be very slow for more than 3000 cells. 
-             If hc=no, only KNN clustering will be applied. default=yes.
+    -s:       The project path that contains data, work, matrix, peak, result and figure folders.
+    --nc:     Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm. default=0.
+    --ngroup: Number of accessons, default=600.
+    --norm:   score or probability; set normalization method, default=zscore.
+    --hc:     Run hierarchical clustering or not, would be very slow for more than 3000 cells.
+              If hc=no, only Louvain clustering will be applied. default=yes.
 
 Output files important to users:
 
 (1) In **result** folder:
 
-    TSNE_by_Accesson.csv: Top 2 components of tSNE transformation.
-    KNN_cluster_by_Accesson.csv: Result of K-nearest-neighbor (KNN) clustering.
-    Hierarchical_cluster_by_Accesson.csv: Result of Hierarchical clustering.
+    TSNE_by_Accesson.csv: tSNE transformation of accesson count matrix.
+    louvain_cluster_by_Accesson.csv: Result of Louvain clustering.
 
 (2) In **figure** folder:
 
-    PCA_by_Accesson.pdf: PCA diagram of cells, colored by the “notes” column in $project/data/cell_info.csv.
     TSNE_by_Accesson.pdf: tSNE diagram of cells, colored by the “notes” column in $project/data/cell_info.csv.
-    KNN_cluster_by_Accesson.pdf: KNN clustering result of cells, plotted on tSNE map.
-    cell_cell_correlation_by_Accesson.png: Hierarchical clustering heat map of cell-cell correlation matrix.
-                                           Colors of sidebar are defined by the “notes” column in
-                                           $project/data/cell_info.csv file.
-    HC_KNN_compare_by_Accesson.png: Hierarchical clustering heat map of cell-cell correlation matrix.
-                                    Colors of sidebar are defined by KNN clustering result.
+    louvain_cluster_by_Accesson.pdf: Louvain clustering result of cells, plotted on tSNE map.
+
+(3) In **matrix** folder:
+
+    Accesson_reads.csv: Accesson fragment count matrix.
+    Accesson_peaks.csv: Peaks that labeled by corresponding accesson.
 
 <img src="images/TSNE_by_Accesson.jpg" width="500">
 
 _Figure 2. TSNE_by_Accesson.pdf in **figure** folder_
-
-<img src="images/cell_cell_correlation_by_Accesson.png" width="500">
-
-_Figure 3. cell_cell_correlation_by_Accesson.png in **figure** folder_
 
 ### 3.3 Clustering based on motifs (same as chromVAR)
 
@@ -219,36 +212,35 @@ Input parameters:
     --ns:    Number of permuted samplings to calculate the bias-corrected deviations of motifs.
              Its default value is 50.
     --np:    Number of CPU cores.
-    --nc:    Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm.
-    --space: Transfromed space used for clustering, can be “pca” or “tsne”.
-    --hc:    Run hierarchical clustering or not, would be very slow for more than 3000 cells. 
-             If hc=no, only KNN clustering will be applied. default=yes.
+    --nc:    Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm. default=0.
+    --hc:    Run hierarchical clustering or not, would be very slow for more than 3000 cells.
+             If hc=no, only Louvain clustering will be applied. default=yes.
 
 Output files description:
 
 (1) In **result** folder:
 
-TSNE_by_chromVAR.csv, KNN_cluster_by_chromVAR.csv, and Hierarchical_cluster _by_chromVAR.csv are similar to the results in Section 3.2, except that they are generated by motif-based clustering (same as chromVAR).
+TSNE_by_chromVAR.csv and louvain_cluster_by_chromVAR.csv are similar to the results in Section 3.2, except that they are generated by motif-based clustering (same as chromVAR). And deviation_chromVAR.csv is the bias corrected deviation matrix generated by chromVAR algorithm.
 
 (2) In **figure** folder:
 
-PCA_by_chromVAR.pdf, TSNE_by_chromVAR.pdf, KNN_cluster_by_chromVAR.pdf, cell_cell_correlation_by_chromVAR.png, and HC_KNN_compare_by_chromVAR.png are similar to the results in Section 3.2, except that they are generated by motif-based clustering (same as chromVAR).
+TSNE_by_chromVAR.pdf and louvain_cluster_by_chromVAR.pdf are similar to the results in Section 3.2, except that they are generated by motif-based clustering (same as chromVAR).
 
-### 3.3 Clustering comparison
+### 3.4 Clustering comparison
 
 Users can run ***cluster_comparsion.py*** to measure the accuracy of the clustering algorithm by comparing its result with known FACS cell indexes, or to compare the clustering results of two different algorithms.
 
 Example:
 
     python cluster_comparison.py --c1 $project/data/cell_info.csv
-                                 --c2 $project/result/KNN_cluster_by_Accesson.csv
+                                 --c2 $project/result/louvain_cluster_by_Accesson.csv
 
 Input parameters:
 
     --c1: "cell_info.csv" file in data folder, or "cluster_by_XXX.csv" in result folder.
     --c2: Cell clustering result file different with c1.
 
-The output information will be directly printed on the screen, including the cluster-vs-cluster cell overlapping matrix and the ARI (adjusted rand index) value.
+The output information will be directly printed on the screen, including the contingency matrix and the ARI (adjusted rand index) value.
 
 ## 4. Feature analysis
 
@@ -257,13 +249,13 @@ The output information will be directly printed on the screen, including the clu
 Example:
 
     python generate_differential_markers.py -s $project
-                                            --cfile $project/result/KNN_cluster_by_Accesson.csv
+                                            --cfile $project/result/louvain_cluster_by_Accesson.csv
                                             --cluster 1 --vs 2,3 --motif yes --gene yes
 
 Input parameters:
 
     -s:        The project path.
-    --cfile:   The cluster.csv file of a clustering method, e.g. $project/result/KNN_cluster_by_Accesson.csv
+    --cfile:   The cluster.csv file of a clustering method, e.g. $project/result/louvain_cluster_by_Accesson.csv
     --cluster: The target cluster for differential markers analysis, can be 0, 1, 2, …, or a batch of
                clusters like “0,2”.
     --vs:      vs which clusters users search differential markers for target cluster, e.g. “1,3”. default=all.
@@ -287,7 +279,7 @@ Input parameters:
 
     -s:      The project path.
     --npc:   Number of principle components used for pseudo-time trajectory, defaul=5.
-    --cfile: Cell-types file, e.g. $project/data/cell_info.csv or $project/result/KNN_cluster_by_Accesson.csv.
+    --cfile: Cell-types file, e.g. $project/data/cell_info.csv or $project/result/louvain_cluster_by_Accesson.csv.
     --dim:   Plot 2D or 3D trajectory, default=3.
     --angle: Angles to rotate the 3D trajectory, default=“30,30”.
 
@@ -327,13 +319,13 @@ The program "generate_UCSCtrack.py" is not available if users have their own fra
 
 Example:
 
-    python generate_UCSCtrack.py -s $project --cfile $project/result/KNN_cluster_by_Accesson.csv
+    python generate_UCSCtrack.py -s $project --cfile $project/result/louvain_cluster_by_Accesson.csv
                                  --gsize $APEC/reference/hg19.chrom.sizes
 
 Input parameters:
 
     -s: The project path.
-    --cfile: The cell clustering result file, e.g. “KNN_cluster_by_Accessons.csv” file in $project/result/ folder.
+    --cfile: The cell clustering result file, e.g. “louvain_cluster_by_Accessons.csv” file in $project/result/ folder.
     --gsize: The chromosome lengths file, i.e. “hg19.chrom.sizes” or “mm10.chrom.sizes” in $APEC/reference/ folder
 
 Output files:

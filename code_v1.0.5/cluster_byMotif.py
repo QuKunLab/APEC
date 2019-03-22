@@ -15,25 +15,24 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn
+from sklearn.manifold import TSNE
+from sklearn import cluster
+from sklearn.neighbors import kneighbors_graph
+import time
 #
 #
 global TFmotif, samples, reads, expected, TFnames, cell_names, GC_bias
 #
 opts = OptionParser()
-usage = "Cluster by ChromVAR\nusage: %prog -s project --np 4 --nc 0"
-opts = OptionParser(usage=usage, version="%prog 1.0")
+usage = "Cluster by ChromVAR\nusage: %prog -s project --np 8"
+opts = OptionParser(usage=usage, version="%prog 1.0.5")
 opts.add_option("-s", help="The project folder.")
+opts.add_option("--format", default='csv', help="=csv or mtx; read fragment count matrix from csv or mtx file, default=csv.")
 opts.add_option("--ns", default=50, help="Number of permuted samplings, default=50")
 opts.add_option("--np", default=1, help="CPU cores used for samplings, default=1")
-opts.add_option("--nc", default=0, 
-                help="Number of groups for cell to be clustered, default=0, i.e. predicted by Louvain algorithm")
-opts.add_option("--npc", default=40, help="Number of PCs used for clustering, default=40")
-opts.add_option("--space", default='pca', help="transform space used for clustering, can be pca or tsne, default=pca")
-opts.add_option("--hc", default='yes', help="Run hierarchical clustering or not, would be very slow for more than 5000 cells."
-                + " if hc=no, only KNN clustering will be applied. default=yes.")
-opts.add_option("--tsneLR", default=100, help="Learning rate of tSNE analysis, default=100")
-opts.add_option("--tsneRS", default=1, help="Random state of tSNE analysis, default=1")
-opts.add_option("--tsneIter", default=1000, help="Muximum number of Iterations for tSNE analysis, default=1000")
+opts.add_option("--nc", default=0, help="Number of cell clusters, default=0, i.e. predicted by Louvain algorithm")
+opts.add_option("--hc", default='no', help="Run hierarchical clustering or not, default=no.")
+opts.add_option("--rs", default=1, help="Random state of tSNE analysis, default=1")
 options, arguments = opts.parse_args()
 #
 #
@@ -42,10 +41,16 @@ if not os.path.exists(options.s+'/figure'): os.popen('mkdir ' + options.s+'/figu
 #
 #
 def initiation(options):
-    reads_df = pandas.read_csv(options.s+'/matrix/filtered_reads.csv', sep=',', index_col=0,
+    if options.format=='mtx':
+        reads = scipy.io.mmread(options.s+'/matrix/filtered_reads.mtx')
+        reads = scipy.sparse.csr_matrix(reads)
+        cells = pandas.read_csv(options.s+'/matrix/filtered_cells.csv', sep='\t', index_col=0,
                    engine='c', na_filter=False, low_memory=False)
-    reads_df = reads_df + 0.0001
-    reads, cell_names = reads_df.values+0, reads_df.index.values
+        cells_names = cells.index.values
+    else:
+        reads_df = pandas.read_csv(options.s+'/matrix/filtered_reads.csv', sep=',', index_col=0,
+                   engine='c', na_filter=False, low_memory=False)
+        reads, cell_names = reads_df.values + 0.0001, reads_df.index.values
     TFmotif_df = pandas.read_csv(options.s+'/matrix/motif_filtered.csv', sep=',', index_col=0)
     TFmotif_origin = TFmotif_df.values.T
     TFnames = TFmotif_df.columns.values
@@ -106,38 +111,40 @@ def corrected_deviation(options):
 #
 #
 def cell_cluster(options):
-    n_clust = int(options.nc)
-    dev_df = pandas.read_csv(options.s+'/result/deviation_chromVAR.csv', sep=',', index_col=0,
+    reads_df = pandas.read_csv(options.s+'/result/deviation_chromVAR.csv', sep=',', index_col=0,
                    engine='c', na_filter=False, low_memory=False)
-    corr = dev_df.corr()
-    if n_clust==0:
-        n_clust = subroutines.predict_cluster(corr)
-        print "predicted number of clusters: ", n_clust
-#
-    pca_result, tsne_result = subroutines.PCA_tSNE(options, corr, "PCA_by_chromVAR.pdf", "TSNE_by_chromVAR.pdf")
-    tsne_df = pandas.DataFrame(tsne_result, index=corr.index.values, columns=['TSNE1', 'TSNE2'])
-    tsne_df.to_csv(options.s+'/result/TSNE_by_chromVAR.csv', sep='\t')
-    pca_df = pandas.DataFrame(pca_result, index=corr.index.values, columns=['PC'+str(i) for i in range(0, int(options.npc))])
-    if options.space=='tsne':
-        matrix_df = tsne_df
+    matrix = reads_df.T
+    connect = kneighbors_graph(matrix, n_neighbors=20, include_self=False)
+    connectivity = 0.5*(connect + connect.T)
+    if int(options.nc)==0:
+        n_clust, clusters = subroutines.predict_cluster(matrix, connectivity.todense())
+        print "predicted number of cell-clusters: ", n_clust
+        clusters.to_csv(options.s+'/result/louvain_cluster_by_chromVAR.csv', sep='\t')
+        tsne_result = TSNE(n_components=2, random_state=int(options.rs)).fit_transform(matrix.values)
+        subroutines.plot_cluster(options, clusters, n_clust, tsne_result, 'louvain_cluster_by_chromVAR.pdf')
     else:
-        matrix_df = pca_df
-    subroutines.plot_knn_cluster(options, matrix_df, n_clust, tsne_result, "KNN_cluster_by_chromVAR.pdf", 
-                            "KNN_cluster_by_chromVAR.csv")
+        n_clust = int(options.nc)
+        clusters = subroutines.knn_cluster(options, matrix, n_clust, connectivity, "KNN_cluster_by_chromVAR.csv")
+        tsne_result = TSNE(n_components=2, random_state=int(options.rs)).fit_transform(matrix.values)
+        subroutines.plot_cluster(options, clusters, n_clust, tsne_result, 'KNN_cluster_by_chromVAR.pdf')
+#
+    subroutines.plot_tSNE(options, matrix, tsne_result, "TSNE_by_chromVAR.pdf")
+    tsne_df = pandas.DataFrame(tsne_result, index=matrix.index, columns=['TSNE1', 'TSNE2'])
+    tsne_df.to_csv(options.s+'/result/TSNE_by_chromVAR.csv', sep='\t')
 #
     if options.hc=='yes':
-        subroutines.hierarchy_cluster(options, corr, n_clust, "cell_cell_correlation_by_chromVAR.png",
-                            "Hierarchical_cluster_by_chromVAR.csv")
-        KNN_df = pandas.read_csv(options.s+"/result/KNN_cluster_by_chromVAR.csv", sep='\t', index_col=0)
-        subroutines.heatmap_compare(options, corr, KNN_df, "HC_KNN_compare_by_chromVAR.png")
+        subroutines.hierarchy_cluster(options, matrix, n_clust, "cell_cell_correlation_by_chromVAR.png",
+                                  "Hierarchical_cluster_by_chromVAR.csv")
     return
 #
 #
+#t1=time.time()
 TFmotif, reads, TFnames, cell_names, GC_bias = initiation(options)
 samples = permuted_sampling(options)
 expected, raw_dev = raw_deviation(options)
 corrected_deviation(options)
 cell_cluster(options)
+#print time.time()-t1
 #
 #
 #
