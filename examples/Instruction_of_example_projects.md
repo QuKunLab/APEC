@@ -12,7 +12,7 @@ How to run:
     
     #### cluster cells by APEC algorithm, take <5 minutes on one CPU-core of computer ####
     
-    python cluster_byAccesson.py -s $project01
+    python cluster_byAccesson.py -s $project01 --ngroup 720
     
     #### cluster cells by chromVAR algorithm, take ~30 minutes on 8-core computer ####
     
@@ -20,7 +20,7 @@ How to run:
     
     #### get differential peaks/genes/motifs for cell cluster 1, take several minutes ####
     
-    python generate_differential_markers.py -s $project01 --cfile $project01/result/KNN_cluster_by_Accesson.csv \
+    python generate_differential_markers.py -s $project01 --cfile $project01/result/louvain_cluster_by_Accesson.csv \
                                             --cluster 1 --vs all --motif yes --gene yes
     
     #### plot enrichment of motif RUNX1 on tSNE diagram, take several minutes ####
@@ -33,7 +33,7 @@ How to run:
     python generate_superEnhancer.py -s $project01
 
 
-(2) **project02** is an example of running APEC from the user's own fragment count matrix. Users need to copy "cell_info.csv" in **data** folder, "filtered_reads.csv" in **matrix** folder, and "filtered_reads.csv" in **peak** folder to start the clustering. This project contains single cell samples from the forebrain of adult mice, from "Preissl, S. et al. Single-nucleus analysis of accessible chromatin in developing mouse forebrain reveals cell-type-specific transcriptional regulation. Nat Neurosci 21, 432-439 (2018)".
+(2) **project02** is an example of running APEC from the user's own fragment count matrix. Users need to copy "cell_info.csv" in **data** folder, "filtered_reads.csv" in **matrix** folder, and "top_peaks.bed" in **peak** folder to start the clustering. This project contains single cell samples from the forebrain of adult mice, from "Preissl, S. et al. Single-nucleus analysis of accessible chromatin in developing mouse forebrain reveals cell-type-specific transcriptional regulation. Nat Neurosci 21, 432-439 (2018)".
 
 How to run:
 
@@ -43,11 +43,11 @@ How to run:
 
     #### cluster cells by APEC algorithm, take ~40 minutes on one CPU-core of computer ####
     
-    python cluster_byAccesson.py -s $project02 --nc 10 --hc no
+    python cluster_byAccesson.py -s $project02 --ngroup 700 --hc no
     
     #### cluster cells by chromVAR algorithm, take ~8 hours on 8-core computer ####
     
-    python cluster_byMotif.py -s $project02 --np 8 --nc 10 --hc no
+    python cluster_byMotif.py -s $project02 --np 8 --hc no
 
 
 (3) **project03** contains single cell samples of hematopoietic stem cell differentiation (including HSC, MPP, CMP, GMP, MEP, LMPP, CLP, and pDC cells), from "Buenrostro, J.D. et al. Integrated Single-Cell Analysis Maps the Continuous Regulatory Landscape of Human Hematopoietic Differentiation. Cell 173, 1535-1548 e1516 (2018)".
@@ -56,7 +56,7 @@ How to run:
 
     #### 1. Cell clustering by APEC algorithm. It takes ~10 minutes.
     
-    python cluster_byAccesson.py -s $project03
+    python cluster_byAccesson.py -s $project03 --norm probability
 
     #### 2. Generate pseudo-time trajectory by monocle. It takes ~4 minutes.
 
