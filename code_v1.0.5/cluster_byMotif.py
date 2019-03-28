@@ -133,7 +133,7 @@ def cell_cluster(options):
     tsne_df.to_csv(options.s+'/result/TSNE_by_chromVAR.csv', sep='\t')
 #
     if options.hc=='yes':
-        subroutines.hierarchy_cluster(options, matrix, n_clust, "cell_cell_correlation_by_chromVAR.png",
+        subroutines.hierarchy_cluster(options, reads_df.corr(), n_clust, "cell_cell_correlation_by_chromVAR.png",
                                   "Hierarchical_cluster_by_chromVAR.csv")
     return
 #

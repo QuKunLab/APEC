@@ -114,7 +114,7 @@ def filtering(raw_matrix):
 #
 def weighted_tsne(matrix, clusters, options):
     cell_types = list(set(clusters['cluster'].values))
-    adjusted = matrix.values
+    adjusted = copy.deepcopy(matrix.values)
     for ctype in cell_types:
         cluster_cells = numpy.where(clusters==ctype)[0]
         weight = adjusted[cluster_cells, :].mean(axis=0) * float(options.wt)
@@ -146,13 +146,11 @@ def cluster_plot(options):
         print "predicted number of cell-clusters: ", n_clust
         clusters.to_csv(options.s+'/result/louvain_cluster_by_Accesson.csv', sep='\t')
         tsne_result = weighted_tsne(matrix, clusters, options)
-#        tsne_result = TSNE(n_components=2, random_state=int(options.rs)).fit_transform(matrix.values)
         subroutines.plot_cluster(options, clusters, n_clust, tsne_result, 'louvain_cluster_by_Accesson.pdf')
     else:
         n_clust = int(options.nc)
         clusters = subroutines.knn_cluster(options, matrix, n_clust, connectivity, "KNN_cluster_by_Accesson.csv")
         tsne_result = weighted_tsne(matrix, clusters, options)
-#        tsne_result = TSNE(n_components=2, random_state=int(options.rs)).fit_transform(matrix.values)
         subroutines.plot_cluster(options, clusters, n_clust, tsne_result, 'KNN_cluster_by_Accesson.pdf')
 #
     subroutines.plot_tSNE(options, reads_df, tsne_result, "TSNE_by_Accesson.pdf")
@@ -160,7 +158,10 @@ def cluster_plot(options):
     tsne_df.to_csv(options.s+'/result/TSNE_by_Accesson.csv', sep='\t')
 #   
     if options.hc=='yes':
-        subroutines.hierarchy_cluster(options, matrix, n_clust, "cell_cell_correlation_by_Accesson.png",
+        clipped = numpy.clip(normal, -1, 6)
+        corr = numpy.corrcoef(clipped)
+        corr_df = pandas.DataFrame(corr, index=reads_df.index, columns=reads_df.index)
+        subroutines.hierarchy_cluster(options, corr_df, n_clust, "cell_cell_correlation_by_Accesson.png",
                                   "Hierarchical_cluster_by_Accesson.csv")
     return
 #

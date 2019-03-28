@@ -6,7 +6,7 @@
 
 APEC can perform fine cell type clustering on single cell chromatin accessibility data from scATAC-seq, snATAC-seq, sciATAC-seq or any other relevant experiment. It can also be used to control data quality, map fragment count matrices, search for important differential motifs/genes for each cell cluster, find super enhancers, and construct pseudo-time trajectory (by calling Monocle).
 
-**If users want to process the raw fastq data from scATAC-seq experiment, please run APEC from section 2 “Fragment count matrix”. If users have their own fragment count matrix, where each element is the number of fragments per-cell-per-peak, please skip section 2 and run APEC from section 3 “Clustering”.**
+**If users want to process the raw fastq data from scATAC-seq experiment, please run APEC from section 2 “Fragment count matrix”. If users have their own fragment count matrix from snATAC-seq, sciATAC-seq or other experiments, where each element is the number of fragments per-cell-per-peak, please skip section 2 and run APEC from section 3 “Clustering”.**
 
 For our example projects, most of APEC's results (including plots and dataframes) can be reproduced on a general computer system. For each APEC program, users can add the '-h' parameter to display an introduction to the input parameters.
 
@@ -20,11 +20,11 @@ APEC requires users to use Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well 
 (1) Python packages and libraries:
 
     numpy, scipy, pandas, scikit-learn (0.20.0), multiprocessing, numba, pysam, matplotlib,
-    seaborn, setuptools, networkx, python-louvain, python-Levenshtein.
+    seaborn, setuptools, networkx, python-louvain (0.11), python-Levenshtein.
 
     All upon python packages can be installed by: pip install package_name
 
-Note: Please use scikit-learn 0.20.0 if you want to reproduce the tSNE plots of our example projects.
+Note: Please use scikit-learn=0.20.0 and python-louvain=0.11 if you want to reproduce the tSNE plots of our example projects.
 
 (2) R packages and libraries:
 
@@ -43,7 +43,7 @@ All of the following software needs to be placed in the global environment of th
 
 ### 1.2	Installation
 
-Users simply completes the APEC installation by copying the APEC folder to any path on the computer (i.e. $APEC). There are two subfolders in APEC: a **code** folder (code_v1.0.1), which contains all APEC programs for data processing; a **reference** folder, which contains all necessary index and reference files for the hg19 and mm10 genomes. Users **must** run APEC program directly in $APEC/code/, since each program will invoke the reference files automatically. The **reference** folder is required for APEC and should be placed in the same path ($APEC) with the **code** folder. **But we didn't upload reference files to GitHub since they are too big. Users can download all reference files from http://galaxy.ustc.edu.cn:30803/APEC/**. If users have downloaded the **code** and **reference** folders, the installation will take less than 1 minute by moving them to the same path (i.e. $APEC). The **reference** folder should contains the following files:
+Users simply completes the APEC installation by copying the APEC folder to any path on the computer (i.e. $APEC). There are two subfolders in APEC: a **code** folder (code_v1.0.5), which contains all APEC programs for data processing; a **reference** folder, which contains all necessary index and reference files for the hg19 and mm10 genomes. Users **must** run APEC program directly in $APEC/code/, since each program will invoke the reference files automatically. The **reference** folder is required for APEC and should be placed in the same path ($APEC) with the **code** folder. **But we didn't upload reference files to GitHub since they are too big. Users can download all reference files from http://galaxy.ustc.edu.cn:30803/APEC/**. If users have downloaded the **code** and **reference** folders, the installation will take less than 1 minute by moving them to the same path (i.e. $APEC). The **reference** folder should contains the following files:
 
     hg19_refseq_genes_TSS.txt, hg19_RefSeq_genes.gtf, hg19_blacklist.JDB.bed,
     hg19_chr.fa, hg19_chr.fa.fai, hg19.chrom.sizes,
@@ -140,7 +140,7 @@ Input parameters:
 
 Details about initial files:
 
-    cell_info.csv: Two-column (separated by tabs) list of cell information, such as:
+    cell_info.csv: Two-column (separated by tabs) list of cell information ('name' and 'notes'), such as:
                         	name    notes
                         	CD4-001 CD4
                         	CD4-002 CD4
@@ -171,11 +171,12 @@ Example:
 Input parameters:
 
     -s:       The project path that contains data, work, matrix, peak, result and figure folders.
+    --format: read fragment count matrix from csv or mtx file, default=csv.
     --nc:     Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm. default=0.
     --ngroup: Number of accessons, default=600.
     --norm:   score or probability; set normalization method, default=zscore.
     --hc:     Run hierarchical clustering or not, would be very slow for more than 3000 cells.
-              If hc=no, only Louvain clustering will be applied. default=yes.
+              If hc=no, only Louvain clustering will be applied. default=no.
 
 Output files important to users:
 
@@ -214,7 +215,7 @@ Input parameters:
     --np:    Number of CPU cores.
     --nc:    Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm. default=0.
     --hc:    Run hierarchical clustering or not, would be very slow for more than 3000 cells.
-             If hc=no, only Louvain clustering will be applied. default=yes.
+             If hc=no, only Louvain clustering will be applied. default=no.
 
 Output files description:
 
