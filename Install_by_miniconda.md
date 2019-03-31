@@ -38,7 +38,7 @@
     conda install -n apec_env seaborn
     conda install -n apec_env setuptools
     conda install -n apec_env networkx
-    conda install -n apec_env python-louvain
+    conda install -n apec_env python-louvain=0.11
     conda install -n apec_env python-Levenshtein
     conda install -n apec_env scikit-learn=0.20.0
 
