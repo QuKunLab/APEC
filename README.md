@@ -47,11 +47,11 @@ Users simply completes the APEC installation by copying the APEC folder to any p
 
     hg19_refseq_genes_TSS.txt, hg19_RefSeq_genes.gtf, hg19_blacklist.JDB.bed,
     hg19_chr.fa, hg19_chr.fa.fai, hg19.chrom.sizes,
-    hg19.1.bt2, hg19.2.bt2, hg19.3.bt2, hg19.4.bt2,
+    hg19.1.bt2, hg19.2.bt2, hg19.3.bt2, hg19.4.bt2, hg19.rev.1.bt2, hg19.rev.2.bt2,
     mm10_refseq_genes_TSS.txt, mm10_RefSeq_genes.gtf, mm10_blacklist.BIN.bed,
     mm10_chr.fa, mm10_chr.fa.fai, mm10.chrom.sizes,
-    mm10.1.bt2, mm10.2.bt2, mm10.3.bt2, mm10.4.bt2,
-    JASPAR2018_CORE_vertebrates_non-redundant_pfms_meme.txt, tier1_markov1.norc.txt
+    mm10.1.bt2, mm10.2.bt2, mm10.3.bt2, mm10.4.bt2, mm10.rev.1.bt2, mm10.rev.2.bt2,
+    JASPAR2018_CORE_vertebrates_non-redundant_pfms_meme.txt, tier1_markov1.norc.txt, picard.jar
 
 ## 2. Fragment count matrix
 
