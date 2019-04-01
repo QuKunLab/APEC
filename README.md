@@ -279,7 +279,7 @@ Example:
 Input parameters:
 
     -s:      The project path.
-    --npc:   Number of principle components used for pseudo-time trajectory, defaul=5.
+    --npc:   Number of principle components used for pseudo-time trajectory, default=5.
     --cfile: Cell-types file, e.g. $project/data/cell_info.csv or $project/result/louvain_cluster_by_Accesson.csv.
     --dim:   Plot 2D or 3D trajectory, default=3.
     --angle: Angles to rotate the 3D trajectory, default=“30,30”.
