@@ -64,11 +64,11 @@ How to run:
 
     #### 3. Plot motifs on trajectory. It takes ~1 minute for each motif.
 
-    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv 
-                                                      --type motif --name Hoxa9 --angle 39,94 --sharp -6,9
-    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv 
-                                                      --type motif --name GATA1 --angle 39,94 --sharp -10,10
-    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv 
-                                                      --type motif --name CEBPB --angle 39,94 --sharp -10,10
-    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv 
-                                                      --type motif --name TCF4 --angle 39,94 --sharp -5,10
+    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv \
+                                        --type motif --name Hoxa9 --angle 39,94 --sharp -6,9
+    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv \
+                                        --type motif --name GATA1 --angle 39,94 --sharp -10,10
+    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv \
+                                        --type motif --name CEBPB --angle 39,94 --sharp -10,10
+    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv \
+                                        --type motif --name TCF4 --angle 39,94 --sharp -5,10
