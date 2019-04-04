@@ -119,6 +119,10 @@ For each cell, the mapping step can generate a subfolder (with cell name) in the
 
 _Figure 1. cell_quality.pdf in **figure** folder_
 
+<img src="images/mergeAll.RefSeqTSS.jpg" width="500">
+
+_Figure 2. mergeAll.RefSeqTSS.pdf in **peak** folder_
+
 ## 3.	Clustering
 
 ### 3.1	If users want to apply their own matrix
@@ -189,6 +193,7 @@ Output files important to users:
 
     TSNE_by_Accesson.pdf: tSNE diagram of cells, colored by the “notes” column in $project/data/cell_info.csv.
     louvain_cluster_by_Accesson.pdf: Louvain clustering result of cells, plotted on tSNE map.
+    cell_cell_correlation_by_Accesson.png: Hierarchical clustering of corrlation matrix of cells, if "--hc yes".
 
 (3) In **matrix** folder:
 
@@ -197,7 +202,7 @@ Output files important to users:
 
 <img src="images/TSNE_by_Accesson.jpg" width="500">
 
-_Figure 2. TSNE_by_Accesson.pdf in **figure** folder_
+_Figure 3. TSNE_by_Accesson.pdf in **figure** folder_
 
 ### 3.3 Clustering based on motifs (same as chromVAR)
 
@@ -313,6 +318,10 @@ Depending on the type of marker (motif or gene) and diagram (tSNE or pseudo-time
     gene_XXX_on_TSNE_by_Accesson.pdf
     motif_XXX_on_monocle_reduced_dimension.pdf
     gene_XXX_on_monocle_reduced_dimension.pdf
+
+<img src="images/motif_FOS_on_TSNE_by_Accesson.jpg" width="500">
+
+_Figure 4. motif_FOS_on_TSNE_by_Accesson.pdf in **figure** folder_
 
 ### 4.4 UCSC track
 
