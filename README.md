@@ -207,7 +207,7 @@ Output files important to users:
 
 _Figure 3. TSNE_by_Accesson.pdf in **figure** folder_
 
-<img src="images/louvain_cluster_by_Accesson.jpg" width="400">
+<img src="images/louvain_cluster_by_Accesson.jpg" width="420">
 
 _Figure 4. louvain_cluster_by_Accesson.pdf in **figure** folder_
 
