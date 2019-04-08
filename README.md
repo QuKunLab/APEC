@@ -164,7 +164,7 @@ Details about initial files:
 			        CD8-001,0,0,0,1,1,0
 			        CD8-002,2,1,0,0,0,1
 
-If users want to analyze data for more than 10,000 cells, the "filtered_reads.csv" file can be very large. APEC also support the input matrix in mtx format, i.e. "filtered_reads.mtx", which is a file format for storing sparse matrix. Also, each row and column of the sparse matrix should be a cell and a peak respectively. Instead of the "filtered_reads.csv" file, the "filtered_reads.mtx" file should be placed in **matrix** folder in $project path.
+**Note**: If users want to analyze data for more than 10,000 cells, the "filtered_reads.csv" file can be very large. APEC also support the input matrix in mtx format, i.e. "filtered_reads.mtx", which is a file format for storing sparse matrix. Also, each row and column of the sparse matrix should be a cell and a peak respectively. Instead of the "filtered_reads.csv" file, the "filtered_reads.mtx" file should be placed in **matrix** folder in $project path.
 
 ### 3.2 Clustering based on accessons
 
