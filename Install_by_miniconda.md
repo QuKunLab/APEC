@@ -29,7 +29,7 @@
     conda install -n apec_env libiconv
 
     conda install -n apec_env numpy
-    conda install -n apec_env scipy
+    conda install -n apec_env scipy=1.0.0
     conda install -n apec_env pandas
     conda install -n apec_env -c auto multiprocessing
     conda install -n apec_env numba
