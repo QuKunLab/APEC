@@ -177,6 +177,7 @@ Input parameters:
     -s:       The project path that contains data, work, matrix, peak, result and figure folders.
     --format: read fragment count matrix from csv or mtx file, default=csv.
     --nc:     Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm. default=0.
+              If users set their own cluster number, APEC will perform KNN clustering.
     --ngroup: Number of accessons, default=600.
     --norm:   score or probability; set normalization method, default=zscore.
     --hc:     Run hierarchical clustering or not, would be very slow for more than 3000 cells.
@@ -206,7 +207,7 @@ Output files important to users:
 
 _Figure 3. TSNE_by_Accesson.pdf in **figure** folder_
 
-<img src="images/louvain_cluster_by_Accesson.jpg" width="500">
+<img src="images/louvain_cluster_by_Accesson.jpg" width="400">
 
 _Figure 4. louvain_cluster_by_Accesson.pdf in **figure** folder_
 
@@ -225,6 +226,7 @@ Input parameters:
              Its default value is 50.
     --np:    Number of CPU cores.
     --nc:    Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm. default=0.
+             If users set their own cluster number, APEC will perform KNN clustering.
     --hc:    Run hierarchical clustering or not, would be very slow for more than 3000 cells.
              If hc=no, only Louvain clustering will be applied. default=no.
 
