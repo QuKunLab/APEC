@@ -188,11 +188,13 @@ Output files important to users:
 
     TSNE_by_Accesson.csv: tSNE transformation of accesson count matrix.
     louvain_cluster_by_Accesson.csv: Result of Louvain clustering.
+    KNN_cluster_by_Accesson.csv: KNN clustering result, if users set their own cluster number (--nc).
 
 (2) In **figure** folder:
 
     TSNE_by_Accesson.pdf: tSNE diagram of cells, colored by the “notes” column in $project/data/cell_info.csv.
     louvain_cluster_by_Accesson.pdf: Louvain clustering result of cells, plotted on tSNE map.
+    KNN_cluster_by_Accesson.pdf: KNN clustering result, if users set their own cluster number (--nc).
     cell_cell_correlation_by_Accesson.png: Hierarchical clustering of corrlation matrix of cells, if "--hc yes".
 
 (3) In **matrix** folder:
@@ -203,6 +205,10 @@ Output files important to users:
 <img src="images/TSNE_by_Accesson.jpg" width="500">
 
 _Figure 3. TSNE_by_Accesson.pdf in **figure** folder_
+
+<img src="images/louvain_cluster_by_Accesson.jpg" width="500">
+
+_Figure 4. louvain_cluster_by_Accesson.pdf in **figure** folder_
 
 ### 3.3 Clustering based on motifs (same as chromVAR)
 
@@ -321,7 +327,7 @@ Depending on the type of marker (motif or gene) and diagram (tSNE or pseudo-time
 
 <img src="images/motif_FOS_on_TSNE_by_Accesson.jpg" width="500">
 
-_Figure 4. motif_FOS_on_TSNE_by_Accesson.pdf in **figure** folder_
+_Figure 5. motif_FOS_on_TSNE_by_Accesson.pdf in **figure** folder_
 
 ### 4.4 UCSC track
 
