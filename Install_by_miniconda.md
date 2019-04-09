@@ -26,7 +26,6 @@
     conda install -n apec_env macs2
     conda install -n apec_env meme=4.11.2
     conda install -n apec_env ucsc-bedgraphtobigwig
-    conda install -n apec_env libiconv
 
     conda install -n apec_env numpy
     conda install -n apec_env scipy=1.0.0
