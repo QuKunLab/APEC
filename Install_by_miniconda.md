@@ -40,6 +40,7 @@
     conda install -n apec_env python-louvain=0.11
     conda install -n apec_env python-Levenshtein
     conda install -n apec_env scikit-learn=0.20.0
+    conda install -n apec_env multicore-tsne
 
     conda install -n apec_env bioconductor-monocle=2.4.0 (It's not recommended to install monocle with conda)
     conda install -n apec_env libiconv   (required if you use conda to install monocle)

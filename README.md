@@ -20,7 +20,7 @@ APEC requires users to use Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well 
 (1) Python packages and libraries:
 
     numpy, scipy (1.0.0), pandas, scikit-learn (0.20.0), multiprocessing, numba, pysam, matplotlib,
-    seaborn, setuptools, networkx, python-louvain (0.11), python-Levenshtein.
+    seaborn, setuptools, networkx, python-louvain (0.11), python-Levenshtein, multicore-tsne.
 
     All upon python packages can be installed by: pip install package_name
 
