@@ -1,3 +1,7 @@
+**Updates on 2019-04-25**
+
+    We corrected the error on line 181 of cluster_byAccesson.py.
+
 **Updates on 2019-04-21**
 
     There is a problem with the TSNE package in scikit-learn when analyzing a large number of cells.
