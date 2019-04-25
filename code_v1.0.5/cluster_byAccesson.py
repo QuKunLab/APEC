@@ -120,7 +120,7 @@ def weighted_tsne(matrix, clusters, options):
         cluster_cells = numpy.where(clusters==ctype)[0]
         weight = adjusted[cluster_cells, :].mean(axis=0) * float(options.wt)
         adjusted[cluster_cells, :] = numpy.array([x+weight for x in adjusted[cluster_cells, :]])
-    if len(matrix[:,0])<=10000:
+    if matrix.shape[0]<=10000:
         tsne_result = TSNE(n_components=2, random_state=int(options.rs)).fit_transform(adjusted)
     else:
         tsne_result = McTSNE(n_components=2, random_state=int(options.rs)).fit_transform(adjusted)
