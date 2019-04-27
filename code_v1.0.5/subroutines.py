@@ -385,8 +385,7 @@ def specific_peak(options, subname):
     if options.vs=='all': vsCluster = list(set(cluster_df['cluster'].values)-set(kCluster))
     reads_df = pandas.read_csv(options.s+'/matrix/filtered_reads.csv', sep=',', index_col=0,
                    engine='c', na_filter=False, low_memory=False)
-#    peaks_bed = open(options.s+'/peak/annotate_peak.bed').readlines()
-    peaks_bed = open(options.s+'/peak/top_filtered_peaks.bed').readlines()
+    peaks_bed = open(options.s+'/peak/top_peaks.bed').readlines()
     cluster_df = cluster_df.loc[reads_df.index.values]
     cell_inCluster = cluster_df.loc[cluster_df['cluster'].isin(kCluster)].index.values
     cell_outCluster = cluster_df.loc[cluster_df['cluster'].isin(vsCluster)].index.values

@@ -1,6 +1,10 @@
+**Updates on 2019-04-27**
+
+    We corrected the error on line 388 of subroutines.py
+
 **Updates on 2019-04-25**
 
-    We corrected the error on line 181 of cluster_byAccesson.py.
+    We corrected the error on line 123 of cluster_byAccesson.py.
 
 **Updates on 2019-04-21**
 
