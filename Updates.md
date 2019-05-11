@@ -1,6 +1,7 @@
 **Updates on 2019-05-11**
     
-    Update generate_differential_markers.py: If '--motif' set to 'no', 'projec/result/deviation_chromVAR.csv' is not required.
+    Update generate_differential_markers.py:
+        If '--motif' set to 'no', 'projec/result/deviation_chromVAR.csv' is not required.
 
 **Updates on 2019-04-27**
 
