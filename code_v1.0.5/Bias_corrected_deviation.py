@@ -32,7 +32,6 @@ def mahalanobis_transform(aMatrix):
 #@numba.jit()
 def single_sampling(par):
     GC_bias, peak_reads, nStep, sd, iIter = par[0], par[1], par[2], par[3], par[4]
-    print 'permuted sampling ', iIter
     numpy.random.seed(12345+iIter)
     bias_step = (GC_bias.max() - GC_bias.min()) / float(nStep)
     read_step = (peak_reads.max() - peak_reads.min()) / float(nStep)

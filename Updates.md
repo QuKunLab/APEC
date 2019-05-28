@@ -1,3 +1,8 @@
+**Updates on 2019-05-28**
+
+    Fit the problem that cluster_byMotif.py cannot be used on the count matrix of mtx format (i.e. filtered_reads.mtx).
+    Also, in cluster_byMotif.py we adopted MulticoreTSNE instead of sklearn.manifold.TSNE
+
 **Updates on 2019-05-11**
     
     Update generate_differential_markers.py:

@@ -15,7 +15,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn
-from sklearn.manifold import TSNE
+from MulticoreTSNE import MulticoreTSNE as McTSNE
 from sklearn import cluster
 from sklearn.neighbors import kneighbors_graph
 import time
@@ -44,9 +44,10 @@ def initiation(options):
     if options.format=='mtx':
         reads = scipy.io.mmread(options.s+'/matrix/filtered_reads.mtx')
         reads = scipy.sparse.csr_matrix(reads)
+        reads = reads.A + 0.0001
         cells = pandas.read_csv(options.s+'/matrix/filtered_cells.csv', sep='\t', index_col=0,
                    engine='c', na_filter=False, low_memory=False)
-        cells_names = cells.index.values
+        cell_names = cells.index.values
     else:
         reads_df = pandas.read_csv(options.s+'/matrix/filtered_reads.csv', sep=',', index_col=0,
                    engine='c', na_filter=False, low_memory=False)
@@ -120,12 +121,12 @@ def cell_cluster(options):
         n_clust, clusters = subroutines.predict_cluster(matrix, connectivity.todense())
         print "predicted number of cell-clusters: ", n_clust
         clusters.to_csv(options.s+'/result/louvain_cluster_by_chromVAR.csv', sep='\t')
-        tsne_result = TSNE(n_components=2, random_state=int(options.rs)).fit_transform(matrix.values)
+        tsne_result = McTSNE(n_components=2, random_state=int(options.rs)).fit_transform(matrix.values)
         subroutines.plot_cluster(options, clusters, n_clust, tsne_result, 'louvain_cluster_by_chromVAR.pdf')
     else:
         n_clust = int(options.nc)
         clusters = subroutines.knn_cluster(options, matrix, n_clust, connectivity, "KNN_cluster_by_chromVAR.csv")
-        tsne_result = TSNE(n_components=2, random_state=int(options.rs)).fit_transform(matrix.values)
+        tsne_result = McTSNE(n_components=2, random_state=int(options.rs)).fit_transform(matrix.values)
         subroutines.plot_cluster(options, clusters, n_clust, tsne_result, 'KNN_cluster_by_chromVAR.pdf')
 #
     subroutines.plot_tSNE(options, matrix, tsne_result, "TSNE_by_chromVAR.pdf")
