@@ -1,10 +1,17 @@
+**Updates on 2019-05-30**
+
+    APEC was updated to version 1.0.6:
+        The fragment count matrix is stored in mtx format file, instead of csv format file.
+        When building accesson matrix, cluster_byAccesson.py won't use KNN graph anymore, which make clustering result more stable.
+        README.md file was updated.
+
 **Updates on 2019-05-28**
 
     Fit the problem that cluster_byMotif.py cannot be used on the count matrix of mtx format (i.e. filtered_reads.mtx).
     Also, in cluster_byMotif.py we adopted MulticoreTSNE instead of sklearn.manifold.TSNE
 
 **Updates on 2019-05-11**
-    
+
     Update generate_differential_markers.py:
         If '--motif' set to 'no', 'projec/result/deviation_chromVAR.csv' is not required.
 

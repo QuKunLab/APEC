@@ -6,7 +6,7 @@
 
 APEC can perform fine cell type clustering on single cell chromatin accessibility data from scATAC-seq, snATAC-seq, sciATAC-seq or any other relevant experiment. It can also be used to control data quality, map fragment count matrices, search for important differential motifs/genes for each cell cluster, find super enhancers, and construct pseudo-time trajectory (by calling Monocle).
 
-**If users want to process the raw fastq data from scATAC-seq experiment, please run APEC from section 2 “Fragment count matrix”. If users have their own fragment count matrix from snATAC-seq, sciATAC-seq or other experiments, where each element is the number of fragments per-cell-per-peak, please skip section 2 and run APEC from section 3 “Clustering”.**
+**If users want to process the raw fastq data from scATAC-seq experiment, please run APEC from section 2 "Fragment count matrix". If users have their own fragment count matrix from snATAC-seq, sciATAC-seq or other experiments, where each element is the number of fragments per-cell-per-peak, please skip section 2 and run APEC from section 3 "Clustering".**
 
 For our example projects, most of APEC's results (including plots and dataframes) can be reproduced on a general computer system. For each APEC program, users can add the '-h' parameter to display an introduction to the input parameters.
 
@@ -63,12 +63,12 @@ Users need to build a project folder (i.e. $project), which contains a **data** 
     type2-001_1.fastq, type2-001_2.fastq, type2-002_1.fastq, type2-002_2.fastq, ……;
     ……
 
-where "\_1" and "\_2" indicate forward and backward reads for pair-end sequencing. {type1, type2, ...} can be cell-types or batches of samples, such as {GM, K562, ...}, or {batch1, batch2, ...}, or any other words without underline “\_” or dash “-”.
+where "\_1" and "\_2" indicate forward and backward reads for pair-end sequencing. {type1, type2, ...} can be cell-types or batches of samples, such as {GM, K562, ...}, or {batch1, batch2, ...}, or any other words without underline "\_" or dash "-".
 The **work**, **matrix**, **peak**, **result** and **figure** folders will be automatically built by subsequent steps, and placed in $project folder.
 
 ### 2.2	Easy-run of matrix preparation
 
-Users can use the script ***APEC_prepare_steps.sh*** to finish the process from raw data to fragment count matrix.  This script includes steps of “trimming”, “mapping”, “peak calling”, “aligning read counts matrix”, “quality contral”, “estimating gene score”. Running this step on our example project (i.e. project01 with 672 cells) will take 10~20 hours on an 8-core 32 GB computer, since the sequence mapping step is the slowest step.
+Users can use the script ***APEC_prepare_steps.sh*** to finish the process from raw data to fragment count matrix.  This script includes steps of "trimming", "mapping", "peak calling", "aligning read counts matrix", "quality contral", "estimating gene score". Running this step on our example project (i.e. project01 with 672 cells) will take 10~20 hours on an 8-core 32 GB computer, since the sequence mapping step is the slowest step.
 
 Example:
 
@@ -109,7 +109,8 @@ For each cell, the mapping step can generate a subfolder (with cell name) in the
 
     reads.csv: Fragment count matrix.
     cell_info.merged.csv: Data quality report of each cell.
-    filtered_reads.csv: Filtered fragment count matrix.
+    filtered_reads.csv: Filtered cells information in csv format.
+    filtered_reads.mtx: Filtered fragment count matrix in mtx format.
 
 (5) In **figure** folder:
 
@@ -127,9 +128,9 @@ _Figure 2. mergeAll.RefSeqTSS.pdf in **peak** folder_
 
 ### 3.1	If users want to apply their own matrix
 
-**Skip this step** if users have run ***APEC_prepare_steps.sh*** in Section 2 “Fragment count matrix” and generated fragment count matrix from the raw scATAC-seq data.
+**Skip this step** if users have run ***APEC_prepare_steps.sh*** in Section 2 "Fragment count matrix" and generated fragment count matrix from the raw scATAC-seq data.
 
-If users have their own fragment count matrix, please build **data**, **matrix**, **peak**, and **figure** folders in $project path, and place “cell_info.csv” file in **data** folder, “top_peaks.bed” in **peak** folder, “filtered_reads.csv” in **matrix** folder. Then users need to run script ***prepare_premappedMatrix.py*** before clustering and further analysis. This step will take about 60 minutes to run our example project (i.e. project02) on an 8-core 32 GB computer.
+If users have their own fragment count matrix, please build **matrix**, **peak**, and **figure** folders in $project path, and place "filtered_cells.csv" and "filtered_reads.mtx" in **matrix** folder, "top_filtered_peaks.bed" in **peak** folder. Then users need to run script ***prepare_premappedMatrix.py*** if they want to run motif and gene analysis in the next steps. This step will take about 60 minutes to run our example project (i.e. project02) on an 8-core 32 GB computer.
 
 Example:
 
@@ -144,27 +145,18 @@ Input parameters:
 
 Details about initial files:
 
-    cell_info.csv: Two-column (separated by tabs) list of cell information ('name' and 'notes'), such as:
+    filtered_cells.csv: Two-column (separated by tabs) list of cell information ('name' and 'notes'), such as:
                         	name    notes
                         	CD4-001 CD4
                         	CD4-002 CD4
                         	CD8-001 CD8
                         	CD8-002 CD8
-    top_peaks.bed: Three-column list of peaks (500 BP accessible regions), such as:
-                        	chr1    3094060 3094560
-                        	chr1    3094768 3095268
-                        	chr1    3113480 3113980
-                        	chr1    3119987 3120487
-    filtered_reads.csv: Fragment count matrix, where each row is a cell and each column represents peak.
-                        The name of cells should be same with “cell_info.csv”, and the order of peaks
-                        should be same with “top_peaks.bed”. All numbers are separated by commas, for example:
-				,peak0,peak1,peak2,peak3,peak4,peak5
-			        CD4-001,1,0,2,0,0,1
-			        CD4-002,0,1,0,0,2,0
-			        CD8-001,0,0,0,1,1,0
-			        CD8-002,2,1,0,0,0,1
+    top_filtered_peaks.bed: Three-column list of peaks, similar to the peaks.bed file in the 10X scATAC-seq datasets
+    filtered_reads.mtx: Fragment count matrix in mtx format, where each row is a peak and each column represents a cell,
+                        similar to the matrix.mtx file in the 10X scATAC-seq datasets.
+                        The order of cells should be same with "filtered_cells.csv", and the order of peaks should be
+                        same with "filtered_top_peaks.bed".
 
-**Note**: If users want to analyze data for more than 10,000 cells, the "filtered_reads.csv" file can be very large. APEC also support the input matrix in mtx format, i.e. "filtered_reads.mtx", which is a file format for storing sparse matrix. Also, each row and column of the sparse matrix should be a cell and a peak respectively. Instead of the "filtered_reads.csv" file, the "filtered_reads.mtx" file should be placed in **matrix** folder in $project path.
 
 ### 3.2 Clustering based on accessons
 
@@ -177,7 +169,6 @@ Example:
 Input parameters:
 
     -s:       The project path that contains data, work, matrix, peak, result and figure folders.
-    --format: read fragment count matrix from csv or mtx file, default=csv.
     --nc:     Number of cell clusters. If nc=0, it will be predicted by Louvain algorithm. default=0.
               If users set their own cluster number, APEC will perform KNN clustering.
     --ngroup: Number of accessons, default=600.
@@ -195,7 +186,7 @@ Output files important to users:
 
 (2) In **figure** folder:
 
-    TSNE_by_Accesson.pdf: tSNE diagram of cells, colored by the “notes” column in $project/data/cell_info.csv.
+    TSNE_by_Accesson.pdf: tSNE diagram of cells, colored by the "notes" column in $project/matrix/filtered_cells.csv.
     louvain_cluster_by_Accesson.pdf: Louvain clustering result of cells, plotted on tSNE map.
     KNN_cluster_by_Accesson.pdf: KNN clustering result, if users set their own cluster number (--nc).
     cell_cell_correlation_by_Accesson.png: Hierarchical clustering of corrlation matrix of cells, if "--hc yes".
@@ -248,12 +239,12 @@ Users can run ***cluster_comparsion.py*** to measure the accuracy of the cluster
 
 Example:
 
-    python cluster_comparison.py --c1 $project/data/cell_info.csv
+    python cluster_comparison.py --c1 $project/matrix/filtered_cells.csv
                                  --c2 $project/result/louvain_cluster_by_Accesson.csv
 
 Input parameters:
 
-    --c1: "cell_info.csv" file in data folder, or "cluster_by_XXX.csv" in result folder.
+    --c1: "filtered_cells.csv" file in matrix folder, or "cluster_by_XXX.csv" in result folder.
     --c2: Cell clustering result file different with c1.
 
 The output information will be directly printed on the screen, including the contingency matrix and the ARI (adjusted rand index) value.
@@ -273,8 +264,8 @@ Input parameters:
     -s:        The project path.
     --cfile:   The cluster.csv file of a clustering method, e.g. $project/result/louvain_cluster_by_Accesson.csv
     --cluster: The target cluster for differential markers analysis, can be 0, 1, 2, …, or a batch of
-               clusters like “0,2”.
-    --vs:      vs which clusters users search differential markers for target cluster, e.g. “1,3”. default=all.
+               clusters like "0,2".
+    --vs:      vs which clusters users search differential markers for target cluster, e.g. "1,3". default=all.
     --pvalue:  P-value threshold for differential markers, default=0.001.
     --fold:    Fold change cutoff of differential markers, default=2.
     --motif:   Whether to search differential motifs, default=no.
@@ -282,26 +273,25 @@ Input parameters:
 
 Output files:
 
-In **result** folder, users can see three types of output files: “peaks_of_cluster_XXX.csv”, “genes_of_cluster_XXX.csv”, and “motifs_of_cluster_XXX.csv”, which respectively list the differential peaks, genes, and motifs of one cell-cluster (vs all other clusters or a batch of clusters).
+In **result** folder, users can see three types of output files: "peaks_of_cluster_XXX.csv", "genes_of_cluster_XXX.csv", and "motifs_of_cluster_XXX.csv", which respectively list the differential peaks, genes, and motifs of one cell-cluster (vs all other clusters or a batch of clusters).
 
 ### 4.2 Pseudo-time trajectory
 
 Example:
 
-    python generate_trajectory.py -s $project --npc 5
-                                  --cfile $project/data/cell_info.csv
+    python generate_trajectory.py -s $project --npc 5 --cfile $project/matrix/filtered_cells.csv
 
 Input parameters:
 
     -s:      The project path.
     --npc:   Number of principle components used for pseudo-time trajectory, default=5.
-    --cfile: Cell-types file, e.g. $project/data/cell_info.csv or $project/result/louvain_cluster_by_Accesson.csv.
+    --cfile: Cell-types file, e.g. $project/matrix/filtered_cells.csv or $project/result/louvain_cluster_by_Accesson.csv.
     --dim:   Plot 2D or 3D trajectory, default=3.
-    --angle: Angles to rotate the 3D trajectory, default=“30,30”.
+    --angle: Angles to rotate the 3D trajectory, default="30,30".
 
 Output files:
 
-This script can generate “monocle_reduced_dimension.csv” and “monocle_trajectory.csv” in **result** folder, and “pseudotime_trajectory.pdf” in **figure** folder. These files depict the structured data and 3D image for pseudo-time trajectory respectively.
+This script can generate "monocle_reduced_dimension.csv" and "monocle_trajectory.csv" in **result** folder, and "pseudotime_trajectory.pdf" in **figure** folder. These files depict the structured data and 3D image for pseudo-time trajectory respectively.
 
 ### 4.3 Marker motif/gene plot
 
@@ -314,11 +304,11 @@ Example:
 Input parameters:
 
     -s:      The project path.
-    --cfile: “TSNE_by_Accesson.csv” or “monocle_reduced_dimension.csv” file (in result folder) to render
+    --cfile: "TSNE_by_Accesson.csv" or "monocle_reduced_dimension.csv" file (in result folder) to render
              the enrichment of marker gene/motif.
-    --type:  Type of marker, can be “motif” or “gene”.
+    --type:  Type of marker, can be "motif" or "gene".
     --name:  Name of marker.
-    --angle: Angles to rotate the 3D trajectory, default=“30,30”.
+    --angle: Angles to rotate the 3D trajectory, default="30,30".
 
 Output files:
 
@@ -345,8 +335,8 @@ Example:
 Input parameters:
 
     -s: The project path.
-    --cfile: The cell clustering result file, e.g. “louvain_cluster_by_Accessons.csv” file in $project/result/ folder.
-    --gsize: The chromosome lengths file, i.e. “hg19.chrom.sizes” or “mm10.chrom.sizes” in $APEC/reference/ folder
+    --cfile: The cell clustering result file, e.g. "louvain_cluster_by_Accessons.csv" file in $project/result/ folder.
+    --gsize: The chromosome lengths file, i.e. "hg19.chrom.sizes" or "mm10.chrom.sizes" in $APEC/reference/ folder
 
 Output files:
 
@@ -364,4 +354,4 @@ Input parameters:
 
 Output files:
 
-The “potential_super_enhancer.csv” in **result** folder shows the adjacent peaks belonging to the same accesson, and their genomic regions. Users need to check the .bw files of the cell-clusters on the UCSC track browser to confirm the super enhancer regions.
+The "potential_super_enhancer.csv" in **result** folder shows the adjacent peaks belonging to the same accesson, and their genomic regions. Users need to check the .bw files of the cell-clusters on the UCSC track browser to confirm the super enhancer regions.
