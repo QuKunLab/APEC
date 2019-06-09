@@ -20,7 +20,7 @@ APEC requires users to use Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well 
 (1) Python packages and libraries:
 
     numpy, scipy (1.0.0), pandas, scikit-learn (0.20.0), multiprocessing, numba, pysam, matplotlib,
-    seaborn, setuptools, networkx, python-louvain (0.11), python-Levenshtein, multicore-tsne.
+    seaborn, setuptools, networkx, python-louvain (0.11), python-Levenshtein, multicore-tsne, ryp2(2.8.6).
 
     All upon python packages can be installed by: pip install package_name
 
@@ -107,9 +107,9 @@ For each cell, the mapping step can generate a subfolder (with cell name) in the
 
 (4) In **matrix** folder:
 
-    reads.csv: Fragment count matrix.
+    reads.mtx: Fragment count matrix.
     cell_info.merged.csv: Data quality report of each cell.
-    filtered_reads.csv: Filtered cells information in csv format.
+    filtered_cells.csv: Filtered cells.
     filtered_reads.mtx: Filtered fragment count matrix in mtx format.
 
 (5) In **figure** folder:
@@ -180,16 +180,16 @@ Output files important to users:
 
 (1) In **result** folder:
 
-    TSNE_by_Accesson.csv: tSNE transformation of accesson count matrix.
-    louvain_cluster_by_Accesson.csv: Result of Louvain clustering.
-    KNN_cluster_by_Accesson.csv: KNN clustering result, if users set their own cluster number (--nc).
+    TSNE_by_APEC.csv: tSNE transformation of accesson count matrix.
+    louvain_cluster_by_APEC.csv: Result of Louvain clustering.
+    KNN_cluster_by_APEC.csv: KNN clustering result, if users set their own cluster number (--nc).
 
 (2) In **figure** folder:
 
-    TSNE_by_Accesson.pdf: tSNE diagram of cells, colored by the "notes" column in $project/matrix/filtered_cells.csv.
-    louvain_cluster_by_Accesson.pdf: Louvain clustering result of cells, plotted on tSNE map.
-    KNN_cluster_by_Accesson.pdf: KNN clustering result, if users set their own cluster number (--nc).
-    cell_cell_correlation_by_Accesson.png: Hierarchical clustering of corrlation matrix of cells, if "--hc yes".
+    TSNE_by_APEC.pdf: tSNE diagram of cells, colored by the "notes" column in $project/matrix/filtered_cells.csv.
+    louvain_cluster_by_APEC.pdf: Louvain clustering result of cells, plotted on tSNE map.
+    KNN_cluster_by_APEC.pdf: KNN clustering result, if users set their own cluster number (--nc).
+    cell_cell_correlation_by_APEC.png: Hierarchical clustering of corrlation matrix of cells, if "--hc yes".
 
 (3) In **matrix** folder:
 

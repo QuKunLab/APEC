@@ -18,7 +18,7 @@ import numba
 global colors
 colors = numpy.array(['pink', 'red', '#377eb8', 'green', 'skyblue', 'lightgreen', 'gold',
                       '#ff7f00', '#000066', '#ff3399', '#a65628', '#984ea3', '#999999',
-                      '#e41a1c', '#dede00', 'b', 'g', 'r', 'c', 'm', 'y', 'k',
+                      '#e41a1c', '#dede00', 'b', 'g', 'c', 'm', 'y', 'k',
                       '#ADFF2F', '#7CFC00', '#32CD32', '#90EE90', '#00FF7F', '#3CB371',
                       '#008000', '#006400', '#9ACD32', '#6B8E23', '#556B2F', '#66CDAA',
                       '#8FBC8F', '#008080', '#DEB887', '#BC8F8F', '#F4A460', '#B8860B',
@@ -180,7 +180,7 @@ def score_peaks(peaks_file, motif_folder, out_file):
                             break
                 except:
                     continue
-    TFmotif_df = pandas.DataFrame(outData, index=['peak'+str(i) for i in xrange(len(peaks_info))], columns=headers)
+    TFmotif_df = pandas.DataFrame(outData, index=['peak'+str(i) for i in numpy.arange(0,len(peaks_info))], columns=headers)
     TFmotif_df.to_csv(out_file, sep=',')
     return
 #
@@ -376,7 +376,7 @@ def specific_peak(options, subname):
         kCluster = map(int, kCluster)
         if options.vs!='all': vsCluster = map(int, vsCluster)
     if options.vs=='all': vsCluster = list(set(cluster_df['cluster'].values)-set(kCluster))
-    reads = scipy.sparse.csr_matrix(scipy.io.mmread(options.s+'/matrix/filtered_reads.mtx'))
+    reads = scipy.sparse.csr_matrix(scipy.io.mmread(options.s+'/matrix/filtered_reads.mtx')).T
     peaks_bed = open(options.s+'/peak/top_filtered_peaks.bed').readlines()
     cell_inCluster = numpy.where(numpy.isin(cluster_df['cluster'], kCluster)==True)[0]
     cell_outCluster = numpy.where(numpy.isin(cluster_df['cluster'], vsCluster)==True)[0]
@@ -389,7 +389,7 @@ def specific_peak(options, subname):
     fold = (mean_in + 1e-4) / (mean_out + 1e-4)
     matrix = numpy.vstack((mean_in, mean_out, fold, pvalues)).T
     columns = ['mean_inCluster','mean_outCluster', 'fold', 'p-value']
-    peak_num = ['peak'+str(x) for x in xrange(len(peaks_bed))]
+    peak_num = ['peak'+str(x) for x in numpy.arange(0,len(peaks_bed))]
     matrix_df = pandas.DataFrame(matrix, index=peak_num, columns=columns)
     matrix_df = matrix_df.loc[matrix_df['p-value'] <= float(options.pvalue)]
     matrix_df = matrix_df.loc[matrix_df['fold'] >= float(options.fold)]

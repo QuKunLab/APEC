@@ -21,7 +21,9 @@ opts.add_option("--cluster", help="The cluster for differential markers analysis
 opts.add_option("--vs", default='all', help="vs which clusters to search differential markers for target clusters, e.g. 1,4,2, default=all")
 opts.add_option("--pvalue", default=0.001, help='P-value threshold for differential markers, default=0.001')
 opts.add_option("--fold", default=2, help='Fold change cutoff of differential markers, default=2')
-opts.add_option("--motif", default='no', help='Whether to search differential motifs for target cluster, default=no.')
+opts.add_option("--peak", default='yes', help='Whether to search differential peaks for target cluster, default=yes.')
+opts.add_option("--motif", default='no', help='Whether to search differential motifs for target cluster, default=no. '
+                +'Users need to run cluster_byMotif.py first')
 opts.add_option("--gene", default='yes', help='Whether to search differential genes for target cluster, default=yes.')
 options, arguments = opts.parse_args()
 #
@@ -84,7 +86,8 @@ def get_diff_genes(options, subname, cell_inCluster, cell_outCluster):
 subname = '_'.join(options.cluster.split(','))
 if options.vs!='all':
     subname += '_VS_' + '_'.join(options.vs.split(','))
-#subroutines.specific_peak(options, subname)
+if options.peak=='yes':
+    subroutines.specific_peak(options, subname)
 cells_in, cells_out = group_cells(options)
 if options.motif=='yes':
     get_diff_motifs(options, subname, cells_in, cells_out)

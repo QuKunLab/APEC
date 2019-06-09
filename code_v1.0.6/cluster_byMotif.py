@@ -12,7 +12,6 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn
 from MulticoreTSNE import MulticoreTSNE as McTSNE
-from sklearn import cluster
 from sklearn.neighbors import kneighbors_graph
 #
 #
@@ -36,7 +35,7 @@ if not os.path.exists(options.s+'/figure'): os.popen('mkdir ' + options.s+'/figu
 #
 def initiation(options):
     reads = scipy.io.mmread(options.s+'/matrix/filtered_reads.mtx')
-    reads = scipy.sparse.csr_matrix(reads)
+    reads = scipy.sparse.csr_matrix(reads).T
     reads = reads.A + 0.0001
     cells = pandas.read_csv(options.s+'/matrix/filtered_cells.csv', sep='\t', index_col=0,
                    engine='c', na_filter=False, low_memory=False)

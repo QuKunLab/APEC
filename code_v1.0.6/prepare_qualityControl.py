@@ -22,7 +22,7 @@ if not os.path.exists(options.s+'/figure'): os.popen('mkdir ' + options.s+'/figu
 frag_thresh = float(options.pfrag)
 lib_size_thresh = int(options.lib)
 #
-reads = scipy.sparse.csr_matrix(scipy.io.mmread(options.s+'/matrix/reads.mtx'))
+reads = scipy.sparse.csr_matrix(scipy.io.mmread(options.s+'/matrix/reads.mtx')).T
 cell_info = pandas.read_csv(options.s+'/matrix/cell_info.merged.csv', sep='\t', index_col=0)
 libSize = cell_info['final_reads'].values
 readsInPeaks = reads.sum(axis=1).A[:,0].astype(float)/cell_info['final_reads'].values
@@ -68,7 +68,7 @@ motif_df.to_csv(options.s+'/matrix/motif_filtered.csv', sep=',')
 #
 reads = reads[filtered_cell_index, :]
 reads = reads[:, filtered_peak_index]
-scipy.io.mmwrite(options.s+'/matrix/filtered_reads.mtx', scipy.sparse.coo_matrix(reads))
+scipy.io.mmwrite(options.s+'/matrix/filtered_reads.mtx', scipy.sparse.coo_matrix(reads.T))
 #
 print(reads.shape, motif_df.shape)
 #

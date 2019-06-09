@@ -47,18 +47,26 @@ def run_umap(project, cellinfo, rand_stat=0, norm_method='zscore'):
     umap_result = umap.UMAP(n_components=2, random_state=rand_stat).fit_transform(matrix)
     cellinfo_df = pandas.read_csv(cellinfo, sep='\t', index_col=0, engine='c', na_filter=False, low_memory=False)
     umap_df = pandas.DataFrame(umap_result, index=cellinfo_df.index, columns=['UMAP1', 'UMAP2'])
-    umap_df.to_csv(project+'/result/umap.csv', sep='\t')
+    umap_df.to_csv(project+'/result/UMAP_by_APEC.csv', sep='\t')
 #
     if 'notes' in cellinfo_df.columns.values: cellinfo_df['cluster'] = cellinfo_df['notes']
     cTypes = list(set(cellinfo_df['cluster'].values))
     cTypes.sort()
     cTypeIndex = [numpy.where(cellinfo_df['cluster'].values==x) for x in cTypes]
-    colors = matplotlib.colors.CSS4_COLORS.keys()
+    colors = numpy.array(['pink', 'red', '#377eb8', 'green', 'skyblue', 'lightgreen', 'gold',
+                      '#ff7f00', '#000066', '#ff3399', '#a65628', '#984ea3', '#999999',
+                      '#e41a1c', '#dede00', 'b', 'g', 'c', 'm', 'y', 'k',
+                      '#ADFF2F', '#7CFC00', '#32CD32', '#90EE90', '#00FF7F', '#3CB371',
+                      '#008000', '#006400', '#9ACD32', '#6B8E23', '#556B2F', '#66CDAA',
+                      '#8FBC8F', '#008080', '#DEB887', '#BC8F8F', '#F4A460', '#B8860B',
+                      '#CD853F', '#D2691E', '#8B4513', '#A52A2A', '#778899', '#2F4F4F',
+                      '#FFA500', '#FF4500', '#DA70D6', '#FF00FF', '#BA55D3', '#9400D3',
+                      '#8B008B', '#9370DB', '#663399', '#4B0082'])
     fig2, axes = plt.subplots(1, figsize=(15,15))
     for ict,ct in enumerate(cTypes):
         axes.scatter(umap_result[cTypeIndex[ict], 0], umap_result[cTypeIndex[ict], 1], c=colors[ict], label=ct, s=50)
     axes.legend(bbox_to_anchor=(1, 1), loc=2, borderaxespad=0.)
-    fig2.savefig(project+'/figure/umap.pdf', bbox_inches='tight')
+    fig2.savefig(project+'/figure/UMAP_by_APEC.pdf', bbox_inches='tight')
     return
 #
 #

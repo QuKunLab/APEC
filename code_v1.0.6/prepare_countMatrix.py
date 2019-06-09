@@ -44,7 +44,7 @@ subroutines.score_peaks(peaks_file, motif_folder, TFmatrix_file)
 #### count reads for peaks
 cell_info_df = pandas.read_csv(cell_info, sep='\t', index_col=0)
 matrix = subroutines.counts_per_peak(bam_file, peaks_file, reads_matrix, cell_info_df)
-matrix = scipy.sparse.coo_matrix(matrix)
+matrix = scipy.sparse.coo_matrix(matrix.T)
 scipy.io.mmwrite(reads_matrix, matrix)
 #
 #

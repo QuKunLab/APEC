@@ -45,7 +45,7 @@ def get_tss_region(options):
 def get_tss_peaks(options):
     peaks = [[x.split()[0], (int(x.split()[1])+int(x.split()[2]))/2]
              for x in open(options.s+'/peak/top_filtered_peaks.bed').readlines()]
-    peaks_df = pandas.DataFrame(peaks, index=[str(x) for x in xrange(len(peaks))],
+    peaks_df = pandas.DataFrame(peaks, index=[str(x) for x in numpy.arange(0,len(peaks))],
                                 columns=['chrom', 'center'])
     tss_df = pandas.read_csv(options.s+'/peak/genes_tss_region.csv', sep='\t', index_col=0)
     for gene in tss_df.index.values:
@@ -72,7 +72,7 @@ def get_tss_peaks(options):
 #
 def get_score_from_peaks(options):
     tss_df = pandas.read_csv(options.s+'/peak/genes_tss_peaks.csv', sep='\t', index_col=0)
-    reads = scipy.sparse.csr_matrix(scipy.io.mmread(options.s+'/matrix/filtered_reads.mtx'))
+    reads = scipy.sparse.csr_matrix(scipy.io.mmread(options.s+'/matrix/filtered_reads.mtx')).T
     cells_df = pandas.read_csv(options.s+'/matrix/filtered_cells.csv', sep='\t', index_col=0)
     all_peaks = numpy.arange(0, reads.shape[1])
     genes, score = [], []

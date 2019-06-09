@@ -33,7 +33,7 @@ How to run:
     python generate_superEnhancer.py -s $project01
 
 
-(2) **project02** is an example of running APEC from the user's own fragment count matrix. Users need to copy "cell_info.csv" in **data** folder, "filtered_reads.csv" in **matrix** folder, and "top_peaks.bed" in **peak** folder to start the clustering. This project contains single cell samples from the forebrain of adult mice, from "Preissl, S. et al. Single-nucleus analysis of accessible chromatin in developing mouse forebrain reveals cell-type-specific transcriptional regulation. Nat Neurosci 21, 432-439 (2018)".
+(2) **project02** is an example of running APEC from the user's own fragment count matrix. Users need to copy "filtered_cells.csv" and "filtered_reads.mtx" in **matrix** folder, and "top_filtered_peaks.bed" in **peak** folder to start the clustering. This project contains single cell samples from the forebrain of adult mice, from "Preissl, S. et al. Single-nucleus analysis of accessible chromatin in developing mouse forebrain reveals cell-type-specific transcriptional regulation. Nat Neurosci 21, 432-439 (2018)".
 
 How to run:
 
@@ -79,7 +79,7 @@ How to run:
 
     #### 2. Generate pseudo-time trajectory by monocle. It takes ~4 minutes.
 
-    python generate_trajectory.py -s $project03 --cfile $project03/data/cell_info.csv --npc 5 --angle 39,94
+    python generate_trajectory.py -s $project03 --cfile $project03/matrix/filtered_cells.csv --npc 5 --angle 39,94
 
     #### 3. Plot motifs on trajectory. It takes ~1 minute for each motif.
 

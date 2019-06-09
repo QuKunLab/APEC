@@ -19,7 +19,7 @@ bash APEC_prepare_steps.sh -s project -g genome_index -n nCPUs -l logq -p pfrag 
            exit 1 ;;
         -s|--project) project="$2" ; shift 2;;
         -g|--genome) genome="$2" ; shift 2;;
-        -n|--np) np="$2" ; shift 2;;    
+        -n|--np) np="$2" ; shift 2;;
         -l|--logq) logq="$2" ; shift 2;;
         -p|--pfrag) pfrag="$2" ; shift 2;;
         -f|--frag) frag="$2" ; shift 2;;
@@ -48,11 +48,11 @@ frag=$frag
 #
 #### processes to prepare raw data ###########
 #
-python prepare_trimming.py -s $project --np $np
+#python prepare_trimming.py -s $project --np $np
 #
-python prepare_mapping.py -s $project --index $index --picard $picard --tss $tss --np $np
+#python prepare_mapping.py -s $project --index $index --picard $picard --tss $tss --np $np
 #
-python prepare_peakCalling.py -s $project --blist $blist --fa $fa --tss $tss --ref $ref --logq $logq
+#python prepare_peakCalling.py -s $project --blist $blist --fa $fa --tss $tss --ref $ref --logq $logq
 #
 python prepare_countMatrix.py -s $project --fa $fa --np $np
 #
