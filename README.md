@@ -42,7 +42,7 @@ All of the following software needs to be placed in the global environment of th
     bedGraphToBigWig: http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/
     Homer: http://homer.ucsd.edu/homer/
 
-**notes: User need to download genome reference for Homer by "perl /path-to-homer/configureHomer.pl -install hg19" and "perl /path-to-homer/configureHomer.pl -install mm10".**
+**notes: Users need to download genome reference for Homer by "perl /path-to-homer/configureHomer.pl -install hg19" and "perl /path-to-homer/configureHomer.pl -install mm10".**
 
 ### 1.2	Installation
 
