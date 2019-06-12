@@ -256,7 +256,7 @@ The output information will be directly printed on the screen, including the con
 
 ### 4.1 Differential motifs and genes
 
-Before the running of differential feature analysis, please run generate_gene_score_by_accesson.py first:
+Before the running of differential feature analysis, please run **generate_gene_score_by_accesson.py** first:
 
     python generate_gene_score_by_accesson.py -s $project --genome hg19
 
