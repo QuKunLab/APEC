@@ -89,8 +89,8 @@ def get_gene_score(project):
 #
 #
 t1 = time.time()
-#annotate_peak(options.s, genome=options.genome)
-#annotate_accessons(options.s, int(options.width), float(options.pvalue))
+annotate_peak(options.s, genome=options.genome)
+annotate_accessons(options.s, int(options.width), float(options.pvalue))
 get_gene_score(options.s)
 print(time.time()-t1)
 #
