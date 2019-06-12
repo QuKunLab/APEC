@@ -20,6 +20,7 @@ How to run:
 
     #### get differential peaks/genes/motifs for cell cluster 1, take several minutes ####
 
+    python generate_gene_score_by_accesson.py -s $project01 --genome hg19
     python generate_differential_markers.py -s $project01 --cfile $project01/result/louvain_cluster_by_Accesson.csv \
                                             --cluster 1 --vs all --motif yes --gene yes
 
@@ -81,7 +82,13 @@ How to run:
 
     python generate_trajectory.py -s $project03 --cfile $project03/matrix/filtered_cells.csv --npc 5 --angle 39,94
 
-    #### 3. Plot motifs on trajectory. It takes ~1 minute for each motif.
+    #### 3 Plot genes on tSNE. It takes several minutes.
+
+    python generate_gene_score_by_accesson.py -s $project01 --genome hg19
+    python generate_markers_on_plots.py -s $project03 --cfile $project03/result/TSNE_by_APEC.csv \
+                                        --type gene --name FOXO1
+
+    #### 4. Plot motifs on trajectory. It takes ~1 minute for each motif.
 
     python generate_markers_on_plots.py -s $project03 --cfile $project03/result/monocle_reduced_dimension.csv \
                                         --type motif --name Hoxa9 --angle 39,94 --sharp -6,9

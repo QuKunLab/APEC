@@ -254,9 +254,26 @@ The output information will be directly printed on the screen, including the con
 
 ## 4. Feature analysis
 
-### 4.1 Differential peaks, motifs and genes
+### 4.1 Differential motifs and genes
 
-Example:
+Before the running of differential feature analysis, please run generate_gene_score_by_accesson.py first:
+
+    python generate_gene_score_by_accesson.py -s $project --genome hg19
+
+Input Parameter:
+
+    -s:        The project path.
+    --genome   Genome reference used for gene annotation, can be "hg19" or "mm10".
+    --width    Width of genome window for fisher exact test, default=1000000.
+    --pvalue   P-value threshold for fisher exact test, default=0.01.
+
+Output files:
+
+    $project/matrix/Accesson_annotated.csv
+    $project/matrix/gene_annotated.csv
+    $project/matrix/gene_score.csv
+
+Then users can run differential feature search as:
 
     python generate_differential_markers.py -s $project
                                             --cfile $project/result/louvain_cluster_by_APEC.csv
@@ -276,7 +293,7 @@ Input parameters:
 
 Output files:
 
-In **result** folder, users can see three types of output files: "peaks_of_cluster_XXX.csv", "genes_of_cluster_XXX.csv", and "motifs_of_cluster_XXX.csv", which respectively list the differential peaks, genes, and motifs of one cell-cluster (vs all other clusters or a batch of clusters).
+In **result** folder, users can see three types of output files: "genes_of_cluster_XXX.csv", and "motifs_of_cluster_XXX.csv", which respectively list the differential peaks, genes, and motifs of one cell-cluster (vs all other clusters or a batch of clusters).
 
 ### 4.2 Pseudo-time trajectory
 
