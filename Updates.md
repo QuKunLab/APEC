@@ -1,3 +1,7 @@
+**Updates on 2019-06-12**
+
+    Using new algorithm to estimate gene score form relevant accessons.
+
 **Updates on 2019-06-09**
 
     Again, cluster_byAccesson.py uses KNN graph to build accesson matrix, due to the memory requirement for large datesets.

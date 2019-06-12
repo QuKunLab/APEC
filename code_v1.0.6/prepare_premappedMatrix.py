@@ -14,17 +14,17 @@ opts = OptionParser(usage=usage, version="%prog 1.0.6")
 opts.add_option("-s", help="The project folder")
 opts.add_option("--motif", default='yes', help="=yes if users want to caclulate motif bias, default=yes. "
                 +"It's necessory for cell clustering by motifs (chromVAR) and searching differential motifs.")
-opts.add_option("--gene", default='no', help="=yes if users want to estimate gene score, default=no. "
-                +"It's necessory for searching differential genes.")
-opts.add_option("--ref", default='hg19', help="Genome reference, default=hg19")
+#opts.add_option("--gene", default='no', help="=yes if users want to estimate gene score, default=no. "
+#                +"It's necessory for searching differential genes.")
+#opts.add_option("--ref", default='hg19', help="Genome reference, default=hg19")
 opts.add_option("--fa", default='../reference/hg19_chr.fa', help="Genome fasta file, default=../reference/hg19_chr.fa")
 opts.add_option("--bg", default='../reference/tier1_markov1.norc.txt',
                 help="Background file, default=../reference/tier1_markov1.norc.txt")
 opts.add_option("--pvalue", default=0.00005, help="P-value threshold for FIMO, default=0.00005")
 opts.add_option("--meme", default='../reference/JASPAR2018_CORE_vertebrates_redundant_pfms_meme.txt',
                 help="Motif file, default=../reference/JASPAR2018_CORE_vertebrates_redundant_pfms_meme.txt")
-opts.add_option("--distal", default=20000,
-                help="distal region around TSS for peak searching, default=20000")
+#opts.add_option("--distal", default=20000,
+#                help="distal region around TSS for peak searching, default=20000")
 opts.add_option("--np", default=1, help="Number of CPU cores to use, default=1")
 options, arguments = opts.parse_args()
 #
@@ -67,10 +67,10 @@ if options.motif=='yes':
     subroutines.score_peaks(peaks_file, motif_folder, TFmatrix_file)
 #
 #
-if options.gene=='yes':
-    gtf = '../reference/hg19_RefSeq_genes.gtf'
-    if options.ref=='mm10': gtf = '../reference/mm10_RefSeq_genes.gtf'
-    os.popen('python prepare_geneScore.py -s '+options.s+' --gtf '+gtf+' --distal '+str(options.distal))
+#if options.gene=='yes':
+#    gtf = '../reference/hg19_RefSeq_genes.gtf'
+#    if options.ref=='mm10': gtf = '../reference/mm10_RefSeq_genes.gtf'
+#    os.popen('python prepare_geneScore.py -s '+options.s+' --gtf '+gtf+' --distal '+str(options.distal))
 #
 #
 #

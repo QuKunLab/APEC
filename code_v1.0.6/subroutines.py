@@ -352,16 +352,18 @@ def specific_accesson(options, subname):
     matrix_df = matrix_df.loc[matrix_df['p-value'] <= float(options.pvalue)]
     matrix_df = matrix_df.loc[matrix_df['fold'] >= float(options.fold)]
     matrix_df = matrix_df.sort_values(by=['p-value'])
-    for acc in matrix_df.index.values:
-        peaks = peaks_df.loc[peaks_df['group']==int(acc)].index.values
-        matrix_df.loc[acc, 'N_peaks'] = len(peaks)
-        peaks_index = [int(x[4:]) for x in peaks]
-        if len(peaks)>=5:
-            with open(options.s+'/result/accesson_'+str(acc)+'_peaks.bed', 'w') as output1:
-                for line in allpeaks_bed[peaks_index]:
-                    words = line.split()
-#                    print >> output1, '\t'.join(words)
-                    output1.write('\t'.join(words)+'\n')
+#    for acc in matrix_df.index.values:
+#        peaks = peaks_df.loc[peaks_df['group']==int(acc)].index.values
+#        matrix_df.loc[acc, 'N_peaks'] = len(peaks)
+#        peaks_index = [int(x[4:]) for x in peaks]
+#        if len(peaks)>=5:
+#            with open(options.s+'/result/accesson_'+str(acc)+'_peaks.bed', 'w') as output1:
+#                for line in allpeaks_bed[peaks_index]:
+#                    words = line.split()
+#                    output1.write('\t'.join(words)+'\n')
+    accesson_annotated = pandas.read_csv(options.s+'/matrix/Accesson_annotated.csv', sep='\t', index_col=0)
+    accessons = list(map(int, matrix_df.index.values))
+    matrix_df['genes'] = accesson_annotated.loc[accessons, 'genes'].values
     matrix_df.to_csv(options.s+'/result/Accessons_of_Cluster_'+subname+'.csv', sep='\t')
     return
 #

@@ -15,7 +15,7 @@ For our example projects, most of APEC's results (including plots and dataframes
 
 ### 1.1	Requirements
 
-APEC requires users to use Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well as Python (version 2.7.15+), Java (version 1.8.0+) and R (version 3.4+) environment. Users also need to install the latest version of the following packages (**All these pacakges can be installed by miniconda, as described in "Install_by_miniconda.md"**):
+APEC requires users to use Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well as Python (version 2.7.15+), Java (version 1.8.0+) and R (version 3.4+) environment. Users also need to install the latest version of the following packages (**All these packages can be installed by miniconda, as described in "Install_by_miniconda.md"**):
 
 (1) Python packages and libraries:
 
@@ -30,7 +30,7 @@ Note: Please use scikit-learn=0.20.0 and python-louvain=0.11 if you want to repr
 
     Monocle 2.4.0: http://cole-trapnell-lab.github.io/monocle-release/
 
-(3) Other necessory software:
+(3) Other necessary software:
 
 All of the following software needs to be placed in the global environment of the Linux system to ensure that they can be called in any path/folder. Picard is also required, but we have placed it into $APEC/reference folder, and users don't need to install it. We recommend that users adopt the latest version of these software, except Meme (version 4.11.2). If users have their own fragment count matrix and only want to run APEC from section 3 "Clustering", then Bowtie2 and Macs2 are not required.
 
@@ -40,6 +40,9 @@ All of the following software needs to be placed in the global environment of th
     Macs2: https://github.com/taoliu/MACS.git
     Meme 4.11.2: http://meme-suite.org/doc/download.html?man_type=web
     bedGraphToBigWig: http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/
+    Homer: http://homer.ucsd.edu/homer/
+
+**notes: User need to download genome reference for Homer by "perl /path-to-homer/configureHomer.pl -install hg19" and "perl /path-to-homer/configureHomer.pl -install mm10".**
 
 ### 1.2	Installation
 
@@ -68,7 +71,7 @@ The **work**, **matrix**, **peak**, **result** and **figure** folders will be au
 
 ### 2.2	Easy-run of matrix preparation
 
-Users can use the script ***APEC_prepare_steps.sh*** to finish the process from raw data to fragment count matrix.  This script includes steps of "trimming", "mapping", "peak calling", "aligning read counts matrix", "quality contral", "estimating gene score". Running this step on our example project (i.e. project01 with 672 cells) will take 10~20 hours on an 8-core 32 GB computer, since the sequence mapping step is the slowest step.
+Users can use the script ***APEC_prepare_steps.sh*** to finish the process from raw data to fragment count matrix.  This script includes steps of "trimming", "mapping", "peak calling", "aligning read counts matrix", "quality control", "estimating gene score". Running this step on our example project (i.e. project01 with 672 cells) will take 10~20 hours on an 8-core 32 GB computer, since the sequence mapping step is the slowest step.
 
 Example:
 
@@ -196,13 +199,13 @@ Output files important to users:
     Accesson_reads.csv: Accesson fragment count matrix.
     Accesson_peaks.csv: Peaks that labeled by corresponding accesson.
 
-<img src="images/TSNE_by_Accesson.jpg" width="500">
+<img src="images/TSNE_by_APEC.jpg" width="500">
 
-_Figure 3. TSNE_by_Accesson.pdf in **figure** folder_
+_Figure 3. TSNE_by_APEC.pdf in **figure** folder_
 
-<img src="images/louvain_cluster_by_Accesson.jpg" width="420">
+<img src="images/louvain_cluster_by_APEC.jpg" width="420">
 
-_Figure 4. louvain_cluster_by_Accesson.pdf in **figure** folder_
+_Figure 4. louvain_cluster_by_APEC.pdf in **figure** folder_
 
 ### 3.3 Clustering based on motifs (same as chromVAR)
 
@@ -240,7 +243,7 @@ Users can run ***cluster_comparsion.py*** to measure the accuracy of the cluster
 Example:
 
     python cluster_comparison.py --c1 $project/matrix/filtered_cells.csv
-                                 --c2 $project/result/louvain_cluster_by_Accesson.csv
+                                 --c2 $project/result/louvain_cluster_by_APEC.csv
 
 Input parameters:
 
@@ -256,13 +259,13 @@ The output information will be directly printed on the screen, including the con
 Example:
 
     python generate_differential_markers.py -s $project
-                                            --cfile $project/result/louvain_cluster_by_Accesson.csv
+                                            --cfile $project/result/louvain_cluster_by_APEC.csv
                                             --cluster 1 --vs 2,3 --motif yes --gene yes
 
 Input parameters:
 
     -s:        The project path.
-    --cfile:   The cluster.csv file of a clustering method, e.g. $project/result/louvain_cluster_by_Accesson.csv
+    --cfile:   The cluster.csv file of a clustering method, e.g. $project/result/louvain_cluster_by_APEC.csv
     --cluster: The target cluster for differential markers analysis, can be 0, 1, 2, …, or a batch of
                clusters like "0,2".
     --vs:      vs which clusters users search differential markers for target cluster, e.g. "1,3". default=all.
@@ -285,7 +288,7 @@ Input parameters:
 
     -s:      The project path.
     --npc:   Number of principle components used for pseudo-time trajectory, default=5.
-    --cfile: Cell-types file, e.g. $project/matrix/filtered_cells.csv or $project/result/louvain_cluster_by_Accesson.csv.
+    --cfile: Cell-types file, e.g. $project/matrix/filtered_cells.csv or $project/result/louvain_cluster_by_APEC.csv.
     --dim:   Plot 2D or 3D trajectory, default=3.
     --angle: Angles to rotate the 3D trajectory, default="30,30".
 
@@ -298,13 +301,13 @@ This script can generate "monocle_reduced_dimension.csv" and "monocle_trajectory
 Example:
 
     python generate_markers_on_plots.py -s $project
-                                        --cfile $project/result/TSNE_by_Accesson.csv
+                                        --cfile $project/result/TSNE_by_APEC.csv
                                         --type motif --name RELA
 
 Input parameters:
 
     -s:      The project path.
-    --cfile: "TSNE_by_Accesson.csv" or "monocle_reduced_dimension.csv" file (in result folder) to render
+    --cfile: "TSNE_by_APEC.csv" or "monocle_reduced_dimension.csv" file (in result folder) to render
              the enrichment of marker gene/motif.
     --type:  Type of marker, can be "motif" or "gene".
     --name:  Name of marker.
@@ -314,14 +317,14 @@ Output files:
 
 Depending on the type of marker (motif or gene) and diagram (tSNE or pseudo-time trajectory), users will find different output plots in **figure** folder:
 
-    motif_XXX_on_TSNE_by_Accesson.pdf
-    gene_XXX_on_TSNE_by_Accesson.pdf
-    motif_XXX_on_monocle_reduced_dimension.pdf
-    gene_XXX_on_monocle_reduced_dimension.pdf
+    motif_XXX_on_TSNE_by_APEC.pdf
+    gene_XXX_on_TSNE_by_APEC.pdf
+    motif_XXX_on_trajectory_by_APEC.pdf
+    gene_XXX_on_trajectory_by_APEC.pdf
 
-<img src="images/motif_FOS_on_TSNE_by_Accesson.jpg" width="500">
+<img src="images/motif_FOS_on_TSNE_by_APEC.jpg" width="500">
 
-_Figure 5. motif_FOS_on_TSNE_by_Accesson.pdf in **figure** folder_
+_Figure 5. motif_FOS_on_TSNE_by_APEC.pdf in **figure** folder_
 
 ### 4.4 UCSC track
 
@@ -329,13 +332,13 @@ The program "generate_UCSCtrack.py" is not available if users have their own fra
 
 Example:
 
-    python generate_UCSCtrack.py -s $project --cfile $project/result/louvain_cluster_by_Accesson.csv
+    python generate_UCSCtrack.py -s $project --cfile $project/result/louvain_cluster_by_APEC.csv
                                  --gsize $APEC/reference/hg19.chrom.sizes
 
 Input parameters:
 
     -s: The project path.
-    --cfile: The cell clustering result file, e.g. "louvain_cluster_by_Accessons.csv" file in $project/result/ folder.
+    --cfile: The cell clustering result file, e.g. "louvain_cluster_by_APEC.csv" file in $project/result/ folder.
     --gsize: The chromosome lengths file, i.e. "hg19.chrom.sizes" or "mm10.chrom.sizes" in $APEC/reference/ folder
 
 Output files:

@@ -26,6 +26,7 @@
     conda install -n apec_env macs2
     conda install -n apec_env meme=4.11.2
     conda install -n apec_env ucsc-bedgraphtobigwig
+    conda install -n apec_env homer
 
     conda install -n apec_env numpy
     conda install -n apec_env scipy=1.0.0
@@ -56,3 +57,8 @@
 #### activate apec_env
 
     conda activate apec_env
+
+#### install genome reference for Homer
+
+    perl /path-to-homer/configureHomer.pl -install hg19
+    perl /path-to-homer/configureHomer.pl -install mm10

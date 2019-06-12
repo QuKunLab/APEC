@@ -16,7 +16,7 @@ opts = OptionParser()
 usage = "Enriched motifs/genes/peaks of a cluster (batch)\nusage: %prog -s project --cfile cluster.csv --cluster 1 --vs 2,3"
 opts = OptionParser(usage=usage, version="%prog 1.0")
 opts.add_option("-s", help="The project folder.")
-opts.add_option("--cfile", help="cluster.csv file of a clustering method, e.g. louvain_cluster_by_Accesson.csv in result folder")
+opts.add_option("--cfile", help="cluster.csv file of a clustering method, e.g. louvain_cluster_by_APEC.csv in result folder")
 opts.add_option("--cluster", help="The cluster for differential markers analysis, can be {0, 1, ..., nCluster}, or a batch of clusters like 0,2,3")
 opts.add_option("--vs", default='all', help="vs which clusters to search differential markers for target clusters, e.g. 1,4,2, default=all")
 opts.add_option("--pvalue", default=0.001, help='P-value threshold for differential markers, default=0.001')
@@ -67,8 +67,8 @@ def get_diff_motifs(options, subname, cell_inCluster, cell_outCluster):
 #
 #
 def get_diff_genes(options, subname, cell_inCluster, cell_outCluster):
-    expr = pandas.read_csv(options.s+'/matrix/genes_scored_by_peaks.csv', sep=',', index_col=0,
-                   engine='c', na_filter=False, low_memory=False)
+    expr = pandas.read_csv(options.s+'/matrix/gene_score.csv', sep=',', index_col=0,
+                   engine='c', na_filter=False, low_memory=False).T
     dev_in, dev_out = expr[cell_inCluster].values, expr[cell_outCluster].values
     mean_in, mean_out = dev_in.mean(axis=1), dev_out.mean(axis=1)
     delta = (mean_in + 1e-4) / (mean_out + 1e-4)

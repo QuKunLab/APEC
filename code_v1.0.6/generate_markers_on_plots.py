@@ -14,10 +14,10 @@ import scipy.stats
 #
 #
 opts = OptionParser()
-usage = "Render marker on tSNE or trajectory plot\nusage: %prog -s project --cfile TSNE_by_Accesson.csv --type motif --name RELA"
+usage = "Render marker on tSNE or trajectory plot\nusage: %prog -s project --cfile TSNE_by_APEC.csv --type motif --name RELA"
 opts = OptionParser(usage=usage, version="%prog 1.0")
 opts.add_option("-s", help="The project folder.")
-opts.add_option("--cfile", help="TSNE_by_Accesson.csv or monocle_reduced_dimension.csv file to use for rendering")
+opts.add_option("--cfile", help="TSNE_by_APEC.csv or monocle_reduced_dimension.csv file to use for rendering")
 opts.add_option("--type", default='motif', help="type of marker to plot, can be motif, gene, or accesson")
 opts.add_option("--name", help="name of marker to plot")
 opts.add_option("--angle", default='30,30', help='Angles to rotate the 3D trajectory, default=30,30')
@@ -45,8 +45,8 @@ def draw_marker(options):
         else:
             reads = reads_df.ix[cells, motifs].values.sum(axis=1)
     elif options.type=='gene':
-        reads_df = pandas.read_csv(options.s+'/matrix/genes_scored_by_peaks.csv', sep=',', index_col=0,
-                   engine='c', na_filter=False, low_memory=False).T
+        reads_df = pandas.read_csv(options.s+'/matrix/gene_score.csv', sep=',', index_col=0,
+                   engine='c', na_filter=False, low_memory=False)
         gene = list(set([options.name]).intersection(set(reads_df.columns.values)))
         if len(gene)==0:
             print("No corresponding marker!")
@@ -85,9 +85,6 @@ def draw_marker(options):
         im = ax.scatter(tsne[order,0], tsne[order,1],  cmap='Spectral_r', c=reads[order], edgecolors='none', s=20)
         cbar = plt.colorbar(im, shrink=0.15, ticks=[reads.min(), reads.max()], aspect=8)
         cbar.ax.set_yticklabels([round(reads.min(),2), round(reads.max(),2)])
-#        width, height = tsne[:,0].max()-tsne[:,0].min(), tsne[:,1].max()-tsne[:,1].min()
-#        ax.set_xlim((tsne[:,0].min()-0.01*width, tsne[:,0].max()+0.01*width))
-#        ax.set_ylim((tsne[:,1].min()-0.01*height, tsne[:,1].max()+0.01*height))
     ax.grid(False)
     ax.set_xticks([])
     ax.set_yticks([])
