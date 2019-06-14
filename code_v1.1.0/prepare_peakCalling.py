@@ -31,7 +31,7 @@ workspace_folder = options.s + '/work/'
 peak_folder = options.s + '/peak/'
 genome_fasta = options.fa
 tssFile = options.tss
-os.popen('mkdir ' + peak_folder)
+if not os.path.exists(peak_folder): os.popen('mkdir ' + peak_folder)
 #
 #
 print('!!!!!!  merge all marked bam files  !!!!!!')

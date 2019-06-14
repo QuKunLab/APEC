@@ -250,6 +250,7 @@ All of the following software needs to be placed in the global environment of th
     Macs2: https://github.com/taoliu/MACS.git
     Meme 4.11.2: http://meme-suite.org/doc/download.html?man_type=web
     pysam for python: set up by "pip install pysam"
+    python-Levenshtein: set up by "pip install python-Levenshtein"
 
 ### 1.2	Installation
 

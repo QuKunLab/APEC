@@ -10,14 +10,15 @@ from multiprocessing import Pool
 #
 #
 opts = OptionParser()
-usage = "Trim adapter\nusage: %prog -s project --np 4"
+usage = "Trim adapter\nusage: %prog -r raw_data -s project --np 4"
 opts = OptionParser(usage=usage, version="%prog 1.0")
-opts.add_option("-s", help="The project path, should contains <data> folder, where the pair-end sequencing data locate. "
+opts.add_option("-r", help="The <raw_data> folder, where the pair-end sequencing data locate. "
                           +"If you want to use this code to build cell_info.csv file, each fastq file should be names as:"
                           +"type1-001_1.fastq, type1-001_2.fastq, type1-002_1.fastq, type1-002_2.fastq, ... ;"
                           +"type2-001_1.fastq, type2-001_2.fastq, type2-002_1.fastq, type2-002_2.fastq, ... ; etc. "
                           +"{type1, type2, ..., typeN} can be cell-types for your samples, such as {GM, K562, ...}, "
                           +"or you can just use any name you want, but make sure there is no underline(_) or dashline(-) in typeX.")
+opts.add_option("-s", help='The <project> folder.')
 opts.add_option("--qlen", default=20, help="Query length for adatper trimming, default=20.")
 opts.add_option("--aseq", default="CTGTCTCTTATACACATCTGACGCTGCCGACGA", help="Adapter sequence, "
                           +"default=CTGTCTCTTATACACATCTGACGCTGCCGACGA.")
@@ -59,8 +60,8 @@ def rev_comp_dna(read2_rc):
 #
 def trim_adapters(fastq):
     cutoff = 50
-    fastq1, fastq2 = fastq + '_1.fastq', fastq + '_2.fastq'
-    trimed1, trimed2 = fastq + '_1.trim.fastq', fastq + '_2.trim.fastq'
+    fastq1, fastq2 = fastq[0] + '_1.fastq', fastq[0] + '_2.fastq'
+    trimed1, trimed2 = fastq[1] + '_1.trim.fastq', fastq[1] + '_2.trim.fastq'
     with open(fastq1) as fa1, open(fastq2) as fa2, open(trimed1, 'w') as out1, open(trimed2, 'w') as out2 :
         nReads, mm0_num_read, mm1_num_read = 0, 0, 0
         while 1:
@@ -108,11 +109,12 @@ def trim_adapters(fastq):
             out2.write(qual2[:cutoff]+'\n')
     return nReads, mm0_num_read, mm1_num_read
 #
+if not os.path.exists(options.s+'/data'): os.popen('mkdir '+options.s+'/data')
 #
-fastqs = [x.split('_')[0] for x in os.listdir(options.s+'/data/') if (x[-6:]=='.fastq')&(x[-11:]!='.trim.fastq')]
+fastqs = [x.split('_')[0] for x in os.listdir(options.r) if (x[-6:]=='.fastq')&(x[-11:]!='.trim.fastq')]
 fastqs = list(set(fastqs))
 fastqs.sort()
-pathes = [options.s+'/data/'+x for x in fastqs]
+pathes = [[options.r+'/'+x, options.s+'/data/'+x] for x in fastqs]
 pool = Pool(int(options.np))
 read_info = pool.map(trim_adapters, pathes)
 pool.close()
