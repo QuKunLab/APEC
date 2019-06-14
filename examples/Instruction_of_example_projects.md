@@ -55,8 +55,8 @@ How to run:
     #### cluster cells by APEC algorithm, take ~40 minutes on one CPU-core of computer ####
 
     from APEC import clustering, plot
-    clustering.build_accesson('$project02')
-    clustering.cluster_byAccesson('$project02', ngroup=700)
+    clustering.build_accesson('$project02', ngroup=700)
+    clustering.cluster_byAccesson('$project02')
     plot.plot_tsne('$project02', cell_label='cluster')
     plot.correlation('$project02', cell_label='cluster', cluster='hierachy')
 
