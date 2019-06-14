@@ -279,7 +279,7 @@ Users need to build a **project** folder to store the result. The **work**, **ma
 
 ### 2.2	Easy-run of matrix preparation
 
-Users can use the script ***APEC_prepare_steps.sh*** to finish the process from raw data to fragment count matrix.  This script includes steps of "trimming", "mapping", "peak calling", "aligning read counts matrix", "quality contral", "estimating gene score". Running this step on our example project (i.e. project01 with 672 cells) will take 10~20 hours on an 8-core 32 GB computer, since the sequence mapping step is the slowest step.
+Users can use the script ***APEC_prepare_steps.sh*** to finish the process from raw data to fragment count matrix.  This script includes steps of "trimming", "mapping", "peak calling", "aligning read counts matrix", and "quality control". Running this step on our example project (i.e. project01 with 672 cells) will take 10~20 hours on an 8-core 32 GB computer, since the sequence mapping step is the slowest step.
 
 Example:
 
