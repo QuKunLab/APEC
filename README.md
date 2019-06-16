@@ -2,7 +2,7 @@
 
 (Accessibility Pattern based Epigenomic Clustering)
 
-APEC can perform fine cell type clustering on single cell chromatin accessibility data from scATAC-seq, snATAC-seq, sciATAC-seq or any other relevant experiment. It can also be used to evaluate gene score from relevant accesson, search for differential motifs/genes for each cell cluster, find super enhancers, and construct pseudo-time trajectory (by calling Monocle). **If users have already obtained the fragment-count-per-peak matrix from other mapping pipelines (such as CellRanger), please run APEC from the first Section "Run APEC from fragment count matrix". If users have only the raw fastq files, please jump to the second Section "Get fragment count matrix from raw data".**
+APEC can perform fine cell type clustering on single cell chromatin accessibility data from scATAC-seq, snATAC-seq, sciATAC-seq or any other relevant experiment. It can also be used to evaluate gene expression from relevant accesson, search for differential motifs/genes for each cell cluster, find super enhancers, and construct pseudo-time trajectory (by calling Monocle). **If users have already obtained the fragment-count-per-peak matrix from other mapping pipelines (such as CellRanger), please run APEC from the first Section "Run APEC from fragment count matrix". If users have only the raw fastq files, please jump to the second Section "Get fragment count matrix from raw data".**
 
 ## Run AEPC from fragment count matrix
 
@@ -10,7 +10,7 @@ APEC can perform fine cell type clustering on single cell chromatin accessibilit
 
 #### 1.1 Requirements
 
-APEC requires Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well as Python (2.7.15+ or 3.6.8+). If users want to build pseudotime trajectory with APEC, please install R (3.4.0+) environment and monocle (2.8.0). Also, the following software are required for APEC:
+APEC requires Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well as Python (2.7.15+ or 3.6.8+). If users want to build pseudotime trajectory with APEC, please install R (3.4.0+) environment and monocle (2.4.0). Also, the following software are required for APEC:
 
     Bedtools: http://bedtools.readthedocs.io/en/latest/content/installation.html
     Meme 4.11.2: http://meme-suite.org/doc/download.html?man_type=web
@@ -72,7 +72,6 @@ input parameters:
     nc:       Number of cell clusters, set it to 0 if users want to predict cluster number by Louvain algorithm, default=0.
     norm:     Normalization method for accesson matrix, can be 'zscore' or 'probability', default='zscore'.
     filter:   Filter high dispersion accessons or not, can be 'yes' or 'no', default='yes'.
-              For large datasets (cell number over 10000), users should set filter='no'.
 
 output files:
 
@@ -154,9 +153,9 @@ output files:
     $project/result/monocle_reduced_dimension.csv
     $project/figure/pseudotime_trajectory_with_notes_label.pdf
 
-#### 3.5 Generate gene scores
+#### 3.5 Generate gene expression
 
-    generate.gene_score('$project', genome='hg19', width=1000000, pvalue=0.01):
+    generate.gene_expression('$project', genome='hg19', width=1000000, pvalue=0.01):
 
 input parameters:
 
@@ -168,9 +167,16 @@ output files:
 
     $project/matrix/Accesson_annotated.csv
     $project/matrix/gene_annotated.csv
-    $project/matrix/gene_score.csv
+    $project/matrix/gene_expression.csv
 
 #### 3.6 Generate differential feature for a cell cluster
+
+Get differential accessons:
+
+    generate.nearby_genes('$project', genome_gtf='hg19_RefSeq_genes.gtf', distal=20000)   # optional step
+    generate.differential_feature('$project', feature='accesson', target='0', vs='all')
+
+Get differential motifs/genes:
 
     generate.differential_feature('$project', feature='motif', target='0', vs='all')
     generate.differential_feature('$project', feature='gene', target='0', vs='all')
@@ -180,7 +186,7 @@ input parameters:
     feature:     Type of feature, can be 'accesson' or 'motif' or 'gene', default='accesson'.
                  If feature='accesson', run clustering.cluster_byAccesson() first;
                  if feature='motif', run clustering.cluster_byMotif() first;
-                 if feature='gene', run generate.gene_score() first.
+                 if feature='gene', run generate.gene_expression() first.
     cell_label:  Cell labels used for differential analysis, can be 'notes' or 'cluster', default='cluster'.
     cluster:     Clustering algorithm used in clustering.cluster_byXXX(), default='louvain'.
     target:      The target cluster that users search for differential features, default='1'.
@@ -190,7 +196,11 @@ input parameters:
     pvalue:      P-value for student-t test, default=0.01.
     log2_fold:   Cutoff for log2(fold_change), default=1.
 
-The differential motifs/genes of cell cluster '0' will presents on the screen directly. **Notes: Differential motif search requires the running of clustering.cluster_byMotif() beforehand (see 3.2), and differential gene search requires the running of generate.gene_score() beforehand (see 3.5).**
+output file:
+
+    $project/result/differential_accesson_of_cluster_X_vs_XXX.csv
+    $project/result/differential_motif_of_cluster_X_vs_XXX.csv
+    $project/result/differential_gene_of_cluster_X_vs_XXX.csv
 
 #### 3.7 Plot motif/gene on tSNE/trajectory diagram
 
@@ -206,7 +216,7 @@ input parameters:
     feature:        Type of the feature, can be 'accesson' or 'motif' or 'gene', default='accesson'.
                     If feature='accesson', run clustering.cluster_byAccesson() first;
                     if feature='motif', run clustering.cluster_byMotif() first;
-                    if feature='gene', run generate.gene_score() first.
+                    if feature='gene', run generate.gene_expression() first.
     matrix_type:    Type of input matrix for tSNE/UMAP, can be 'APEC' or 'chromVAR', default='APEC'.
                     If matrix_type='APEC', it will use tSNE/UMAP result of APEC;
                     if matrix_type='chromVAR', it will use tSNE/UMAP result of chromVAR.
@@ -250,7 +260,6 @@ All of the following software needs to be placed in the global environment of th
     Macs2: https://github.com/taoliu/MACS.git
     Meme 4.11.2: http://meme-suite.org/doc/download.html?man_type=web
     pysam for python: set up by "pip install pysam"
-    python-Levenshtein: set up by "pip install python-Levenshtein"
 
 ### 1.2	Installation
 
@@ -279,7 +288,7 @@ Users need to build a **project** folder to store the result. The **work**, **ma
 
 ### 2.2	Easy-run of matrix preparation
 
-Users can use the script ***APEC_prepare_steps.sh*** to finish the process from raw data to fragment count matrix.  This script includes steps of "trimming", "mapping", "peak calling", "aligning read counts matrix", and "quality control". Running this step on our example project (i.e. project01 with 672 cells) will take 10~20 hours on an 8-core 32 GB computer, since the sequence mapping step is the slowest step.
+Users can use the script ***APEC_prepare_steps.sh*** to finish the process from raw data to fragment count matrix.  This script includes steps of "trimming", "mapping", "peak calling", "aligning read counts matrix", and "quality contral". Running this step on our example project (i.e. project01 with 672 cells) will take 10~20 hours on an 8-core 32 GB computer, since the sequence mapping step is the slowest step.
 
 Example:
 
@@ -311,7 +320,6 @@ For each cell, the mapping step can generate a subfolder (with cell name) in the
     mergeAll.hist.pdf: A histogram of fragment length distribution of all cells.
     mergeAll.RefSeqTSS.pdf: Insert enrichment around TSS regions of all cells.
     top_filtered_peaks.bed: Filtered top peaks, ranked by Q-value.
-    genes_scored_by_peaks.csv: Gene scores evaluated by TSS peaks.
 
 (3) In **matrix** folder:
 
