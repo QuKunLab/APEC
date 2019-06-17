@@ -1,3 +1,7 @@
+**Updates on 2019-06-17**
+
+    Fixed several bugs, APEC on pypi updated to 1.1.0.4.
+
 **Updates on 2019-06-16**
 
     Fixed several bugs, APEC on pypi updated to 1.1.0.3.

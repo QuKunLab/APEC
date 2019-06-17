@@ -28,7 +28,7 @@ The files in **reference** folder are required for APEC. **But we didn't upload 
 
 Users can install APEC by:
 
-    pip install APEC==1.1.0.3
+    pip install APEC==1.1.0.4
 
 Due to the compatibility problem (especially for rpy2), we don't recommend conda environment. Users can use **pyenv** to build a sub environment for APEC.
 
@@ -138,7 +138,7 @@ The output ARI, NMI and AMI values will present on the screen directly.
 #### 3.4 Generate pseudotime trajectory
 
     generate.monocle_trajectory('$project', npc=5)
-    plot.plot_trajectory('$project', cell_label='notes', cluster='louvain', angle=[30,30])
+    plot.plot_trajectory('$project', cell_label='notes', cluster='louvain', angles=[30,30])
 
 input parameters:
 
@@ -155,7 +155,7 @@ output files:
 
 #### 3.5 Generate gene expression
 
-    generate.gene_expression('$project', genome='hg19', width=1000000, pvalue=0.01):
+    generate.gene_expression('$project', genome='hg19', width=1000000, pvalue=0.01)
 
 input parameters:
 
