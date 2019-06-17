@@ -1,3 +1,7 @@
+**Updates on 2019-06-16**
+
+    Fixed several bugs, APEC on pypi updated to 1.1.0.3.
+
 **Updates on 2019-06-14**
 
     APEC update to v1.1.0: all important parts (cell clustering, trajectory construction, feature analysis, etc.) are packaged and uploaded to Pypi. Users can install APEC by "pip install APEC". If users already have the fragment count matrix (for example, the CellRanger result of 10X data), please use APEC functions in Ipython, Jupyter-notebook or python script directly. If users want to get fragment count matrix from raw fastq data files, please run "bash APEC_prepare_steps.sh" with proper parameters.

@@ -28,7 +28,7 @@ The files in **reference** folder are required for APEC. **But we didn't upload 
 
 Users can install APEC by:
 
-    pip install APEC
+    pip install APEC==1.1.0.3
 
 Due to the compatibility problem (especially for rpy2), we don't recommend conda environment. Users can use **pyenv** to build a sub environment for APEC.
 
