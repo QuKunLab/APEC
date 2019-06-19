@@ -1,3 +1,7 @@
+**Updates on 2019-06-19**
+
+    APEC on pypi updated to 1.1.0.5, debugged algorithm for plot.correlation().
+
 **Updates on 2019-06-17**
 
     Fixed several bugs, APEC on pypi updated to 1.1.0.4.
