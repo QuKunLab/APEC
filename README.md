@@ -30,7 +30,9 @@ Users can install APEC by:
 
     pip install APEC==1.1.0.6
 
-Due to the compatibility problem (especially for rpy2), we don't recommend conda environment. Users can use **pyenv** to build a sub environment for APEC.
+Due to the compatibility problem (especially for rpy2), we don't recommend conda environment. Users can use **pyenv** to build a sub environment for APEC. If users want to call Paga (instead of monocle) to construct pseudotime trajectory, please use APEC in Python3 environment and install the following packages:
+
+    pip install scanpy anndata
 
 In Ipython, Jupyter-notebook or a python script, users can import packages of APEC by:
 
