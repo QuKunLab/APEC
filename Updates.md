@@ -1,3 +1,7 @@
+**Updates on 2019-06-23**
+
+    APEC on pypi updated to 1.1.0.6, debugged algorithm for clustering.cluster_comparison().
+
 **Updates on 2019-06-19**
 
     APEC on pypi updated to 1.1.0.5, debugged algorithm for plot.correlation().
