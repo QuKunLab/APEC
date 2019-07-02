@@ -46,7 +46,9 @@ Users can inquire the manual for each function of APEC by using "help()" in Ipyt
 
 Users need to prepare a project folder (termed '$project'), which contains **matrix**, **peak**, **result** and **figure** folders. Please place "filtered_cells.csv" and "filtered_reads.mtx" in **matrix** folder, "top_filtered_peaks.bed" in **peak** folder. Here is the instruction for three input files:
 
-    filtered_cells.csv: Two-column (separated by tabs) list of cell information ('name' and 'notes'): the 'name' column stores cell names (or barcodes), the 'notes' column can be cell-type, development stage, batch index or any other cell information (or empty), such as:
+    filtered_cells.csv: Two-column (separated by tabs) list of cell information ('name' and 'notes'):
+                        The 'name' column stores cell names (or barcodes); the 'notes' column can be cell-type,
+                        development stage, batch index or any other cell information (or empty), such as:
                         	name    notes
                         	CD4-001 CD4
                         	CD4-002 CD4
