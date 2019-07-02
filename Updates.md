@@ -1,3 +1,7 @@
+**Updates on 2019-07-02**
+
+    APEC on pypi updated to 1.1.0.7, optimized algorithm for trajectory construction and differential gene search.
+
 **Updates on 2019-06-23**
 
     APEC on pypi updated to 1.1.0.6, debugged algorithm for clustering.cluster_comparison().
