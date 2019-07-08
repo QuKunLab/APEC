@@ -106,6 +106,14 @@ output files:
     $project/figure/UMAP_by_APEC_with_notes_label.pdf
     $project/figure/cell_cell_correlation_by_APEC_with_notes_label.png
 
+<img src="images/TSNE_by_APEC_with_notes_label.jpg" width="500">
+
+_TSNE_by_APEC_with_notes_label.pdf_
+
+<img src="images/cell_cell_correlation_by_APEC_with_notes_label.jpg" width="500">
+
+_cell_cell_correlation_by_APEC_with_notes_label.png_
+
 #### 3.2 Clustering by chromVAR
 
 Use the following codes to cluster cells by chromVAR algorithm:
@@ -167,6 +175,10 @@ output files:
 
     $project/figure/paga_skeleton_with_notes_label.pdf
     $project/figure/paga_trajectory_with_notes_label.pdf
+
+<img src="images/pseudotime_trajectory_with_notes_label.jpg" width="500">
+
+_pseudotime_trajectory_with_notes_label.pdf_
 
 #### 3.5 Generate gene expression
 
@@ -246,6 +258,14 @@ output files:
 
     $project/figure/gene_FOXO1_on_tsne_by_APEC.pdf
     $project/figure/motif_GATA1_on_trajectory_by_APEC.pdf
+
+<img src="images/gene_FOXO1_on_tsne_by_APEC.jpg" width="500">
+
+_gene_FOXO1_on_tsne_by_APEC.pdf_
+
+<img src="images/motif_GATA1_on_trajectory_by_APEC.jpg" width="500">
+
+_motif_GATA1_on_trajectory_by_APEC.pdf_
 
 **Notes: Plotting feature on tSNE diagram requires the running of plot.plot_tsne() beforehand (see 3.1), and plotting feature on trajectory requires the running of generate.monocle_trajectory() beforehand (see 3.4).**
 
