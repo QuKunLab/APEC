@@ -63,7 +63,7 @@ How to run:
     plot.plot_tsne('$project02', cell_label='cluster')
     plot.correlation('$project02', cell_label='cluster', method='average', metric='seuclidean')
 
-    #### cluster cells by chromVAR algorithm, take ~8 hours on 8-core computer ####
+    #### cluster cells by chromVAR algorithm, take ~3 hours on 8-core computer ####
 
     generate.motif_matrix('$project02', genome_fa='$reference/mm10_chr.fa',
                           background='$reference/tier1_markov1.norc.txt',
@@ -71,7 +71,7 @@ How to run:
                           np=8)
     clustering.cluster_byMotif('$project02', np=8)
 
-    #### plot motifs on tSNE diagram of APEC. It takes ~1 minute for each motif ####
+    #### plot motifs on tSNE diagram of APEC. It takes several seconds for each motif ####
 
     plot.plot_feature('$project02', space='tsne', feature='motif', name='NEUROD1', clip=[-5,10])
     plot.plot_feature('$project02', space='tsne', feature='motif', name='OLIG2', clip=[-5,8])
@@ -87,43 +87,24 @@ How to run:
 
 How to run mapping and alignment with bash script:
 
-    #### get fragment count matrix from raw fastq files, take 10~20 hours on 8-core/32GB computer ####
+    #### get fragment count matrix from raw fastq files, take 5~10 hours on 8-core/32GB computer ####
 
     bash APEC_prepare_steps.sh -r $project01/raw_data -s $project01 -g hg19 -n 10 -l 8 -p 0.05 -f 800
 
 How to run clustering and feature analysis in python enviroment:
 
-    #### cluster cells by APEC algorithm, take <5 minutes on one CPU-core of computer ####
+    #### cluster cells by APEC algorithm, take 2~3 minutes. ####
 
-    from APEC import clustering, plot
-    clustering.build_accesson('$project01', ngroup=720)
+    from APEC import clustering, plot, generate
+    clustering.build_accesson('$project01')
     clustering.cluster_byAccesson('$project01')
-    plot.plot_tsne('$project01', cell_label='notes')
-    plot.plot_tsne('$project01', cell_label='cluster')
+    plot.plot_tsne('$project01', cell_label='notes', wt=1)
 
-    #### cluster cells by chromVAR algorithm, take ~30 minutes on 8-core computer ####
+    #### calculate ARI between the clustering result and FACS labels (i.e. 'notes' column of filtered_cells.csv)
 
-    from APEC import clustering, generate
-    generate.motif_matrix('$project01', genome_fa='$reference/hg19_chr.fa',
-                          background='$reference/tier1_markov1.norc.txt',
-                          meme='$reference/JASPAR2018_CORE_vertebrates_redundant_pfms_meme.txt',
-                          np=8)
-    clustering.cluster_byMotif('$project01', np=8)
+    clustering.cluster_comparison('$project/matrix/filtered_cells.csv',
+                                  '$project/result/louvain_cluster_by_APEC.csv')
 
-    #### get differential accessons/genes/motifs for cell cluster 1, take several minutes ####
+    #### search for potential super enhancer, take several seconds ####
 
-    from APEC import generate
-    generate.gene_score('$project01', genome='hg19')
-    generate.differential_feature('$project01', feature='accesson', target='1', vs='all')
-    generate.differential_feature('$project01', feature='motif', target='1', vs='all')
-    generate.differential_feature('$project01', feature='gene', target='1', vs='all')
-
-    #### plot enrichment of motif RUNX1 on tSNE diagram, take several minutes ####
-
-    from APEC import plot
-    plot.plot_feature('$project01', space='tsne', feature='motif', name='RUNX1')
-
-    #### search for potential super enhancer, take several minutes ####
-
-    from APEC import generate
     generate.search_super_enhancer('$project01', super_range=1000000)

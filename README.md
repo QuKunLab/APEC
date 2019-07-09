@@ -48,7 +48,7 @@ Users need to prepare a project folder (termed '$project'), which contains **mat
 
     filtered_cells.csv: Two-column (separated by tabs) list of cell information ('name' and 'notes'):
                         The 'name' column stores cell names (or barcodes); the 'notes' column can be cell-type,
-                        development stage, batch index or any other cell information (or empty), such as:
+                        development stage, batch index or any other cell information, such as:
                         	name    notes
                         	CD4-001 CD4
                         	CD4-002 CD4
@@ -58,8 +58,8 @@ Users need to prepare a project folder (termed '$project'), which contains **mat
                             It is similar to the "peaks.bed" file in the CellRanger output of a 10X scATAC-seq dataset.
     filtered_reads.mtx: Fragment count matrix in mtx format, where each row is a peak and each column represents a cell.
                         It is similar to the "matrix.mtx" file in the CellRanger output of a 10X scATAC-seq dataset.
-                        The order of cells should be same with "filtered_cells.csv", and the order of peaks should be
-                        same with "filtered_top_peaks.bed".
+                        The order of cells should be the same with "filtered_cells.csv", and the order of peaks should
+                        be the same with "top_filtered_peaks.bed".
 
 ### 3. Functions of APEC (step by step)
 
@@ -68,7 +68,7 @@ Users need to prepare a project folder (termed '$project'), which contains **mat
 Use the following codes to cluster cells by APEC algorithm:
 
     clustering.build_accesson('$project', ngroup=600)
-    clustering.cluster_byAccesson('$project', nc=0, norm='zscore', filter='yes')
+    clustering.cluster_byAccesson('$project', norm='zscore')
 
 input parameters:
 
@@ -85,9 +85,10 @@ output files:
 
 Then users can plot tSNE, UMAP or corrlation heatmap for cells:
 
-    plot.plot_tsne('$project', matrix_type='APEC', cell_label='notes', cluster='louvain')
-    plot.plot_umap('$project', matrix_type='APEC', cell_label='notes', cluster='louvain')
-    plot.correlation('$project', matrix_type='APEC', cell_label='notes', cluster='louvain')
+    plot.plot_tsne('$project', cell_label='notes')
+    plot.plot_tsne('$project', cell_label='cluster')
+    plot.plot_umap('$project', cell_label='notes')
+    plot.correlation('$project', cell_label='notes')
 
 input parameters:
 
@@ -102,6 +103,7 @@ output files:
 
     $project/result/TSNE_by_APEC.csv
     $project/figure/TSNE_by_APEC_with_notes_label.pdf
+    $project/figure/TSNE_by_APEC_with_cluster_label.pdf
     $project/result/UMAP_by_APEC.csv
     $project/figure/UMAP_by_APEC_with_notes_label.pdf
     $project/figure/cell_cell_correlation_by_APEC_with_notes_label.png
@@ -114,7 +116,7 @@ _TSNE_by_APEC_with_notes_label.pdf_
 
 _cell_cell_correlation_by_APEC_with_notes_label.png_
 
-#### 3.2 Clustering by chromVAR
+#### 3.2 Clustering by chromVAR (optional, required for motif analysis)
 
 Use the following codes to cluster cells by chromVAR algorithm:
 
@@ -122,7 +124,7 @@ Use the following codes to cluster cells by chromVAR algorithm:
                           background='$reference/tier1_markov1.norc.txt',
                           meme='$reference/JASPAR2018_CORE_vertebrates_redundant_pfms_meme.txt',
                           np=4)
-    clustering.cluster_byMotif('$project', nc=0, ns=50, np=4)
+    clustering.cluster_byMotif('$project', np=4)
 
 input parameters:
 
@@ -145,14 +147,14 @@ If users have the real cell type in the 'notes' column of '$project/matrix/filte
     clustering.cluster_comparison('$project/matrix/filtered_cells.csv',
                                   '$project/result/louvain_cluster_by_APEC.csv')
 
-The output ARI, NMI and AMI values will present on the screen directly.
+The output ARI, NMI and AMI values will present on the screen directly. Please make sure filtered_cells.csv contains the FACS label for each cell. For some datasets, such as Hematopoietic cells, the user should ignore all "unknown" cells before the calculation of ARI.
 
 #### 3.4 Generate pseudotime trajectory
 
 By default, APEC adapts monocle to generate pseudotime trajectory from accesson matrix:
 
     generate.monocle_trajectory('$project', npc=5)
-    plot.plot_trajectory('$project', cell_label='notes', cluster='louvain', angles=[30,30])
+    plot.plot_trajectory('$project', cell_label='notes', angles=[30,30])
 
 input parameters:
 
@@ -195,6 +197,14 @@ output files:
     $project/matrix/Accesson_annotated.csv
     $project/matrix/gene_annotated.csv
     $project/matrix/gene_expression.csv
+
+Users can also score genes by the peaks around their TSS regions:
+
+    generate.gene_score('$project', genome_gtf='hg19_RefSeq_genes.gtf', distal=20000)
+
+output file:
+
+    $project/matrix/genes_scored_by_TSS_peaks.csv
 
 #### 3.6 Generate differential feature for a cell cluster
 
