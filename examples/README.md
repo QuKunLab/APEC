@@ -15,7 +15,7 @@ How to run:
     clustering.build_accesson('$project01')
     clustering.cluster_byAccesson('$project01', norm='probability')
     plot.plot_tsne('$project01', cell_label='notes')
-    plot.correlation('$project01', clip=[0,1])
+    plot.correlation('$project01', clip=[0,1], connect='yes')
 
     #### 2. Generate pseudo-time trajectory by monocle. It takes ~1 minutes.
 
@@ -61,7 +61,7 @@ How to run:
     clustering.build_accesson('$project02', ngroup=700)
     clustering.cluster_byAccesson('$project02')
     plot.plot_tsne('$project02', cell_label='cluster')
-    plot.correlation('$project02', cell_label='cluster', method='average', metric='seuclidean')
+    plot.correlation('$project02', cell_label='cluster', clip=[0,1])
 
     #### cluster cells by chromVAR algorithm, take ~3 hours on 8-core computer ####
 

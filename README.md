@@ -28,7 +28,7 @@ The files in **reference** folder are required for APEC. **But we didn't upload 
 
 Users can install APEC by:
 
-    pip install APEC==1.1.0.7
+    pip install APEC==1.1.0.8
 
 Due to the compatibility problem (especially for rpy2), we don't recommend conda environment. Users can use **pyenv** to build a sub environment for APEC. If users want to call Paga (instead of monocle) to construct pseudotime trajectory, please use APEC in Python3 environment and install the following packages:
 
@@ -88,7 +88,7 @@ Then users can plot tSNE, UMAP or corrlation heatmap for cells:
     plot.plot_tsne('$project', cell_label='notes')
     plot.plot_tsne('$project', cell_label='cluster')
     plot.plot_umap('$project', cell_label='notes')
-    plot.correlation('$project', cell_label='notes')
+    plot.correlation('$project', cell_label='notes', clip=[0,1])
 
 input parameters:
 
@@ -98,6 +98,7 @@ input parameters:
     cell_label:     Color labels for cells, can be 'notes' or 'cluster', default='notes'.
                     If cell_label='cluster', it will use clustering result of clustering.cluster_byXXX().
     cluster:        Clustering algorithm used in clustering.cluster_byXXX(), default='louvain'.
+    clip:           Range [min, max] for the correlation heatmap, default=[-1,1]
 
 output files:
 
