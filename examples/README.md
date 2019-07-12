@@ -96,15 +96,15 @@ How to run clustering and feature analysis in python enviroment:
     #### cluster cells by APEC algorithm, take 2~3 minutes. ####
 
     from APEC import clustering, plot, generate
-    clustering.build_accesson('$project01')
-    clustering.cluster_byAccesson('$project01')
-    plot.plot_tsne('$project01', cell_label='notes', wt=1)
+    clustering.build_accesson('$project03')
+    clustering.cluster_byAccesson('$project03')
+    plot.plot_tsne('$project03', cell_label='notes', wt=1)
 
     #### calculate ARI between the clustering result and FACS labels (i.e. 'notes' column of filtered_cells.csv)
 
-    clustering.cluster_comparison('$project/matrix/filtered_cells.csv',
-                                  '$project/result/louvain_cluster_by_APEC.csv')
+    clustering.cluster_comparison('$project03/matrix/filtered_cells.csv',
+                                  '$project03/result/louvain_cluster_by_APEC.csv')
 
     #### search for potential super enhancer, take several seconds ####
 
-    generate.search_super_enhancer('$project01', super_range=1000000)
+    generate.search_super_enhancer('$project03', super_range=1000000)
