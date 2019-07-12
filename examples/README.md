@@ -89,7 +89,7 @@ How to run mapping and alignment with bash script:
 
     #### get fragment count matrix from raw fastq files, take 5~10 hours on 8-core/32GB computer ####
 
-    bash APEC_prepare_steps.sh -r $project01/raw_data -s $project01 -g hg19 -n 10 -l 8 -p 0.05 -f 800
+    bash APEC_prepare_steps.sh -r $project03/raw_data -s $project03 -g hg19 -n 10 -l 8 -p 0.05 -f 800
 
 How to run clustering and feature analysis in python enviroment:
 
