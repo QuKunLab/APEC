@@ -1,3 +1,7 @@
+**Updates on 2019-07-17**
+
+    APEC on pypi updated to 1.1.0.8, optimized algorithm for cell-cell corrlation heatmap.
+
 **Updates on 2019-07-02**
 
     APEC on pypi updated to 1.1.0.7, optimized algorithm for trajectory construction and differential gene search.

@@ -10,7 +10,7 @@ APEC can perform fine cell type clustering on single cell chromatin accessibilit
 
 #### 1.1 Requirements
 
-APEC requires Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well as Python (2.7.15+ or 3.6.8+). If users want to build pseudotime trajectory with APEC, please install R (3.5.1) environment and monocle (2.10.0). Also, the following software are required for APEC:
+APEC requires Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well as Python (2.7.15+). If users want to build pseudotime trajectory with APEC, please install R (3.5.1) environment and monocle (2.10.0). Also, the following software are required for APEC:
 
     Bedtools: http://bedtools.readthedocs.io/en/latest/content/installation.html
     Meme 4.11.2: http://meme-suite.org/doc/download.html?man_type=web
@@ -30,9 +30,7 @@ Users can install APEC by:
 
     pip install APEC==1.1.0.8
 
-Due to the compatibility problem (especially for rpy2), we don't recommend conda environment. Users can use **pyenv** to build a sub environment for APEC. If users want to call Paga (instead of monocle) to construct pseudotime trajectory, please use APEC in Python3 environment and install the following packages:
-
-    pip install scanpy anndata
+Due to the compatibility problem (especially for rpy2), we don't recommend conda environment. Users can use **pyenv** to build a sub environment for APEC.
 
 In Ipython, Jupyter-notebook or a python script, users can import packages of APEC by:
 
@@ -169,15 +167,6 @@ output files:
     $project/result/monocle_trajectory.csv
     $project/result/monocle_reduced_dimension.csv
     $project/figure/pseudotime_trajectory_with_notes_label.pdf
-
-In Python3 environment, users can also use Paga to generate trajectory:
-
-    generate.paga_trajectory('$project', cell_label='notes', npc=5)
-
-output files:
-
-    $project/figure/paga_skeleton_with_notes_label.pdf
-    $project/figure/paga_trajectory_with_notes_label.pdf
 
 <img src="images/pseudotime_trajectory_with_notes_label.jpg" width="500">
 

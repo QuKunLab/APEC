@@ -17,10 +17,15 @@ How to run:
     plot.plot_tsne('$project01', cell_label='notes')
     plot.correlation('$project01', clip=[0,1], connect='yes')
 
-    #### 2. Generate pseudo-time trajectory by monocle. It takes ~1 minutes.
+    #### 2. Plot genes on tSNE. It takes ~10 minutes to generate gene expression.
 
-    generate.monocle_trajectory('$project01')
-    plot.plot_trajectory('$project01', angles=[60,90])
+    generate.gene_expression('$project01', genome='hg19', pvalue=0.05)
+    plot.plot_feature('$project01', space='tsne', feature='gene', name='FOXO1', clip=[0,30])
+    plot.plot_feature('$project01', space='tsne', feature='gene', name='IKZF1', clip=[0,45])
+    plot.plot_feature('$project01', space='tsne', feature='gene', name='CEBPA', clip=[0,25])
+    plot.plot_feature('$project01', space='tsne', feature='gene', name='GFI1B', clip=[0,50])
+    plot.plot_feature('$project01', space='tsne', feature='gene', name='CD86', clip=[0,50])
+    plot.plot_feature('$project01', space='tsne', feature='gene', name='AQP1', clip=[0,100])
 
     #### 3. Run chromVAR to calculate the deviations of motifs, takes ~40 minutes.
 
@@ -30,13 +35,10 @@ How to run:
                           np=8)
     clustering.cluster_byMotif('$project01', np=8)
 
-    #### 4. Plot genes on tSNE. It takes ~10 minutes to generate gene expression.
+    #### 4. Generate pseudo-time trajectory by monocle. It takes ~1 minutes.
 
-    generate.gene_expression('$project01', genome='hg19', pvalue=0.05)
-    plot.plot_feature('$project01', space='tsne', feature='gene', name='FOXO1', clip=[0,30])
-    plot.plot_feature('$project01', space='tsne', feature='gene', name='IKZF1', clip=[0,45])
-    plot.plot_feature('$project01', space='tsne', feature='gene', name='CEBPA', clip=[0,25])
-    plot.plot_feature('$project01', space='tsne', feature='gene', name='GFI1B', clip=[0,50])
+    generate.monocle_trajectory('$project01')
+    plot.plot_trajectory('$project01', angles=[60,90])
 
     #### 5. Plot motifs on trajectory. It takes several seconds for each motif.
 
