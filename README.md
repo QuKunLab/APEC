@@ -30,7 +30,9 @@ Users can install APEC by:
 
     pip install APEC==1.1.0.8
 
-Due to the compatibility problem (especially for rpy2), we don't recommend conda environment. Users can use **pyenv** to build a sub environment for APEC.
+Due to the compatibility problem (especially for rpy2), we don't recommend conda environment. Users can use **pyenv** to build a sub environment for APEC. Users may receive an error calling the "cmake" library, which can be fixed with the command "pip install cmake". All dependent libraries are automatically installed with APEC, but if you encounter errors, pleases install them by:
+
+    pip install numpy==1.16.4 scipy==1.0.0 pandas==0.24.2 matplotlib==2.2.4 seaborn==0.9.0 numba==0.44.0 networkx==2.2 scikit-learn==0.20.0 MulticoreTsne==0.1 umap-learn==0.3.9 rpy2==2.8.5 setuptools==40.6.2
 
 In Ipython, Jupyter-notebook or a python script, users can import packages of APEC by:
 
