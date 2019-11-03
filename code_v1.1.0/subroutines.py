@@ -1,5 +1,5 @@
 #
-import os,numpy,pysam,random,pandas,copy,scipy.io,scipy.sparse
+import os,numpy,pysam,random,pandas,copy,scipy.io,scipy.sparse,subprocess
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -63,8 +63,8 @@ def motif_search(info):
     motif_name = motif.split('-')[-1]
     print(motif_name)
     fimoFile = outFolder + '/' + motif +'.fimo'
-    os.popen('fimo --bgfile ' + bgFile + ' --text --thresh ' + threshold + ' --motif ' + motif_name
-        + ' --no-qvalue --verbosity 1 ' + motifFile + ' ' + motifFasta + ' > ' + fimoFile)
+    subprocess.check_call('fimo --bgfile ' + bgFile + ' --text --thresh ' + threshold + ' --motif ' + motif_name
+        + ' --no-qvalue --verbosity 1 ' + motifFile + ' ' + motifFasta + ' > ' + fimoFile, shell=True)
     bedFile = outFolder + '/' + motif +'.bed'
     with open(fimoFile) as fimo, open(bedFile, 'w') as bed:
         for line in fimo:
@@ -79,8 +79,8 @@ def motif_search(info):
                 newLine = chrom+'\t'+str(start)+'\t'+str(end)+'\t'+strand+'\t'+score+'\t'+pvalue+'\t'+name
 #                print >> bed, newLine
                 bed.write(newLine+'\n')
-    os.popen('gzip ' + bedFile)
-    os.popen('rm ' + fimoFile)
+    subprocess.check_call('gzip ' + bedFile, shell=True)
+    subprocess.check_call('rm ' + fimoFile, shell=True)
     return
 #
 #

@@ -3,9 +3,7 @@
 import warnings
 warnings.filterwarnings("ignore")
 #
-import os
-import numpy
-import sys
+import os,numpy,sys,subprocess
 from optparse import OptionParser
 import subroutines
 #
@@ -31,7 +29,7 @@ workspace_folder = options.s + '/work/'
 peak_folder = options.s + '/peak/'
 genome_fasta = options.fa
 tssFile = options.tss
-if not os.path.exists(peak_folder): os.popen('mkdir ' + peak_folder)
+if not os.path.exists(peak_folder): subprocess.check_call('mkdir ' + peak_folder, shell=True)
 #
 #
 print('!!!!!!  merge all marked bam files  !!!!!!')
@@ -47,7 +45,7 @@ for folder in bam_folder:
         marked_bam.extend([path + x for x in os.listdir(path) if x[-10:]=='marked.bam'])
 if len(marked_bam)<=1000:
     marked_bam = ' '.join(marked_bam)
-    os.popen('samtools merge -f ' + merged_bam + ' ' + marked_bam)
+    subprocess.check_call('samtools merge -f ' + merged_bam + ' ' + marked_bam, shell=True)
 else:
     n_batch = len(marked_bam)//1000 + 1
     temps = []
@@ -56,37 +54,37 @@ else:
         temps.append(temp_bam)
         start, end = i_batch*1000, min((i_batch+1)*1000, len(marked_bam))
         marked = ' '.join(marked_bam[start:end])
-        os.popen('samtools merge -f ' + temp_bam + ' ' + marked)
-        os.popen('samtools index ' + temp_bam)
+        subprocess.check_call('samtools merge -f ' + temp_bam + ' ' + marked, shell=True)
+        subprocess.check_call('samtools index ' + temp_bam, shell=True)
     all_temp = ' '.join(temps)
-    os.popen('samtools merge -f ' + merged_bam + ' ' + all_temp)
+    subprocess.check_call('samtools merge -f ' + merged_bam + ' ' + all_temp, shell=True)
 #
-os.popen('samtools index ' + merged_bam)
+subprocess.check_call('samtools index ' + merged_bam, shell=True)
 print('!!!!!!  merge done  !!!!!!')
 #
 hist_log = peak_folder + 'mergeAll.hist.log'
 hist_pdf = peak_folder + 'mergeAll.hist.pdf'
-os.popen('java -XX:+UseSerialGC -Xmx1g -jar '+options.picard+' CollectInsertSizeMetrics VALIDATION_STRINGENCY=SILENT I='
-    + merged_bam + ' O=' + hist_log + ' H=' + hist_pdf + ' W=1000')
+subprocess.check_call('java -XX:+UseSerialGC -Xmx1g -jar '+options.picard+' CollectInsertSizeMetrics VALIDATION_STRINGENCY=SILENT I='
+    + merged_bam + ' O=' + hist_log + ' H=' + hist_pdf + ' W=1000', shell=True)
 #
 refSeqTSS = peak_folder + 'mergeAll.RefSeqTSS'
 subroutines.draw_TSS_insert(tssFile, merged_bam, refSeqTSS)
 #
 print('!!!!!!  call peak by macs2  !!!!!!')
 peak_file = peak_folder + 'peaks'
-os.popen('macs2 callpeak --nomodel -t ' + merged_bam + ' -n '
-    + peak_file + ' --nolambda --keep-dup all --call-summits')
+subprocess.check_call('macs2 callpeak --nomodel -t ' + merged_bam + ' -n '
+    + peak_file + ' --nolambda --keep-dup all --call-summits', shell=True)
 print('!!!!!!  call peak done  !!!!!!')
 #
 summit = peak_folder + 'peaks_summits.bed'
 filtered_peak = peak_folder + 'filtered_peaks.bed'
 if options.blist:
     print('!!!!!!  filter peaks  !!!!!!')
-    os.popen('bedtools intersect -v -a ' + summit + ' -b ' + options.blist
-        + " | sort -k5 -nr > " + filtered_peak)
+    subprocess.check_call('bedtools intersect -v -a ' + summit + ' -b ' + options.blist
+        + " | sort -k5 -nr > " + filtered_peak, shell=True)
     print('!!!!!!  filter peaks done  !!!!!!')
 else:
-    os.popen('sort -k5 -nr ' + summit + ' > ' + filtered_peak)
+    subprocess.check_call('sort -k5 -nr ' + summit + ' > ' + filtered_peak, shell=True)
 
 print('!!!!!!  get top peaks by q-value  !!!!!!')
 fold_rank = numpy.loadtxt(filtered_peak, 'str', delimiter='\t')
@@ -99,7 +97,7 @@ with open(toppeaks, 'w') as output:
         if float(peak[-1])>=float(options.logq):
 #            print >> output, peak[0]+'\t'+peak[1]+'\t'+peak[2]
             output.write(peak[0]+'\t'+peak[1]+'\t'+peak[2]+'\n')
-os.popen('bedtools sort -i ' + toppeaks + ' > ' + top_peaks)
+subprocess.check_call('bedtools sort -i ' + toppeaks + ' > ' + top_peaks, shell=True)
 print('!!!!!!  get top peaks done  !!!!!!')
 #
 #

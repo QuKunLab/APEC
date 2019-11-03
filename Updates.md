@@ -1,3 +1,8 @@
+**updates on 2019-11-03**
+
+    APEC on pypi updated to 1.1.0.9.
+    APEC doesn't filter accessons before clustering.
+
 **Updates on 2019-07-17**
 
     APEC on pypi updated to 1.1.0.8, optimized algorithm for cell-cell corrlation heatmap.

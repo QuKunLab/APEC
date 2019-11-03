@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import warnings
 warnings.filterwarnings("ignore")
-import os,pandas
+import os,pandas,subprocess
 from optparse import OptionParser
 import subroutines
 import scipy.io,scipy.sparse
@@ -30,7 +30,7 @@ TFmatrix_file = matrix_folder + '/motif_TF.csv'
 bam_file = peaks_folder + "/mergeAll.bam"
 reads_matrix = matrix_folder + "/reads.mtx"
 #
-if not os.path.exists(matrix_folder): os.popen('mkdir ' + matrix_folder)
+if not os.path.exists(matrix_folder): subprocess.check_call('mkdir ' + matrix_folder, shell=True)
 #if os.path.exists(motif_folder): os.popen('rm -rf ' + motif_folder)
 #os.popen('mkdir ' + motif_folder)
 #

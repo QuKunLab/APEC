@@ -10,13 +10,10 @@ APEC can perform fine cell type clustering on single cell chromatin accessibilit
 
 #### 1.1 Requirements
 
-APEC requires Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well as Python2 (2.7.15+). If users want to build pseudotime trajectory with APEC, please install R (3.5.1) environment and monocle (2.10.0). Also, the following software are required for APEC:
+APEC requires Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well as Python3 (3.6.8, not 3.7.x). If users want to build pseudotime trajectory with APEC, please install R (3.5.1) environment and monocle (2.10.0). Also, the following software are required for APEC:
 
     Bedtools: http://bedtools.readthedocs.io/en/latest/content/installation.html
     Meme 4.11.2: http://meme-suite.org/doc/download.html?man_type=web
-    Homer: http://homer.ucsd.edu/homer/
-
-**notes: Users need to download genome reference for Homer by "perl /path-to-homer/configureHomer.pl -install hg19" and "perl /path-to-homer/configureHomer.pl -install mm10".**
 
 The files in **reference** folder are required for APEC. **But we didn't upload reference files to GitHub since they are too big. Users can download all reference files from http://galaxy.ustc.edu.cn:30803/APEC/**. The **reference** folder should contains the following files:
 
@@ -28,11 +25,9 @@ The files in **reference** folder are required for APEC. **But we didn't upload 
 
 Users can install APEC by:
 
-    pip install APEC==1.1.0.8
+    pip install APEC==1.1.0.9
 
-Due to the compatibility problem (especially for rpy2), we don't recommend conda environment. Users can use **pyenv** to build a sub environment for APEC. Users may receive an error calling the "cmake" library, which can be fixed with the command "pip install cmake". All dependent libraries are automatically installed with APEC, but if you encounter errors, pleases install them by:
-
-    pip install numpy==1.16.4 scipy==1.0.0 pandas==0.24.2 matplotlib==2.2.4 seaborn==0.9.0 numba==0.44.0 networkx==2.2 scikit-learn==0.20.0 MulticoreTsne==0.1 umap-learn==0.3.9 rpy2==2.8.5 setuptools==40.6.2
+We suggest that users build a sub environment for APEC with **miniconda** or **anaconda**, as bedtools and meme suite (4.11.2) can be installed in conda enviroment too.
 
 In Ipython, Jupyter-notebook or a python script, users can import packages of APEC by:
 
@@ -59,7 +54,15 @@ Users need to prepare a project folder (termed '$project'), which contains **mat
     filtered_reads.mtx: Fragment count matrix in mtx format, where each row is a peak and each column represents a cell.
                         It is similar to the "matrix.mtx" file in the CellRanger output of a 10X scATAC-seq dataset.
                         The order of cells should be the same with "filtered_cells.csv", and the order of peaks should
-                        be the same with "top_filtered_peaks.bed".
+                        be the same with "top_filtered_peaks.bed.
+
+If using APEC for 10X scATAC-seq data, users can run the following script to prepare the project:
+
+    from APEC import convert
+    convert.convert_10X('$10X_data_folder/', '$project/')
+
+The '$10X_data_folder' should contain 'barcodes.tsv', 'matrix.mtx' and 'peaks.bed' files, which are the results of Cellranger.
+
 
 ### 3. Functions of APEC (step by step)
 
@@ -68,36 +71,30 @@ Users need to prepare a project folder (termed '$project'), which contains **mat
 Use the following codes to cluster cells by APEC algorithm:
 
     clustering.build_accesson('$project', ngroup=600)
-    clustering.cluster_byAccesson('$project', norm='zscore')
+    clustering.cluster_byAccesson('$project', nc=0, norm='zscore')
 
 input parameters:
 
     ngroup:   Number of accessons, default=600.
     nc:       Number of cell clusters, set it to 0 if users want to predict cluster number by Louvain algorithm, default=0.
     norm:     Normalization method for accesson matrix, can be 'zscore' or 'probability', default='zscore'.
-    filter:   Filter high dispersion accessons or not, can be 'yes' or 'no', default='yes'.
 
 output files:
 
     $project/matrix/Accesson_peaks.csv
     $project/matrix/Accesson_reads.csv
-    $project/result/louvain_cluster_by_APEC.csv
+    $project/result/cluster_by_APEC.csv
 
-Then users can plot tSNE, UMAP or corrlation heatmap for cells:
+Then users can plot tSNE and corrlation heatmap for cells:
 
-    plot.plot_tsne('$project', cell_label='notes')
-    plot.plot_tsne('$project', cell_label='cluster')
-    plot.plot_umap('$project', cell_label='notes')
+    plot.plot_tsne('$project', rs=0)
     plot.correlation('$project', cell_label='notes', clip=[0,1])
 
 input parameters:
 
-    matrix_type:    Type of input matrix, can be 'APEC' or 'chromVAR', default='APEC'.
-                    If matrix_type='APEC', it will use accesson matrix yielded by clustering.cluster_byAccesson();
-                    if matrix_type='chromVAR', it will use deviation matrix yielded by clustering.cluster_byMotif().
+    rs:             The random_seed parameter for tSNE, default=0.
     cell_label:     Color labels for cells, can be 'notes' or 'cluster', default='notes'.
-                    If cell_label='cluster', it will use clustering result of clustering.cluster_byXXX().
-    cluster:        Clustering algorithm used in clustering.cluster_byXXX(), default='louvain'.
+                    If cell_label='cluster', it will use clustering result of clustering.cluster_byAccesson().
     clip:           Range [min, max] for the correlation heatmap, default=[-1,1]
 
 output files:
@@ -105,17 +102,7 @@ output files:
     $project/result/TSNE_by_APEC.csv
     $project/figure/TSNE_by_APEC_with_notes_label.pdf
     $project/figure/TSNE_by_APEC_with_cluster_label.pdf
-    $project/result/UMAP_by_APEC.csv
-    $project/figure/UMAP_by_APEC_with_notes_label.pdf
     $project/figure/cell_cell_correlation_by_APEC_with_notes_label.png
-
-<img src="images/TSNE_by_APEC_with_notes_label.jpg" width="500">
-
-_TSNE_by_APEC_with_notes_label.pdf_
-
-<img src="images/cell_cell_correlation_by_APEC_with_notes_label.jpg" width="500">
-
-_cell_cell_correlation_by_APEC_with_notes_label.png_
 
 #### 3.2 Clustering by chromVAR (optional, required for motif analysis)
 
@@ -125,7 +112,7 @@ Use the following codes to cluster cells by chromVAR algorithm:
                           background='$reference/tier1_markov1.norc.txt',
                           meme='$reference/JASPAR2018_CORE_vertebrates_redundant_pfms_meme.txt',
                           np=4)
-    clustering.cluster_byMotif('$project', np=4)
+    clustering.cluster_byMotif('$project', np=4, nc=0, ns=50)
 
 input parameters:
 
@@ -139,16 +126,17 @@ input parameters:
 output files:
 
     $project/result/deviation_chromVAR.csv
-    $project/result/louvain_cluster_by_chromVAR.csv
+    $project/result/cluster_by_chromVAR.csv
 
 #### 3.3 Evaluate ARI, NMI and AMI for clustering result
 
 If users have the real cell type in the 'notes' column of '$project/matrix/filtered_cells.csv', please use the following code to calculate ARI, NMI and AMI to estimate the accuracy of the clustering algorithm.
 
     clustering.cluster_comparison('$project/matrix/filtered_cells.csv',
-                                  '$project/result/louvain_cluster_by_APEC.csv')
+                                  '$project/result/cluster_by_APEC.csv',
+                                  exclude='UNK')
 
-The output ARI, NMI and AMI values will present on the screen directly. Please make sure filtered_cells.csv contains the FACS label for each cell. For some datasets, such as Hematopoietic cells, the user should ignore all "unknown" cells before the calculation of ARI.
+The output ARI, NMI and AMI values will present on the screen directly. Please make sure filtered_cells.csv contains the FACS label for each cell. For some datasets, such as the hematopoietic cells, the user should exclude all "UNK" cells (unknown type) before the calculation of ARI.
 
 #### 3.4 Generate pseudotime trajectory
 
@@ -160,8 +148,7 @@ By default, APEC adapts monocle to generate pseudotime trajectory from accesson 
 input parameters:
 
     npc:            Number of principal components used to build trajectory, default=5.
-    cell_label:     Color labels for cells, can be 'notes' or 'cluster', default='notes'.
-    cluster:        Clustering algorithm used in clustering.cluster_byXXX(), default='louvain'.
+    cell_label:     Labels for cells, can be 'notes' or 'cluster', default='notes'.
     angles:         Rotation angles for 3D trajectory, e.g. [100,20], default=[30,30].
 
 output files:
@@ -170,39 +157,20 @@ output files:
     $project/result/monocle_reduced_dimension.csv
     $project/figure/pseudotime_trajectory_with_notes_label.pdf
 
-<img src="images/pseudotime_trajectory_with_notes_label.jpg" width="500">
-
-_pseudotime_trajectory_with_notes_label.pdf_
-
 #### 3.5 Generate gene expression
-
-    generate.gene_expression('$project', genome='hg19', width=1000000, pvalue=0.01)
-
-input parameters:
-
-    genome:      Genome reference for Homer, can be "hg19" or "mm10", default="hg19".
-    width:       Width of Genome region for fisher exact test, default=1000000.
-    pvalue:      P-value threshold for fisher exact test, default=0.01.
-
-output files:
-
-    $project/matrix/Accesson_annotated.csv
-    $project/matrix/gene_annotated.csv
-    $project/matrix/gene_expression.csv
-
-Users can also score genes by the peaks around their TSS regions:
 
     generate.gene_score('$project', genome_gtf='hg19_RefSeq_genes.gtf', distal=20000)
 
 output file:
 
     $project/matrix/genes_scored_by_TSS_peaks.csv
+    $project/peak/genes_TSS_peaks.csv
 
 #### 3.6 Generate differential feature for a cell cluster
 
 Get differential accessons:
 
-    generate.nearby_genes('$project', genome_gtf='hg19_RefSeq_genes.gtf', distal=20000)   # optional step
+    generate.get_nearby_genes('$project')   # optional. Users should run step 3.5 before this.
     generate.differential_feature('$project', feature='accesson', target='0', vs='all')
 
 Get differential motifs/genes:
@@ -213,13 +181,12 @@ Get differential motifs/genes:
 input parameters:
 
     feature:     Type of feature, can be 'accesson' or 'motif' or 'gene', default='accesson'.
-                 If feature='accesson', run clustering.cluster_byAccesson() first;
-                 if feature='motif', run clustering.cluster_byMotif() first;
-                 if feature='gene', run generate.gene_expression() first.
-    cell_label:  Cell labels used for differential analysis, can be 'notes' or 'cluster', default='cluster'.
-    cluster:     Clustering algorithm used in clustering.cluster_byXXX(), default='louvain'.
+                 If feature='accesson', run step 3.1 first;
+                 if feature='motif', run step 3.2 first;
+                 if feature='gene', run step 3.5 first.
+    cell_label:  Cell Labels used for differential analysis, can be 'notes' or 'cluster', default='cluster'.
     target:      The target cluster that users search for differential features, default='1'.
-                 If cell_label='cluster', target is one element in the 'cluster' column of XXX_cluster_by_XXX.csv file;
+                 If cell_label='cluster', target is one element in the 'cluster' column of cluster_by_APEC.csv file;
                  if cell_label='notes', target is one element in the 'notes' column of filtered_cells.csv file.
     vs:          Versus which clusters, can be '2,3,4' or 'all', default='all' (means all the rest clusters).
     pvalue:      P-value for student-t test, default=0.01.
@@ -238,17 +205,13 @@ output file:
 
 input parameters:
 
-    space:          In which space we draw the feature, can be 'tsne' or 'umap' or 'trajectory', default='tsne'.
+    space:          In which space we draw the feature, can be 'tsne' or 'trajectory', default='tsne'.
                     If space='tsne', run plot.plot_tsne() first;
-                    if space='umap', run plot.plot_umap() first;
                     if space='trajectory', run generate.monocle_trajectory() first.
     feature:        Type of the feature, can be 'accesson' or 'motif' or 'gene', default='accesson'.
-                    If feature='accesson', run clustering.cluster_byAccesson() first;
-                    if feature='motif', run clustering.cluster_byMotif() first;
-                    if feature='gene', run generate.gene_expression() first.
-    matrix_type:    Type of input matrix for tSNE/UMAP, can be 'APEC' or 'chromVAR', default='APEC'.
-                    If matrix_type='APEC', it will use tSNE/UMAP result of APEC;
-                    if matrix_type='chromVAR', it will use tSNE/UMAP result of chromVAR.
+                    If feature='accesson', run step 3.1 first;
+                    if feature='motif', run step 3.2 first;
+                    if feature='gene', run step 3.5 first.
     name:           Name of the feature.
                     If feature='accesson', name=accesson number, i.e. '1';
                     if feature='motif', name=motif symbol, i.e. 'GATA1';
@@ -260,14 +223,6 @@ output files:
 
     $project/figure/gene_FOXO1_on_tsne_by_APEC.pdf
     $project/figure/motif_GATA1_on_trajectory_by_APEC.pdf
-
-<img src="images/gene_FOXO1_on_tsne_by_APEC.jpg" width="500">
-
-_gene_FOXO1_on_tsne_by_APEC.pdf_
-
-<img src="images/motif_GATA1_on_trajectory_by_APEC.jpg" width="500">
-
-_motif_GATA1_on_trajectory_by_APEC.pdf_
 
 **Notes: Plotting feature on tSNE diagram requires the running of plot.plot_tsne() beforehand (see 3.1), and plotting feature on trajectory requires the running of generate.monocle_trajectory() beforehand (see 3.4).**
 
@@ -299,7 +254,7 @@ All of the following software needs to be placed in the global environment of th
     pysam for python: set up by "pip install pysam"
     Levenshtein for python: set up by "pip install python-Levenshtein"
 
-### 1.2	Installation
+#### 1.2	Installation
 
 Users can simply install this part by copying the **code_v1.1.0** folder and **reference** folder into a same path. Users **must** run ***APEC_prepare_steps.sh*** directly in code_v1.1.0/, since each program will invoke the reference files automatically. The **reference** folder is required, **but we didn't upload reference files to GitHub since they are too big. Users can download all reference files from http://galaxy.ustc.edu.cn:30803/APEC/**. The **reference** folder should contains the following files:
 
@@ -311,9 +266,9 @@ Users can simply install this part by copying the **code_v1.1.0** folder and **r
     mm10.1.bt2, mm10.2.bt2, mm10.3.bt2, mm10.4.bt2, mm10.rev.1.bt2, mm10.rev.2.bt2,
     JASPAR2018_CORE_vertebrates_non-redundant_pfms_meme.txt, tier1_markov1.norc.txt, picard.jar
 
-## 2. Fragment count matrix
+### 2. Fragment count matrix
 
-### 2.1	Arrangement of raw data
+#### 2.1	Arrangement of raw data
 
 The **raw_data** folder should contain all raw sequencing fastq files into the. All these pair-end fastq files should be named as:
 
@@ -324,7 +279,7 @@ The **raw_data** folder should contain all raw sequencing fastq files into the. 
 where "\_1" and "\_2" indicate forward and backward reads for pair-end sequencing. {type1, type2, ...} can be cell-types or batches of samples, such as {GM, K562, ...}, or {batch1, batch2, ...}, or any other words without underline "\_" or dash "-".
 Users need to build a **project** folder to store the result. The **work**, **matrix**, **peak** and **figure** folders will be automatically built by subsequent steps, and placed in **project** folder.
 
-### 2.2	Easy-run of matrix preparation
+#### 2.2	Easy-run of matrix preparation
 
 Users can use the script ***APEC_prepare_steps.sh*** to finish the process from raw data to fragment count matrix.  This script includes steps of "trimming", "mapping", "peak calling", "aligning read counts matrix", and "quality contral". Running this step on our example project (i.e. project01 with 672 cells) will take 10~20 hours on an 8-core 32 GB computer, since the sequence mapping step is the slowest step.
 

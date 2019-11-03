@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import warnings
 warnings.filterwarnings("ignore")
-import os,numpy,scipy.sparse,scipy.io,pandas,sys
+import os,numpy,scipy.sparse,scipy.io,pandas,sys,subprocess
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -18,7 +18,7 @@ opts.add_option("--lib", default=2000, help="Threshold for fragment number, defa
                 +"decrease it for more filtered-samples, increase it for better quality")
 options, arguments = opts.parse_args()
 #
-if not os.path.exists(options.s+'/figure'): os.popen('mkdir ' + options.s+'/figure')
+if not os.path.exists(options.s+'/figure'): subprocess.check_call('mkdir ' + options.s+'/figure', shell=True)
 frag_thresh = float(options.pfrag)
 lib_size_thresh = int(options.lib)
 #

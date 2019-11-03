@@ -41,10 +41,6 @@ elif [[ $genome == "mm10" ]]; then
     blist=../reference/mm10_blacklist.BIN.bed
 fi
 gtf="../reference/"$genome"_RefSeq_genes.gtf"
-#np=$np
-#logq=$logq
-#pfrag=$pfrag
-#frag=$frag
 #
 #
 #

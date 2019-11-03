@@ -1,8 +1,7 @@
 #!/usr/bin/python
 import warnings
 warnings.filterwarnings("ignore")
-import os
-import sys
+import os,sys,subprocess
 from optparse import OptionParser
 import subroutines
 from multiprocessing import Pool
@@ -37,24 +36,24 @@ def mapping(par):
     hist_pdf = work_dir + cell + '.hist.pdf'
     refSeqTSS = work_dir + cell + '.RefSeqTSS'
 #
-#    os.popen('bowtie2 -X2000 -p ' + options.np + ' --rg-id ' + cell + ' -x ' + options.index
-#        + ' -1 ' + input1 + ' -2 ' + input2 + ' -S ' + sam + ' 2> ' + log)
-    os.popen('bowtie2 -X2000 -p 1 --rg-id ' + cell + ' -x ' + options.index
-        + ' -1 ' + input1 + ' -2 ' + input2 + ' -S ' + sam + ' 2> ' + log)
-    os.popen('samtools view -bS ' + sam + ' -o ' + bam)
-    os.popen('rm ' + sam)
-    os.popen('java -XX:+UseSerialGC -Xmx1g -jar ' + options.picard + ' SortSam SO=coordinate VALIDATION_STRINGENCY=SILENT I='
-        + bam + ' O=' + sorted_bam)
-    os.popen('samtools index ' + sorted_bam)
-    os.popen('samtools view -b -q 30 ' + sorted_bam + ' -o ' + filtered_bam + ' ' + chr_list)
-    os.popen('java -XX:+UseSerialGC -Xmx1g -jar ' + options.picard + ' MarkDuplicates INPUT=' + filtered_bam +' OUTPUT='
+#    subprocess.check_call('bowtie2 -X2000 -p ' + options.np + ' --rg-id ' + cell + ' -x ' + options.index
+#        + ' -1 ' + input1 + ' -2 ' + input2 + ' -S ' + sam + ' 2> ' + log, shell=True)
+    subprocess.check_call('bowtie2 -X2000 -p 1 --rg-id ' + cell + ' -x ' + options.index
+        + ' -1 ' + input1 + ' -2 ' + input2 + ' -S ' + sam + ' 2> ' + log, shell=True)
+    subprocess.check_call('samtools view -bS ' + sam + ' -o ' + bam, shell=True)
+    subprocess.check_call('rm ' + sam, shell=True)
+    subprocess.check_call('java -XX:+UseSerialGC -Xmx1g -jar ' + options.picard + ' SortSam SO=coordinate VALIDATION_STRINGENCY=SILENT I='
+        + bam + ' O=' + sorted_bam, shell=True)
+    subprocess.check_call('samtools index ' + sorted_bam, shell=True)
+    subprocess.check_call('samtools view -b -q 30 ' + sorted_bam + ' -o ' + filtered_bam + ' ' + chr_list, shell=True)
+    subprocess.check_call('java -XX:+UseSerialGC -Xmx1g -jar ' + options.picard + ' MarkDuplicates INPUT=' + filtered_bam +' OUTPUT='
         + marked_bam + ' METRICS_FILE=' + removed_duplicate
-        + ' REMOVE_DUPLICATES=true VALIDATION_STRINGENCY=SILENT')
-    os.popen('samtools index ' + marked_bam)
-    os.popen('echo -e "Chromosome\tLength\tProperPairs\tBadPairs:Raw" >> ' + quality_state)
-    os.popen('samtools idxstats ' + sorted_bam + ' >> ' + quality_state)
-    os.popen('java -XX:+UseSerialGC -Xmx1g -jar ' + options.picard + ' CollectInsertSizeMetrics VALIDATION_STRINGENCY=SILENT I='
-        + marked_bam + ' O=' + hist_log + ' H=' + hist_pdf + ' W=1000')
+        + ' REMOVE_DUPLICATES=true VALIDATION_STRINGENCY=SILENT', shell=True)
+    subprocess.check_call('samtools index ' + marked_bam, shell=True)
+    subprocess.check_call('echo -e "Chromosome\tLength\tProperPairs\tBadPairs:Raw" >> ' + quality_state, shell=True)
+    subprocess.check_call('samtools idxstats ' + sorted_bam + ' >> ' + quality_state, shell=True)
+    subprocess.check_call('java -XX:+UseSerialGC -Xmx1g -jar ' + options.picard + ' CollectInsertSizeMetrics VALIDATION_STRINGENCY=SILENT I='
+        + marked_bam + ' O=' + hist_log + ' H=' + hist_pdf + ' W=1000', shell=True)
 #    subroutines.draw_TSS_insert(options.tss, marked_bam, refSeqTSS)
     return
 #
@@ -66,13 +65,13 @@ fastq_list.sort()
 cell_list = [x.split('_')[0] for x in fastq_list]
 cell_list = list(set(cell_list))
 cell_list.sort()
-if not os.path.exists(options.s+'/work'): os.popen('mkdir ' + options.s + '/work')
+if not os.path.exists(options.s+'/work'): subprocess.check_call('mkdir ' + options.s + '/work', shell=True)
 #
 parameters = []
 for cell in cell_list:
     work_dir = options.s + '/work/' + cell + '/'
-    if os.path.exists(work_dir): os.popen('rm -rf ' + work_dir)
-    os.popen('mkdir ' + work_dir)
+    if os.path.exists(work_dir): subprocess.check_call('rm -rf ' + work_dir, shell=True)
+    subprocess.check_call('mkdir ' + work_dir, shell=True)
     input1, input2 = options.s+'/data/'+cell+'_1.trim.fastq', options.s+'/data/'+cell+'_2.trim.fastq'
     par = [work_dir, cell, options, input1, input2, chr_list]
     parameters.append(par)

@@ -2,8 +2,7 @@
 import warnings
 warnings.filterwarnings("ignore")
 #
-import sys
-import os
+import sys,os,subprocess
 from optparse import OptionParser
 import Levenshtein
 from multiprocessing import Pool
@@ -91,14 +90,6 @@ def trim_adapters(fastq):
                     seq2 = seq2[:seq_len]
                     qual1 = qual1[:seq_len]
                     qual2 = qual2[:seq_len]
-#            print >> out1, seq_header1
-#            print >> out1, seq1[:cutoff]
-#            print >> out1, qual_header1
-#            print >> out1, qual1[:cutoff]
-#            print >> out2, seq_header2
-#            print >> out2, seq2[:cutoff]
-#            print >> out2, qual_header2
-#            print >> out2, qual2[:cutoff]
             out1.write(seq_header1+'\n')
             out1.write(seq1[:cutoff]+'\n')
             out1.write(qual_header1+'\n')
@@ -109,7 +100,7 @@ def trim_adapters(fastq):
             out2.write(qual2[:cutoff]+'\n')
     return nReads, mm0_num_read, mm1_num_read
 #
-if not os.path.exists(options.s+'/data'): os.popen('mkdir '+options.s+'/data')
+if not os.path.exists(options.s+'/data'): subprocess.check_call('mkdir '+options.s+'/data', shell=True)
 #
 fastqs = [x.split('_')[0] for x in os.listdir(options.r) if (x[-6:]=='.fastq')&(x[-11:]!='.trim.fastq')]
 fastqs = list(set(fastqs))
