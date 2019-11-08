@@ -41,7 +41,7 @@ Users can inquire the manual for each function of APEC by using "help()" in Ipyt
 
 ### 2. Input data
 
-IF users have employed APEC to generate fragment count matrix from raw data (see [Section Two](#section-two-get-fragment-count-matrix-from-raw-data)), they can run AEPC clustering and subsequent analysis on the $project folder directly.
+If users have employed APEC to generate fragment count matrix from raw data (see [Section Two](#section-two-get-fragment-count-matrix-from-raw-data)), they can run AEPC clustering and subsequent analysis on the $project folder directly.
 
 If using APEC for 10X scATAC-seq data, users can run the following script to prepare the project:
 
@@ -53,21 +53,14 @@ The '$10X_data_folder' should contain 'barcodes.tsv', 'matrix.mtx' and 'peaks.be
 If using the matrix generated from other experiments, users need to prepare a project folder (termed '$project'), which contains **matrix** and **peak** folders. Please place "filtered_cells.csv" and "filtered_reads.mtx" in **matrix** folder, "top_filtered_peaks.bed" in **peak** folder. Here is the instruction for three input files:
 
     filtered_cells.csv: Two-column (separated by tabs) list of cell information ('name' and 'notes'):
-                        The 'name' column stores cell names (or barcodes); the 'notes' column can be cell-type,
-                        development stage, batch index or any other cell information.
+                        The 'name' column stores cell names (or barcodes).
+                        The 'notes' column can be cell-type or any other cell information.
     top_filtered_peaks.bed: Three-column list of peaks, which is a standard bed format file.
-                            It is similar to the "peaks.bed" file in the CellRanger output of a 10X scATAC-seq dataset.
-    filtered_reads.mtx: Fragment count matrix in mtx format, where each row is a peak and each column represents a cell.
-                        It is similar to the "matrix.mtx" file in the CellRanger output of a 10X scATAC-seq dataset.
-                        The order of cells should be the same with "filtered_cells.csv", and the order of peaks should
-                        be the same with "top_filtered_peaks.bed.
-
-If using APEC for 10X scATAC-seq data, users can run the following script to prepare the project:
-
-    from APEC import convert
-    convert.convert_10X('$10X_data_folder/', '$project/')
-
-The '$10X_data_folder' should contain 'barcodes.tsv', 'matrix.mtx' and 'peaks.bed' files, which are the results of Cellranger.
+                            It is same to the "peaks.bed" file in the CellRanger output of a 10X dataset.
+    filtered_reads.mtx: Fragment count matrix in mtx format, where a row is a peak and a column is a cell.
+                        It is same to the "matrix.mtx" file in the CellRanger output of a 10X dataset.
+                        The order of cells should be the same with "filtered_cells.csv".
+                        The order of peaks should be the same with "top_filtered_peaks.bed.
 
 
 ### 3. Functions of APEC (step by step)
@@ -77,15 +70,15 @@ The '$10X_data_folder' should contain 'barcodes.tsv', 'matrix.mtx' and 'peaks.be
 Use the following codes to cluster cells by APEC algorithm:
 
     clustering.build_accesson('$project', ngroup=600)
-    clustering.cluster_byAccesson('$project', nc=0, norm='zscore')
+    clustering.cluster_byAccesson('$project', nc=0, norm='probability')
     plot.plot_tsne('$project', rs=0)
     plot.correlation('$project', cell_label='notes', clip=[0,1])
 
 input parameters:
 
     ngroup:   Number of accessons, default=600.
-    nc:       Number of cell clusters, set it to 0 if users want to predict cluster number by Louvain algorithm, default=0.
-    norm:     Normalization method for accesson matrix, can be 'zscore' or 'probability', default='zscore'.
+    nc:       Number of cell clusters, set it to 0 if users want to predict it with APEC, default=0.
+    norm:     Normalization method for accesson matrix, can be 'zscore' or 'probability', default='probability'.
     rs:             The random_seed parameter for tSNE, default=0.
     cell_label:     Color labels for cells, can be 'notes' or 'cluster', default='notes'.
                     If cell_label='cluster', it will use clustering result of clustering.cluster_byAccesson().
@@ -125,7 +118,7 @@ input parameters:
     background:  Path to tier1_markov1.norc.txt in $reference folder.
     meme:        Path to JASPAR2018_CORE_vertebrates_redundant_pfms_meme.txt in $reference folder.
     np:          Number of CPU cores used for parallel calculation, default=4.
-    nc:          Number of cell clusters, set it to 0 if users want to predict cluster number by Louvain algorithm, default=0.
+    nc:          Number of cell clusters, set it to 0 if users want to predict it using Louvain algorithm, default=0.
     ns:          Number of permuted sampling, default=50.
 
 output files:
@@ -236,8 +229,6 @@ output files:
 <img src="images/motif_GATA1_on_trajectory_by_APEC.jpg" width="400">
 
 _Figure D. motif_GATA1_on_trajectory_by_APEC.pdf_
-
-**Notes: Plotting feature on tSNE diagram requires the running of plot.plot_tsne() beforehand (see 3.1), and plotting feature on trajectory requires the running of generate.monocle_trajectory() beforehand (see 3.4).**
 
 #### 3.8 Generate potential super enhancer
 
