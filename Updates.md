@@ -1,3 +1,8 @@
+**updates on 2019-11-08**
+
+    APEC on pypi updated to 1.1.0.10.
+    APEC uses p-value to filter potential super enhancers.
+
 **updates on 2019-11-03**
 
     APEC on pypi updated to 1.1.0.9.

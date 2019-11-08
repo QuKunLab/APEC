@@ -31,15 +31,6 @@ bam_file = peaks_folder + "/mergeAll.bam"
 reads_matrix = matrix_folder + "/reads.mtx"
 #
 if not os.path.exists(matrix_folder): subprocess.check_call('mkdir ' + matrix_folder, shell=True)
-#if os.path.exists(motif_folder): os.popen('rm -rf ' + motif_folder)
-#os.popen('mkdir ' + motif_folder)
-#
-#### run FIMO for motif-site searching
-#os.popen('bedtools getfasta -fi ' + options.fa + ' -bed ' + peaks_file + ' -fo ' + motifFasta)
-#subroutines.batch_fimo(options.bg, options.pvalue, options.meme, motifFasta, motif_folder, int(options.np))
-#
-#### motif annotation
-#subroutines.score_peaks(peaks_file, motif_folder, TFmatrix_file)
 #
 #### count reads for peaks
 cell_info_df = pandas.read_csv(cell_info, sep='\t', index_col=0)

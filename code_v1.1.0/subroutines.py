@@ -43,7 +43,7 @@ def counts_per_peak(bam_file, peak_bed, out_file, cell_info):
                 position = read.pos
             if (position>start) & (position<end):
                 barcode = dict(read.tags)['RG']
-                if not outData.has_key(barcode): outData[barcode] = numpy.zeros(len(peak_info))
+                if barcode not in outData: outData[barcode] = numpy.zeros(len(peak_info))
                 outData[barcode][ipeak] += 1
                 rList.append(read.qname)
         if ipeak%5000==0:
@@ -107,7 +107,7 @@ def batch_fimo(backgroudFile, threshold, motifFile, motifFasta, outFolder, n_pro
 #
 def assign_TSS_insert(position, matrix, start, end, t, i, rows, tss_info):
     if (float(position)>=start) & (float(position)<end-1) & (t<rows):
-        base = position - start
+        base = int(position - start)
         if len(tss_info[0]) == 3:
             matrix[t, base] += 1
         elif tss_info[i,3] == "-":
@@ -129,7 +129,7 @@ def TSS_insert_matrix(rows, cols, bam_file, tss_info, half_width):
             if read.is_reverse:
                 continue
             else:
-                left, real_len = read.pos+4, abs(read.tlen)-9
+                left, real_len = read.pos+4, int(abs(read.tlen)-9)
                 right = left + real_len
                 matrix = assign_TSS_insert(left, matrix, start, end, real_len, i, rows, tss_info)
                 matrix = assign_TSS_insert(right, matrix, start, end, real_len, i, rows, tss_info)
@@ -167,7 +167,7 @@ def score_peaks(peaks_file, motif_folder, out_file):
             chip = {}
             for line in chipData:
                 chrom, start, end = line[0], int(line[1]), int(line[2])
-                if not chip.has_key(chrom):
+                if chrom not in chip:
                     chip[chrom] = [[start, end]]
                 else:
                     chip[chrom].append([start, end])
@@ -326,8 +326,8 @@ def specific_accesson(options, subname):
     if 'cluster' not in cluster_df.columns.values:
         cluster_df['cluster'] = cluster_df['notes']
     else:
-        kCluster = map(int, kCluster)
-        if options.vs!='all': vsCluster = map(int, vsCluster)
+        kCluster = list(map(int, kCluster))
+        if options.vs!='all': vsCluster = list(map(int, vsCluster))
     if options.vs=='all': vsCluster = list(set(cluster_df['cluster'].values)-set(kCluster))
     accesson_df = pandas.read_csv(options.s + '/matrix/Accesson_reads.csv', sep=',', index_col=0,
                    engine='c', na_filter=False, low_memory=False)
@@ -375,8 +375,8 @@ def specific_peak(options, subname):
     if 'cluster' not in cluster_df.columns.values:
         cluster_df['cluster'] = cluster_df['notes']
     else:
-        kCluster = map(int, kCluster)
-        if options.vs!='all': vsCluster = map(int, vsCluster)
+        kCluster = list(map(int, kCluster))
+        if options.vs!='all': vsCluster = list(map(int, vsCluster))
     if options.vs=='all': vsCluster = list(set(cluster_df['cluster'].values)-set(kCluster))
     reads = scipy.sparse.csr_matrix(scipy.io.mmread(options.s+'/matrix/filtered_reads.mtx')).T
     peaks_bed = open(options.s+'/peak/top_filtered_peaks.bed').readlines()

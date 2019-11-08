@@ -75,7 +75,7 @@ for cell in cell_list:
     input1, input2 = options.s+'/data/'+cell+'_1.trim.fastq', options.s+'/data/'+cell+'_2.trim.fastq'
     par = [work_dir, cell, options, input1, input2, chr_list]
     parameters.append(par)
-#    mapping(par)
+####    mapping(par)
 #
 pool = Pool(int(options.np))
 pool.map(mapping, parameters)

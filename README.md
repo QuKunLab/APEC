@@ -2,9 +2,11 @@
 
 (Accessibility Pattern based Epigenomic Clustering)
 
-APEC can perform fine cell type clustering on single cell chromatin accessibility data from scATAC-seq, snATAC-seq, sciATAC-seq or any other relevant experiment. It can also be used to evaluate gene expression from relevant accesson, search for differential motifs/genes for each cell cluster, find super enhancers, and construct pseudo-time trajectory (by calling Monocle). **If users have already obtained the fragment-count-per-peak matrix from other mapping pipelines (such as CellRanger), please run APEC from the first Section "Run APEC from fragment count matrix". If users have only the raw fastq files, please jump to the second Section "Get fragment count matrix from raw data".**
+<img src="images/workflow.jpg" width="800">
 
-## Run AEPC from fragment count matrix
+APEC can perform fine cell type clustering on single cell chromatin accessibility data from scATAC-seq, snATAC-seq, sciATAC-seq or any other relevant experiment. It can also be used to evaluate gene expression from relevant accesson, search for differential motifs/genes for each cell cluster, find super enhancers, and construct pseudo-time trajectory (by calling Monocle). **If users have already obtained the fragment-count-per-peak matrix from other mapping pipelines (such as CellRanger), please run APEC from [Section One "Run APEC from fragment count matrix"](#section-one-run-aepc-from-fragment-count-matrix). If users have only the raw fastq files, please jump to [Section Two "Get fragment count matrix from raw data"](#section-two-get-fragment-count-matrix-from-raw-data).**
+
+## Section One. Run AEPC from fragment count matrix
 
 ### 1. Requirements and installation
 
@@ -25,7 +27,7 @@ The files in **reference** folder are required for APEC. **But we didn't upload 
 
 Users can install APEC by:
 
-    pip install APEC==1.1.0.9
+    pip install APEC==1.1.0.10
 
 We suggest that users build a sub environment for APEC with **miniconda** or **anaconda**, as bedtools and meme suite (4.11.2) can be installed in conda enviroment too.
 
@@ -39,16 +41,20 @@ Users can inquire the manual for each function of APEC by using "help()" in Ipyt
 
 ### 2. Input data
 
-Users need to prepare a project folder (termed '$project'), which contains **matrix**, **peak**, **result** and **figure** folders. Please place "filtered_cells.csv" and "filtered_reads.mtx" in **matrix** folder, "top_filtered_peaks.bed" in **peak** folder. Here is the instruction for three input files:
+IF users have employed APEC to generate fragment count matrix from raw data (see [Section Two](#section-two-get-fragment-count-matrix-from-raw-data)), they can run AEPC clustering and subsequent analysis on the $project folder directly.
+
+If using APEC for 10X scATAC-seq data, users can run the following script to prepare the project:
+
+    from APEC import convert
+    convert.convert_10X('$10X_data_folder/', '$project/')
+
+The '$10X_data_folder' should contain 'barcodes.tsv', 'matrix.mtx' and 'peaks.bed' files, which are the results of Cellranger.
+
+If using the matrix generated from other experiments, users need to prepare a project folder (termed '$project'), which contains **matrix** and **peak** folders. Please place "filtered_cells.csv" and "filtered_reads.mtx" in **matrix** folder, "top_filtered_peaks.bed" in **peak** folder. Here is the instruction for three input files:
 
     filtered_cells.csv: Two-column (separated by tabs) list of cell information ('name' and 'notes'):
                         The 'name' column stores cell names (or barcodes); the 'notes' column can be cell-type,
-                        development stage, batch index or any other cell information, such as:
-                        	name    notes
-                        	CD4-001 CD4
-                        	CD4-002 CD4
-                        	CD8-001 CD8
-                        	CD8-002 CD8
+                        development stage, batch index or any other cell information.
     top_filtered_peaks.bed: Three-column list of peaks, which is a standard bed format file.
                             It is similar to the "peaks.bed" file in the CellRanger output of a 10X scATAC-seq dataset.
     filtered_reads.mtx: Fragment count matrix in mtx format, where each row is a peak and each column represents a cell.
@@ -72,26 +78,14 @@ Use the following codes to cluster cells by APEC algorithm:
 
     clustering.build_accesson('$project', ngroup=600)
     clustering.cluster_byAccesson('$project', nc=0, norm='zscore')
+    plot.plot_tsne('$project', rs=0)
+    plot.correlation('$project', cell_label='notes', clip=[0,1])
 
 input parameters:
 
     ngroup:   Number of accessons, default=600.
     nc:       Number of cell clusters, set it to 0 if users want to predict cluster number by Louvain algorithm, default=0.
     norm:     Normalization method for accesson matrix, can be 'zscore' or 'probability', default='zscore'.
-
-output files:
-
-    $project/matrix/Accesson_peaks.csv
-    $project/matrix/Accesson_reads.csv
-    $project/result/cluster_by_APEC.csv
-
-Then users can plot tSNE and corrlation heatmap for cells:
-
-    plot.plot_tsne('$project', rs=0)
-    plot.correlation('$project', cell_label='notes', clip=[0,1])
-
-input parameters:
-
     rs:             The random_seed parameter for tSNE, default=0.
     cell_label:     Color labels for cells, can be 'notes' or 'cluster', default='notes'.
                     If cell_label='cluster', it will use clustering result of clustering.cluster_byAccesson().
@@ -99,10 +93,21 @@ input parameters:
 
 output files:
 
+    $project/matrix/Accesson_peaks.csv
+    $project/matrix/Accesson_reads.csv
+    $project/result/cluster_by_APEC.csv
     $project/result/TSNE_by_APEC.csv
     $project/figure/TSNE_by_APEC_with_notes_label.pdf
     $project/figure/TSNE_by_APEC_with_cluster_label.pdf
     $project/figure/cell_cell_correlation_by_APEC_with_notes_label.png
+
+<img src="images/TSNE_by_APEC_with_notes_label.jpg" width="400">
+
+_Figure A. TSNE_by_APEC_with_notes_label.pdf, where cells are labeled with cell types (the 'notes' column of filtered_cells.csv)_
+
+<img src="images/TSNE_by_APEC_with_cluster_label.jpg" width="400">
+
+_Figure B. TSNE_by_APEC_with_cluster_label.pdf, where cells are labeled with cell clusters (the 'cluster' column of cluster_by_APEC.csv)_
 
 #### 3.2 Clustering by chromVAR (optional, required for motif analysis)
 
@@ -136,7 +141,7 @@ If users have the real cell type in the 'notes' column of '$project/matrix/filte
                                   '$project/result/cluster_by_APEC.csv',
                                   exclude='UNK')
 
-The output ARI, NMI and AMI values will present on the screen directly. Please make sure filtered_cells.csv contains the FACS label for each cell. For some datasets, such as the hematopoietic cells, the user should exclude all "UNK" cells (unknown type) before the calculation of ARI.
+The output ARI, NMI and AMI values will be printed on the screen directly. Please make sure that the column 'notes' of filtered_cells.csv denotes the cell type of each cell. For some datasets, such as the hematopoietic cells, the user should exclude all "UNK" cells (unknown type) before the calculation of ARI.
 
 #### 3.4 Generate pseudotime trajectory
 
@@ -156,6 +161,10 @@ output files:
     $project/result/monocle_trajectory.csv
     $project/result/monocle_reduced_dimension.csv
     $project/figure/pseudotime_trajectory_with_notes_label.pdf
+
+<img src="images/pseudotime_trajectory_with_notes_label.jpg" width="400">
+
+_Figure C. pseudotime_trajectory_with_notes_label.pdf_
 
 #### 3.5 Generate gene expression
 
@@ -207,7 +216,7 @@ input parameters:
 
     space:          In which space we draw the feature, can be 'tsne' or 'trajectory', default='tsne'.
                     If space='tsne', run plot.plot_tsne() first;
-                    if space='trajectory', run generate.monocle_trajectory() first.
+                    if space='trajectory', run step 3.4 first.
     feature:        Type of the feature, can be 'accesson' or 'motif' or 'gene', default='accesson'.
                     If feature='accesson', run step 3.1 first;
                     if feature='motif', run step 3.2 first;
@@ -221,26 +230,31 @@ input parameters:
 
 output files:
 
-    $project/figure/gene_FOXO1_on_tsne_by_APEC.pdf
-    $project/figure/motif_GATA1_on_trajectory_by_APEC.pdf
+    $project/figure/motif_XXX_on_trajectory_by_APEC.pdf
+    $project/figure/gene_XXX_on_tsne_by_APEC.pdf
+
+<img src="images/motif_GATA1_on_trajectory_by_APEC.jpg" width="400">
+
+_Figure D. motif_GATA1_on_trajectory_by_APEC.pdf_
 
 **Notes: Plotting feature on tSNE diagram requires the running of plot.plot_tsne() beforehand (see 3.1), and plotting feature on trajectory requires the running of generate.monocle_trajectory() beforehand (see 3.4).**
 
 #### 3.8 Generate potential super enhancer
 
-    generate.search_super_enhancer('$project', super_range=1000000)
+    generate.super_enhancer('$project', super_range=1000000, p_cutoff=0.01)
 
 input parameter:
 
     super_range:    Genome range to search for super enhancer, default=1000000.
+    p_cutoff:       Cutoff of P-value, default=0.01.
 
 output file:
 
     $project/result/potential_super_enhancer.csv
 
 
-## Get fragment count matrix from raw data
-## (this part is only available on GitHub:https://github.com/QuKunLab/APEC)
+## Section Two. Get fragment count matrix from raw data
+### (This part is only available on GitHub:https://github.com/QuKunLab/APEC)
 
 ### 1. Requirements and installation
 
@@ -324,3 +338,15 @@ For each cell, the mapping step can generate a subfolder (with cell name) in the
 (4) In **figure** folder:
 
     cell_quality.pdf: A scatter plot of the fragment number and the percentage of fragments in peaks.
+
+### 3. Generate bigwig files for UCSC track
+
+    generate_UCSCtrack.py -s $project --cfile cluster.csv --gsize chrom.sizes
+
+    Options:
+      -s             The project folder.
+      --cfile        cluster.csv file, e.g. cluster_by_APEC.csv in
+                     $project/result/ folder
+      --gsize        chrom.size files, default=../reference/hg19.chrom.sizes
+
+This script outputs bigwig files to $project/result/track/ folder.
