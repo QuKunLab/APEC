@@ -1,6 +1,3 @@
-Please visit the following website to download example projects (including project01, project02, and project03):
-
-http://galaxy.ustc.edu.cn:30803/APEC/
 
 **(1)** **project01** contains single cell samples from hematopoietic stem cell differentiation project (including HSC, MPP, CMP, GMP, MEP, LMPP, CLP, pDC, and UNK cells), from "Buenrostro, J.D. et al. Integrated Single-Cell Analysis Maps the Continuous Regulatory Landscape of Human Hematopoietic Differentiation. Cell 173, 1535-1548 e1516 (2018)". Users can run "python script_for_project01.py" to obtain Fig. 1b, 1d, 3c, and 3d of the APEC paper, and this figures will be placed in $project01/figure/ folder.
 
