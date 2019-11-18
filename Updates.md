@@ -1,3 +1,7 @@
+**updates on 2019-11-18**
+
+    APEC on pypi updated to 1.1.0.11, debugged algorithm for generate.differential_feature().
+
 **updates on 2019-11-08**
 
     APEC on pypi updated to 1.1.0.10.
