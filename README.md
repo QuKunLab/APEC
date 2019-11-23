@@ -17,7 +17,7 @@ APEC requires Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well as Python3 (3
     Bedtools: http://bedtools.readthedocs.io/en/latest/content/installation.html
     Meme 4.11.2: http://meme-suite.org/doc/download.html?man_type=web
 
-The files in **reference** folder are required for APEC. **But we didn't upload reference files to GitHub since they are too big. Users can download all reference files from http://galaxy.ustc.edu.cn:30803/APEC/reference/ or https://apec.oss-us-east-1.aliyuncs.com/APEC/reference/reference.zip **. The **reference** folder should contains the following files:
+The files in **reference** folder are required for APEC. **But we didn't upload reference files to GitHub since they are too big. Users can download all reference files from http://galaxy.ustc.edu.cn:30803/APEC/reference/ or https://apec.oss-us-east-1.aliyuncs.com/APEC/reference/reference.zip**. The **reference** folder should contains the following files:
 
     hg19_RefSeq_genes.gtf, hg19_chr.fa, hg19_chr.fa.fai,
     mm10_RefSeq_genes.gtf, mm10_chr.fa, mm10_chr.fa.fai,
