@@ -14,7 +14,7 @@
     umap-learn==0.3.8
     rpy2==2.8.5
 
-After downloading project01.tar.gz, project02.tar.gz, and project03.tar.gz, please use following command to unzip them:
+After downloading project01.tar.gz, project02.tar.gz, and project03.tar.gz, please use following commands to unzip them:
 
     tar -zvxf project01.tar.gz
     tar -zvxf project02.tar.gz
