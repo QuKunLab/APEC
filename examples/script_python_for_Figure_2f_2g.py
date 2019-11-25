@@ -11,16 +11,16 @@ opts.add_option("-p", help="The project02 folder.")
 options, arguments = opts.parse_args()
 #
 #
-def calculate_fisher(markers, all_genes, accesson_files):
+def calculate_fisher(markers, all_genes, accesson_dict):
     cluster_markers = {}
-    for accfile in accesson_files:
+    for cluster in accesson_dict.keys():
+        accfile = accesson_dict[cluster]
         accesson_df = pandas.read_csv(accfile, sep='\t', index_col=0)
         marker_genes = []
         for acc in accesson_df.index.values:
             genes = accesson_df.loc[acc, 'relevant_genes']
             if genes!='NONE':
                 marker_genes.extend(genes.split(';'))
-        cluster = 'c_'+accfile.split('_')[4]
         cluster_markers[cluster] = list(set(marker_genes))
     clusters, ctypes = list(cluster_markers.keys()), list(markers.keys())
     fisher = numpy.zeros((len(clusters), len(ctypes)))
@@ -106,7 +106,11 @@ accesson_files = [options.p+'/result/differential_accesson_of_cluster_0_vs_1_10_
                   options.p+'/result/differential_accesson_of_cluster_5_vs_2_3_6_8.csv',
                   options.p+'/result/differential_accesson_of_cluster_6_vs_2_3_5_8.csv',
                   options.p+'/result/differential_accesson_of_cluster_8_vs_2_3_5_6.csv']
-calculate_fisher(markers, all_genes, accesson_files)
+accesson_dict = {'c_0': accesson_files[0], 'c_10': accesson_files[1], 'c_11': accesson_files[2],
+                 'c_12': accesson_files[3], 'c_1': accesson_files[4], 'c_2': accesson_files[5],
+                 'c_3': accesson_files[6], 'c_5': accesson_files[7], 'c_6': accesson_files[8],
+                 'c_8': accesson_files[9]}
+calculate_fisher(markers, all_genes, accesson_dict)
 #
 fisher_df = pandas.read_csv('fisher_test_between_ATAC_RNA.csv', sep='\t', index_col=0)
 #

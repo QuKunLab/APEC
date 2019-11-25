@@ -42,11 +42,11 @@ generate.differential_feature(options.p, feature='accesson', target='8', vs='2,3
 #
 #### Caculate motif enrichment; cost ~4 hours on 8-core CPU.
 #
-generate.motif_matrix(options.p, genome_fa=options.r+'/mm10_chr.fa',
-                      background=options.r+'/tier1_markov1.norc.txt',
-                      meme=options.r+'/JASPAR2018_CORE_vertebrates_redundant_pfms_meme.txt',
-                      np=8)
-clustering.cluster_byMotif(options.p, np=8)
+# generate.motif_matrix(options.p, genome_fa=options.r+'/mm10_chr.fa',
+#                       background=options.r+'/tier1_markov1.norc.txt',
+#                       meme=options.r+'/JASPAR2018_CORE_vertebrates_redundant_pfms_meme.txt',
+#                       np=8)
+# clustering.cluster_byMotif(options.p, np=8)
 #
 #
 #### Plot motifs on the tSNE map; cost ~1 minutes.
