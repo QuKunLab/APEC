@@ -17,7 +17,15 @@ APEC requires Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well as Python3 (3
     Bedtools: http://bedtools.readthedocs.io/en/latest/content/installation.html
     Meme 4.11.2: http://meme-suite.org/doc/download.html?man_type=web
 
-The files in **reference** folder are required for APEC. **But we didn't upload reference files to GitHub since they are too big. Users can download all reference files from http://galaxy.ustc.edu.cn:30803/APEC/reference/ or https://apec.oss-us-east-1.aliyuncs.com/APEC/reference/reference.zip**. The **reference** folder should contains the following files:
+The files in **reference** folder are required for APEC. But we didn't upload reference files to GitHub since they are too big. Users can download all reference files from one of the following websites:
+
+-|website
+-|-
+1|http://galaxy.ustc.edu.cn:30803/APEC/reference/ <br> (Due to server upgrade, this site will be temporarily unavailable from 2019-11-26 to 2019-11-30)
+2|https://apec.oss-us-east-1.aliyuncs.com/APEC/reference/reference.zip
+3|https://drive.google.com/drive/folders/1psK7za4KNJfqpigUaLMY3bWlqBHp1J5k?usp=sharing
+
+The **reference** folder should contains the following files:
 
     hg19_RefSeq_genes.gtf, hg19_chr.fa, hg19_chr.fa.fai,
     mm10_RefSeq_genes.gtf, mm10_chr.fa, mm10_chr.fa.fai,
@@ -29,7 +37,7 @@ Users can install APEC by:
 
     pip install APEC==1.1.0.11
 
-We suggest that users build a sub environment for APEC with **miniconda** or **anaconda**, as bedtools and meme suite (4.11.2) can be installed in conda enviroment too.
+We suggest that users build a python 3.6.8 environment for APEC with **miniconda** or **anaconda**, since APEC is dependent on specific versions of python packages (see README.md in examples folder), and bedtools and meme suite (4.11.2) can be installed in conda enviroment too.
 
 In Ipython, Jupyter-notebook or a python script, users can import packages of APEC by:
 
@@ -64,6 +72,8 @@ If using the matrix generated from other experiments, users need to prepare a pr
 
 
 ### 3. Functions of APEC (step by step)
+
+#### Users can directly run example projects and scripts in **examples** folder to generate figures listed in our APEC paper.
 
 #### 3.1 Clustering by APEC
 
@@ -261,7 +271,14 @@ All of the following software needs to be placed in the global environment of th
 
 #### 1.2	Installation
 
-Users can simply install this part by copying the **code_v1.1.0** folder and **reference** folder into a same path. Users **must** run ***APEC_prepare_steps.sh*** directly in code_v1.1.0/, since each program will invoke the reference files automatically. The **reference** folder is required, **but we didn't upload reference files to GitHub since they are too big. Users can download all reference files from http://galaxy.ustc.edu.cn:30803/APEC/**. The **reference** folder should contains the following files:
+Users can simply install this part by copying the **code_v1.1.0** folder and **reference** folder into a same path. Users **must** run ***APEC_prepare_steps.sh*** directly in code_v1.1.0/, since each program will invoke the reference files automatically. The **reference** folder is required, but we didn't upload reference files to GitHub since they are too big. Users can download all reference files from one of the following sites:
+
+-|website
+-|-
+1|http://galaxy.ustc.edu.cn:30803/APEC/ <br> (Due to server upgrade, this site will be temporarily unavailable from 2019-11-26 to 2019-11-30)
+2|https://apec.oss-us-east-1.aliyuncs.com/APEC/reference_full.zip.001 <br> https://apec.oss-us-east-1.aliyuncs.com/APEC/reference_full.zip.002 <br> https://apec.oss-us-east-1.aliyuncs.com/APEC/reference_full.zip.003
+
+ The **reference** folder should contains the following files:
 
     hg19_refseq_genes_TSS.txt, hg19_RefSeq_genes.gtf, hg19_blacklist.JDB.bed,
     hg19_chr.fa, hg19_chr.fa.fai, hg19.chrom.sizes,

@@ -5,6 +5,12 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn
 import scipy.stats
+from optparse import OptionParser
+opts = OptionParser()
+usage = "Clustering by accesson\nusage: %prog -p project02"
+opts = OptionParser(usage=usage, version="%prog 1.0")
+opts.add_option("-p", help="The project02 folder.")
+options, arguments = opts.parse_args()
 #
 #
 def get_matrix(markers, gene_csv, cluster_csv):
@@ -71,15 +77,13 @@ def pearson(csv, clusts, outfig):
 #
 #
 #### Please run script_for_project02.py first !!!!
-#### Please change "project02/" to the path that you placed project02 !!!!
 #
 #
-gene_score_file = 'project02/matrix/genes_scored_by_TSS_peaks.csv'
+gene_score_file = options.p+'/matrix/genes_scored_by_TSS_peaks.csv'
 #
 if not os.path.exists(gene_score_file):
     print('Error !!!!')
     print('Please run script_for_project02.py first !!!!')
-    print('Please change "project02/" to the path that you placed project02 !!!!')
     sys.exit()
 #
 #
@@ -91,7 +95,7 @@ markers = ['Neurod1', 'Neurod2', 'Neurod6', 'Tbr1', 'Slc17a7',
            'C1qb', 'Ctss', 'Spi1']
 #
 #
-get_matrix(markers, gene_score_file, 'project02-result/cluster_by_APEC.csv')
+get_matrix(markers, gene_score_file, options.p+'/result/cluster_by_APEC.csv')
 #
 c_order = [['c_6', 'c_5', 'c_2', 'c_3', 'c_8'],
            ['c_0', 'c_10', 'c_1', 'c_12', 'c_11'],
