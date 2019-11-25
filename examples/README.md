@@ -57,7 +57,7 @@ clusters_vs_Excl_types.png|Fig. 2f
 clusters_vs_Int_types.png|Fig. 2g
 
 
-**(3)** **project03** contains single cell samples of the leukemic stem and blast cells of two different patients (SU070 and SU353), from "Schep, A.N., Wu, B., Buenrostro, J.D. & Greenleaf, W.J. chromVAR: inferring transcription-factor-associated accessibility from single-cell epigenomic data. Nat Methods 14, 975-978 (2017)". Users can run **script_for_project03.py** to obtain Supplementary Fig. 3b of the APEC paper, as follows:
+**(3)** **project03** contains single cell samples of the leukemic stem and blast cells of two different patients (SU070 and SU353), from "Schep, A.N., Wu, B., Buenrostro, J.D. & Greenleaf, W.J. chromVAR: inferring transcription-factor-associated accessibility from single-cell epigenomic data. Nat Methods 14, 975-978 (2017)". Users can run **script_for_project03.py** to obtain Supplementary Fig. 2b of the APEC paper, as follows:
 
     python script_for_project03.py -p $project03
 
@@ -65,4 +65,4 @@ where $project03 is the **project03** folder. The output figure will be placed i
 
 output figure|figure index in APEC paper
 -|-
-TSNE_by_APEC_with_notes_label.pdf|Supplementary Fig. 3b
+TSNE_by_APEC_with_notes_label.pdf|Supplementary Fig. 2b
