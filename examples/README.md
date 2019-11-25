@@ -1,5 +1,5 @@
 
-#### If users want to entirely reproduce the figures in APEC paper, please create a new python 3.6.8 environment in anaconda/miniconda, and install APEC in the environment. APEC will install following packages in specific versions:
+#### If users want to entirely reproduce the figures in APEC paper, please create a new python 3.6.8 environment in anaconda/miniconda, and install APEC in the environment. APEC will install specific versions of the following packages:
 
     numpy==1.16.2
     scipy==1.0.0
