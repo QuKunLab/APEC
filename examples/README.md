@@ -1,5 +1,5 @@
 
-#### If users want to entirely reproduce the figures in APEC paper, please create a new python 3.6.8 environment in anaconda/miniconda, and install APEC in the environment. APEC will install specific versions of the following packages:
+#### If users want to entirely reproduce the figures in APEC paper (https://www.biorxiv.org/content/10.1101/646331v4), please create a new python 3.6.8 environment in anaconda/miniconda, and install APEC in the environment. APEC will install specific versions of the following packages:
 
     numpy==1.16.2
     scipy==1.0.0
@@ -26,7 +26,7 @@ Project01 contains single cell samples from hematopoietic stem cell differentiat
 
     python script_for_project01.py -p $project01 -r $reference
 
-where $project01 is the **project01** folder, and $reference is the **reference** folder. The output figures will be placed in $project01/figure/ folder, including:
+where $project01 is the **project01** folder, and $reference is the **reference** folder. The clustering step will cost ~10 minutes, and the entire script will cost ~70 minutes. The output figures will be placed in $project01/figure/ folder, including:
 
 output figure|figure index in APEC paper
 -|-
@@ -44,7 +44,7 @@ Project02 contains single cell samples from the forebrain of adult mice, from "P
 
     python script_for_project02.py -p $project02 -r $reference
 
-where $project02 is the **project02** folder, and $reference is the **reference** folder. The output figures will be placed in $project02/figure/ folder, including:
+where $project02 is the **project02** folder, and $reference is the **reference** folder. The clustering step will cost ~90 minutes, and the entire script will cost ~2 hours. The output figures will be placed in $project02/figure/ folder, including:
 
 output figure|figure index in APEC paper
 -|-
@@ -73,7 +73,7 @@ Project03 contains single cell samples of the leukemic stem and blast cells of t
 
     python script_for_project03.py -p $project03
 
-where $project03 is the **project03** folder. The output figure will be placed in $project03/figure/ folder, which is:
+where $project03 is the **project03** folder. The entire script will cost ~5 minutes. The output figure will be placed in $project03/figure/ folder, which is:
 
 output figure|figure index in APEC paper
 -|-

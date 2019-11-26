@@ -73,7 +73,7 @@ If using the matrix generated from other experiments, users need to prepare a pr
 
 ### 3. Functions of APEC (step by step)
 
-#### Users can directly run example projects and scripts in **examples** folder to generate figures listed in our APEC paper.
+#### Users can directly run example projects and scripts in **examples** folder to generate figures listed in our APEC paper (https://www.biorxiv.org/content/10.1101/646331v4).
 
 #### 3.1 Clustering by APEC
 
