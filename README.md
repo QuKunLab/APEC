@@ -37,7 +37,7 @@ Users can install APEC by:
 
     pip install APEC==1.1.0.11
 
-We suggest that users build a python 3.6.8 environment for APEC with **miniconda** or **anaconda**, since APEC is dependent on specific versions of python packages (see README.md in examples folder). R packages (e.g. monocle 2.10.0), bedtools, and meme suite (4.11.2) can be installed in conda environment too.
+We suggest that users build a python 3.6.8 environment for APEC with **miniconda** or **anaconda**, since APEC is dependent on specific versions of python packages (see README.md in examples folder). R packages (e.g. monocle 2.10.0) can be installed in conda environment too.
 
 In Ipython, Jupyter-notebook or a python script, users can import packages of APEC by:
 
