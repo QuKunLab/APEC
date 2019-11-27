@@ -12,7 +12,7 @@ APEC can perform fine cell type clustering on single cell chromatin accessibilit
 
 #### 1.1 Requirements
 
-APEC requires Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well as Python3 (3.6.8, not 3.7.x) and R (3.5.1+) environments. If users want to build pseudotime trajectory with APEC, please install Monocle (2.10.0, http://cole-trapnell-lab.github.io/monocle-release/docs/) in R (see [1.2 Install and import APEC](#1-2-install-and-import-apec)). Also, the following software are required for APEC if users want to run motif analysis (as chromVAR):
+APEC requires Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well as Python3 (3.6.8, not 3.7.x) and R (3.5.1+) environments. If users want to build pseudotime trajectory with APEC, please install Monocle (2.10.0, http://cole-trapnell-lab.github.io/monocle-release/docs/) in R (see [1.2 Install and import APEC](####1-2-install-and-import-apec)). Also, the following software are required for APEC if users want to run motif analysis (as chromVAR):
 
     Bedtools: http://bedtools.readthedocs.io/en/latest/content/installation.html
     Meme 4.11.2: http://meme-suite.org/doc/download.html?man_type=web (Meme 5.x.x is not compatible with APEC)
