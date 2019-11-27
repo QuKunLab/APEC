@@ -26,7 +26,7 @@ Project01 contains single cell samples from hematopoietic stem cell differentiat
 
     python script_for_project01.py -p $project01 -r $reference
 
-where $project01 is the **project01** folder, and $reference is the **reference** folder. The clustering step will cost ~10 minutes, and the entire script will cost ~70 minutes. The output figures will be placed in $project01/figure/ folder, including:
+where $project01 is the **project01** folder, and $reference is the **reference** folder. The clustering step will cost ~10 minutes, and the entire script will cost ~20 minutes. The output figures will be placed in $project01/figure/ folder, including:
 
 output figure|figure index in APEC paper
 -|-

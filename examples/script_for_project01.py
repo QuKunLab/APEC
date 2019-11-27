@@ -22,11 +22,11 @@ clustering.cluster_comparison(options.p+'/matrix/filtered_cells.csv',
 #### Caculate motif enrichment and plot motifs on tSNE map; cost <1 hour on 8-core CPU.
 #### The output files project01/figure/motif_XXX_on_tsne_by_APEC.pdf are Fig. 1d of the APEC paper.
 #
-generate.motif_matrix(options.p, genome_fa=options.r+'/hg19_chr.fa',
-                      background=options.r+'/tier1_markov1.norc.txt',
-                      meme=options.r+'/JASPAR2018_CORE_vertebrates_redundant_pfms_meme.txt',
-                      np=8)
-clustering.cluster_byMotif(options.p, np=8)
+# generate.motif_matrix(options.p, genome_fa=options.r+'/hg19_chr.fa',
+#                       background=options.r+'/tier1_markov1.norc.txt',
+#                       meme=options.r+'/JASPAR2018_CORE_vertebrates_redundant_pfms_meme.txt',
+#                       np=8)
+# clustering.cluster_byMotif(options.p, np=8)
 #
 plot.plot_feature(options.p, space='tsne', feature='motif', name='Erg', clip=[0,7])
 plot.plot_feature(options.p, space='tsne', feature='motif', name='CTCF', clip=[0,5])
