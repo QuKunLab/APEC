@@ -12,10 +12,10 @@ APEC can perform fine cell type clustering on single cell chromatin accessibilit
 
 #### 1.1 Requirements
 
-APEC requires Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well as Python3 (3.6.8, not 3.7.x) and R (3.5.1+) environments. If users want to build pseudotime trajectory with APEC, please install monocle (2.10.0, http://cole-trapnell-lab.github.io/monocle-release/docs/) in R. Also, the following software are required for APEC if users want to run motif analysis (as chromVAR):
+APEC requires Linux system (CentOS 7.3+ or Ubuntu 16.04+), as well as Python3 (3.6.8, not 3.7.x) and R (3.5.1+) environments. If users want to build pseudotime trajectory with APEC, please install Monocle (2.10.0, http://cole-trapnell-lab.github.io/monocle-release/docs/) in R (see [1.2 Install and import APEC](#1-2-install-and-import-apec)). Also, the following software are required for APEC if users want to run motif analysis (as chromVAR):
 
     Bedtools: http://bedtools.readthedocs.io/en/latest/content/installation.html
-    Meme 4.11.2: http://meme-suite.org/doc/download.html?man_type=web
+    Meme 4.11.2: http://meme-suite.org/doc/download.html?man_type=web (Meme 5.x.x is not compatible with APEC)
 
 The files in **reference** folder are required for APEC. But we didn't upload reference files to GitHub since they are too big. Users can download all reference files from one of the following websites:
 
@@ -37,7 +37,12 @@ Users can install APEC by:
 
     pip install APEC==1.1.0.11
 
-We suggest that users build a python 3.6.8 environment for APEC with **miniconda** or **anaconda**, since APEC is dependent on specific versions of python packages (see README.md in examples folder). R packages (e.g. monocle 2.10.0) can be installed in conda environment too.
+We strongly recommend that users build a python 3.6.8 environment for APEC with **miniconda** or **anaconda**, since APEC is dependent on specific versions of python packages (see README.md in examples folder), and Monocle (2.10.0) can be installed in conda environment too. The commands to create a conda environment (named as apec_env) and install APEC and Monocle are:
+
+    conda create -n apec_env python=3.6.8
+    conda activate apec_env
+    pip install APEC==1.1.0.11
+    conda install -n apec_env -c bioconda bioconductor-monocle=2.10.0
 
 In Ipython, Jupyter-notebook or a python script, users can import packages of APEC by:
 
