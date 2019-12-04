@@ -21,7 +21,7 @@ The files in **reference** folder are required for APEC. But we didn't upload re
 
 -|website
 -|-
-1|http://galaxy.ustc.edu.cn:30803/APEC/reference/ <br> (Due to server upgrade, this site will be temporarily unavailable from 2019-11-26 to 2019-11-30)
+1|http://galaxy.ustc.edu.cn:30803/APEC/reference/
 2|https://apec.oss-us-east-1.aliyuncs.com/APEC/reference/reference.zip
 3|https://drive.google.com/drive/folders/1psK7za4KNJfqpigUaLMY3bWlqBHp1J5k?usp=sharing
 
@@ -280,7 +280,7 @@ Users can simply install this part by copying the **code_v1.1.0** folder and **r
 
 -|website
 -|-
-1|http://galaxy.ustc.edu.cn:30803/APEC/ <br> (Due to server upgrade, this site will be temporarily unavailable from 2019-11-26 to 2019-11-30)
+1|http://galaxy.ustc.edu.cn:30803/APEC/reference/
 2|https://apec.oss-us-east-1.aliyuncs.com/APEC/reference_full.zip.001 <br> https://apec.oss-us-east-1.aliyuncs.com/APEC/reference_full.zip.002 <br> https://apec.oss-us-east-1.aliyuncs.com/APEC/reference_full.zip.003
 
  The **reference** folder should contains the following files:
