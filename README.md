@@ -1,4 +1,4 @@
-# User Guide for APEC (v1.2.0)
+# User Guide for APEC (v1.2.1)
 
 (Accessibility Pattern based Epigenomic Clustering)
 
@@ -35,13 +35,13 @@ The **reference** folder should contains the following files:
 
 Users can install APEC by:
 
-    pip install APEC==1.2.0
+    pip install APEC==1.2.1
 
 We strongly recommend that users build a python 3.6.8 environment for APEC with **miniconda** or **anaconda**, since APEC is dependent on specific versions of python packages (see README.md in examples folder), and Monocle (2.10.0) can be installed in conda environment too. The commands to create a conda environment (named as apec_env) and install APEC and Monocle are:
 
     conda create -n apec_env python=3.6.8
     conda activate apec_env
-    pip install APEC==1.2.0
+    pip install APEC==1.2.1
     conda install -n apec_env -c bioconda bioconductor-monocle=2.10.0
 
 In Ipython, Jupyter-notebook or a python script, users can import packages of APEC by:
