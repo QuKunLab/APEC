@@ -277,7 +277,7 @@ All of the following software needs to be placed in the global environment of th
 
 #### 1.2	Installation
 
-Users can simply install this part by copying the **code_v1.1.0** folder and **reference** folder into a same path. Users **must** run ***APEC_prepare_steps.sh*** directly in code_v1.1.0/, since each program will invoke the reference files automatically. The **reference** folder is required, but we didn't upload reference files to GitHub since they are too big. Users can download all reference files from one of the following sites:
+Users can simply install this part by copying the **code_v1.2** folder and **reference** folder into a same path. Users **must** run ***APEC_prepare_steps.sh*** directly in code_v1.2/, since each program will invoke the reference files automatically. The **reference** folder is required, but we didn't upload reference files to GitHub since they are too big. Users can download all reference files from one of the following sites:
 
 -|website
 -|-
