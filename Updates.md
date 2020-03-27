@@ -1,5 +1,9 @@
 **updates on 2020-03-25**
 
+    APEC on pypi updated to 1.2.2.
+
+**updates on 2020-03-25**
+
     APEC on pypi updated to 1.2.0.
 
 **updates on 2019-11-18**

@@ -1,4 +1,4 @@
-# User Guide for APEC (v1.2.1)
+# User Guide for APEC (v1.2.2)
 
 (Accessibility Pattern based Epigenomic Clustering)
 
@@ -21,7 +21,7 @@ The files in **reference** folder are required for APEC. But we didn't upload re
 
 -|website
 -|-
-1|http://galaxy.ustc.edu.cn:30803/APEC/reference/
+1|http://galaxy.ustc.edu.cn:30803/APEC/reference/ <br> Due to server upgrades, this site will be temporarily unavailable from 2020-03-30 to 2020-04-01.
 2|https://apec.oss-us-east-1.aliyuncs.com/APEC/reference/reference.zip
 3|https://drive.google.com/drive/folders/1psK7za4KNJfqpigUaLMY3bWlqBHp1J5k?usp=sharing
 
@@ -35,13 +35,13 @@ The **reference** folder should contains the following files:
 
 Users can install APEC by:
 
-    pip install APEC==1.2.1
+    pip install APEC==1.2.2
 
 We strongly recommend that users build a python 3.6.8 environment for APEC with **miniconda** or **anaconda**, since APEC is dependent on specific versions of python packages (see README.md in examples folder), and Monocle (2.10.0) can be installed in conda environment too. The commands to create a conda environment (named as apec_env) and install APEC and Monocle are:
 
     conda create -n apec_env python=3.6.8
     conda activate apec_env
-    pip install APEC==1.2.1
+    pip install APEC==1.2.2
     conda install -n apec_env -c bioconda bioconductor-monocle=2.10.0
 
 In Ipython, Jupyter-notebook or a python script, users can import packages of APEC by:
@@ -281,7 +281,7 @@ Users can simply install this part by copying the **code_v1.1.0** folder and **r
 
 -|website
 -|-
-1|http://galaxy.ustc.edu.cn:30803/APEC/reference/ <br> Due to server upgrades, this site will be temporarily unavailable from 2019-12-12 to 2019-12-16.
+1|http://galaxy.ustc.edu.cn:30803/APEC/reference/ <br> Due to server upgrades, this site will be temporarily unavailable from 2020-03-30 to 2020-04-01.
 2|https://apec.oss-us-east-1.aliyuncs.com/APEC/reference_full.zip.001 <br> https://apec.oss-us-east-1.aliyuncs.com/APEC/reference_full.zip.002 <br> https://apec.oss-us-east-1.aliyuncs.com/APEC/reference_full.zip.003
 
  The **reference** folder should contains the following files:
