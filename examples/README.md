@@ -78,3 +78,7 @@ where $project03 is the **project03** folder. The entire script will cost ~5 min
 output figure|figure index in APEC paper
 -|-
 TSNE_by_APEC_with_notes_label.pdf|Supplementary Fig. 2b
+
+For the fragment count matrix with many noises, please consider to use the following script for cell clustering:
+
+    clustering.cluster_byAccesson($project03, norm='filter')
