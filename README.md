@@ -41,6 +41,7 @@ We strongly recommend that users build a python 3.6.8 environment for APEC with 
 
     conda create -n apec_env python=3.6.8
     conda activate apec_env
+    pip install cmake==3.18.4
     pip install APEC==1.2.2
     conda install -n apec_env -c bioconda bioconductor-monocle=2.10.0
 
